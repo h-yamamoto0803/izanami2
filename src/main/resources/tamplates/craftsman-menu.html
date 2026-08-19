@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>職人専用メニュー | Traemon</title>
+<link rel="stylesheet" href="../css/styles.css">
+<script src="../js/common.js" defer></script>
+</head>
+<body>
+<div id="header"></div>
+<main>
+<div class="container">
+
+<section class="hero craftsman-tile">
+  <h1>職人専用メニュー</h1>
+  <p>職人向けのカテゴリを中心に、ユーザーからの需要を確認できます。</p>
+</section>
+
+
+<div class="toolbar">
+  <div class="search-area"><input id="searchInput" type="search" placeholder="投稿を検索"></div>
+</div>
+
+<div class="specialty-note">
+  <span class="specialty-label">あなたの専門タグ</span>
+  <div id="specialtyTags" class="post-tags"></div>
+</div>
+
+<div id="postList" class="timeline"></div>
+
+</div>
+</main>
+<script>
+document.addEventListener("DOMContentLoaded",()=>{
+  if(!Traemon.requireLogin("craftsman")) return;
+  const s=Traemon.getSession();
+  const tags=s.specialtyTags || Traemon.getCraftsmanProfile(s.email).specialtyTags;
+  Traemon.$("#specialtyTags").innerHTML=tags.map(t=>`<span class="tag">#${Traemon.escapeHtml(t)}</span>`).join("");
+  Traemon.setupTimeline({craftsmanOnly:true, noTagFilter:true});
+});
+</script>
+</body>
+</html>

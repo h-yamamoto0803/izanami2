@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ユーザーアカウント | Traemon</title>
+<link rel="stylesheet" href="../css/styles.css">
+<script src="../js/common.js" defer></script>
+</head>
+<body>
+<div id="header"></div>
+<main>
+<div class="container">
+
+<section class="card account-head consumer-tile">
+  <h1 class="page-title">ユーザーアカウントページ</h1>
+  <p>自分が投稿したコメントの一覧とアカウント情報を確認できます。</p>
+  <p class="account-name" id="accountName"></p>
+  <p class="account-email" id="accountEmail"></p>
+  <div class="account-actions">
+    <a class="btn btn-primary" href="consumer-account-edit.html">アカウント編集</a>
+  </div>
+</section>
+
+<div class="section-title"><h2>自分の投稿</h2></div>
+<div id="myPosts" class="timeline"></div>
+
+</div>
+</main>
+<script>
+document.addEventListener("DOMContentLoaded",()=>{
+  if(!Traemon.requireLogin("consumer")) return;
+  const s=Traemon.getSession();
+  Traemon.$("#accountName").textContent="名前："+(s.displayName || "ユーザー");
+  Traemon.$("#accountEmail").textContent="メールアドレス："+s.email;
+  Traemon.renderMyPosts();
+});
+</script>
+</body>
+</html>

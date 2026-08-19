@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>投稿確認 | Traemon</title>
+<link rel="stylesheet" href="../css/styles.css">
+<script src="../js/common.js" defer></script>
+</head>
+<body>
+<div id="header"></div>
+<main>
+<div class="container">
+
+<section>
+  <h1 class="page-title">投稿確認ページ</h1>
+  <p class="page-subtitle">以下の内容で投稿します。確定するまで公開されません。</p>
+
+  <div class="card form-card">
+    <dl id="confirmList" class="confirm-list"></dl>
+    <div class="actions">
+      <a class="btn btn-secondary" href="post-create.html">戻る</a>
+      <button id="confirmBtn" class="btn btn-primary">投稿確定</button>
+    </div>
+  </div>
+</section>
+
+</div>
+</main>
+<script>
+document.addEventListener("DOMContentLoaded",()=>{
+  if(!Traemon.requireLogin()) return;
+  const d=Traemon.getPostDraft();
+  if(!d){ location.href="post-create.html"; return; }
+
+  Traemon.$("#confirmList").innerHTML=`
+    <div class="confirm-row">
+      <dt>名前</dt><dd>${Traemon.escapeHtml(d.name || "")}</dd>
+    </div>
+    <div class="confirm-row">
+      <dt>投稿内容</dt><dd>${Traemon.escapeHtml(d.body)}</dd>
+    </div>
+    <div class="confirm-row">
+      <dt>カテゴリタグ</dt>
+      <dd>${(d.tags||[]).map(t=>"#"+Traemon.escapeHtml(t)).join(" ")}</dd>
+    </div>`;
+
+  Traemon.$("#confirmBtn").addEventListener("click",()=>{
+    if(Traemon.createPost()){
+      location.href=Traemon.homeByRole();
+    }
+  });
+});
+</script>
+</body>
+</html>

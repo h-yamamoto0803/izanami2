@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>投稿作成 | Traemon</title>
+<link rel="stylesheet" href="../css/styles.css">
+<script src="../js/common.js" defer></script>
+</head>
+<body>
+<div id="header"></div>
+<main>
+<div class="container">
+
+<section>
+  <h1 class="page-title">投稿作成ページ</h1>
+  <p class="page-subtitle">投稿内容と伝統工芸品のカテゴリタグを入力してください。</p>
+
+  <form id="postForm" class="card form-card">
+    <div class="form-group">
+      <label for="postAuthor">名前</label>
+      <input id="postAuthor" type="text" readonly>
+      <div class="form-hint">アカウントに登録されている名前が投稿者名として表示されます。</div>
+    </div>
+    <div class="form-group">
+      <label for="body">投稿内容</label>
+      <textarea id="body" name="body" rows="8" required placeholder="職人への需要、作品紹介、相談などを入力してください。"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="tags">カテゴリタグ</label>
+      <input id="tags" name="tags" required placeholder="例：陶芸、器">
+      <div class="form-hint">複数入力する場合は「、」「,」「空白」で区切ってください。</div>
+    </div>
+
+    <div class="actions">
+      <a class="btn btn-secondary" href="javascript:history.back()">戻る</a>
+      <button class="btn btn-primary" type="submit">確認画面へ</button>
+    </div>
+  </form>
+</section>
+
+</div>
+</main>
+<script>
+document.addEventListener("DOMContentLoaded",()=>{
+  if(!Traemon.requireLogin()) return;
+  const session=Traemon.getSession();
+  Traemon.$("#postAuthor").value=session.displayName || (session.role==="craftsman" ? "職人ユーザー" : "ユーザー");
+  Traemon.$("#postForm").addEventListener("submit",e=>{
+    e.preventDefault();
+    Traemon.savePostDraft(e.target);
+    location.href="post-confirm.html";
+  });
+});
+</script>
+</body>
+</html>
