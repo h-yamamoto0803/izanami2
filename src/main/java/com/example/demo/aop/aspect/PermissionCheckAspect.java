@@ -1,4 +1,4 @@
-package aop.aspect;
+package com.example.demo.aop.aspect;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -8,10 +8,10 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import exception.InsufficientPermissionException;
-import presentation.controller.pageproperty.SessionKeyword;
-import presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
-import presentation.form.LoginUserForm;
+import com.example.demo.exception.InsufficientPermissionException;
+import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
+import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
+import com.example.demo.presentation.form.LoginUserForm;
 
 //AOPの処理を行うクラスと設定、Springが管理できるように設定
 @Aspect
