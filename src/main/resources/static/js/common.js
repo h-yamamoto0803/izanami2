@@ -11,31 +11,31 @@ const Traemon = (() => {
 
   const seedPosts = [
     {
-      id:1,user:"山田工房",role:"craftsman",
+      id:1,title:"暮らしに馴染む一点ものの器",user:"山田工房",role:"craftsman",
       body:"暮らしに馴染む一点ものの器を制作しています。色やサイズの相談もできます。",
       tags:["陶芸","器"],likes:12,likedBy:[],consideredBy:[],
       owner:"craftsman@example.com",createdAt:"2026/08/18 09:30"
     },
     {
-      id:2,user:"木工 佐藤",role:"craftsman",
+      id:2,title:"国産材でつくるオーダー家具",user:"木工 佐藤",role:"craftsman",
       body:"国産材を使った家具を制作しています。「こんな家具が欲しい」という声を募集中です。",
       tags:["木工","家具"],likes:8,likedBy:[],consideredBy:[],
       owner:"wood@example.com",createdAt:"2026/08/17 16:20"
     },
     {
-      id:3,user:"伝統工芸が好き",role:"consumer",
+      id:3,title:"玄関に置ける小さな花器が欲しい",user:"伝統工芸が好き",role:"consumer",
       body:"玄関に置ける小さな花器を探しています。落ち着いた色味で、長く使えるものが希望です。",
       tags:["陶芸","花器"],likes:21,likedBy:[],consideredBy:[],
       owner:"user@example.com",createdAt:"2026/08/17 10:10"
     },
     {
-      id:4,user:"漆工房",role:"craftsman",
+      id:4,title:"名入れ対応の漆塗り小物",user:"漆工房",role:"craftsman",
       body:"漆塗りの小物を制作しています。名入れにも対応できます。",
       tags:["漆","小物"],likes:17,likedBy:[],consideredBy:[],
       owner:"urushi@example.com",createdAt:"2026/08/16 13:00"
     },
     {
-      id:5,user:"暮らしを整えたい",role:"consumer",
+      id:5,title:"長く使える木製カトラリーを作ってほしい",user:"暮らしを整えたい",role:"consumer",
       body:"職人さんに、長く使える木製のカトラリーを作ってほしいです。",
       tags:["木工","カトラリー"],likes:6,likedBy:[],consideredBy:[],
       owner:"consumer2@example.com",createdAt:"2026/08/15 18:40"
@@ -79,6 +79,24 @@ const Traemon = (() => {
     }
     if(!localStorage.getItem(KEY.posts)){
       localStorage.setItem(KEY.posts, JSON.stringify(seedPosts));
+    } else {
+      // 旧バージョンのデモデータにタイトルがない場合の移行処理
+      const titleMap={
+        1:"暮らしに馴染む一点ものの器",
+        2:"国産材でつくるオーダー家具",
+        3:"玄関に置ける小さな花器が欲しい",
+        4:"名入れ対応の漆塗り小物",
+        5:"長く使える木製カトラリーを作ってほしい"
+      };
+      const current=JSON.parse(localStorage.getItem(KEY.posts) || "[]");
+      let changed=false;
+      current.forEach(post=>{
+        if(!post.title){
+          post.title=titleMap[post.id] || "無題の投稿";
+          changed=true;
+        }
+      });
+      if(changed) localStorage.setItem(KEY.posts,JSON.stringify(current));
     }
     if(!localStorage.getItem(KEY.notifications)){
       localStorage.setItem(KEY.notifications, JSON.stringify([
@@ -109,19 +127,19 @@ const Traemon = (() => {
   }
 
   function homeByRole(){
-    return role()==="craftsman" ? "craftsman-menu.html"
-         : role()==="consumer" ? "consumer-menu.html"
+    return role()==="craftsman" ? "artisan-menu.html"
+         : role()==="consumer" ? "customer-menu.html"
          : "menu.html";
   }
 
   function requireLogin(expectedRole=null){
     const s=getSession();
     if(!s){
-      location.href=expectedRole==="craftsman" ? "craftsman-login.html" : "consumer-login.html";
+      location.href=expectedRole==="craftsman" ? "artisan-login.html" : "customer-login.html";
       return false;
     }
     if(expectedRole && s.role!==expectedRole){
-      location.href=s.role==="craftsman" ? "craftsman-menu.html" : "consumer-menu.html";
+      location.href=s.role==="craftsman" ? "artisan-menu.html" : "customer-menu.html";
       return false;
     }
     return true;
@@ -188,8 +206,8 @@ const Traemon = (() => {
             <div class="header-right">
               <span class="role-badge guest"><span class="role-dot"></span>ゲスト</span>
               <a class="header-post guest-post" href="post-create.html">＋ 投稿する</a>
-              <a class="header-login craftsman-login" href="craftsman-login.html">職人用ログイン</a>
-              <a class="header-login consumer-login" href="consumer-login.html">ユーザー用ログイン</a>
+              <a class="header-login artisan-login" href="artisan-login.html">職人用ログイン</a>
+              <a class="header-login customer-login" href="customer-login.html">ユーザー用ログイン</a>
             </div>
           </div>
         </header>`;
@@ -197,20 +215,20 @@ const Traemon = (() => {
     }
 
     const isCraftsman=r==="craftsman";
-    const home=isCraftsman?"craftsman-menu.html":"consumer-menu.html";
-    const account=isCraftsman?"craftsman-account.html":"consumer-account.html";
+    const home=isCraftsman?"artisan-menu.html":"customer-menu.html";
+    const account=isCraftsman?"artisan-account.html":"customer-account.html";
     el.innerHTML=`
-      <header class="site-header ${isCraftsman?"craftsman-header":"consumer-header"}">
+      <header class="site-header ${isCraftsman?"artisan-header":"customer-header"}">
         <div class="container header-inner">
           <a class="logo" href="${home}">Traemon</a>
           <div class="header-right">
             <span class="role-badge ${isCraftsman?"craftsman":"consumer"}"><span class="role-dot"></span>${isCraftsman?"職人":"ユーザー"}</span>
-            <a class="header-post ${isCraftsman?"craftsman-post":"consumer-post"}" href="post-create.html">＋ 投稿する</a>
+            <a class="header-post ${isCraftsman?"artisan-post":"customer-post"}" href="post-create.html">＋ 投稿する</a>
             <div class="notification-wrap">
               <button class="icon-btn" id="notificationButton" type="button" aria-label="通知">🔔</button>
               <div class="notification-panel" id="notificationPanel"></div>
             </div>
-            <a class="account-btn" href="${account}">アカウント</a>
+            <a class="account-btn" href="${account}">${escapeHtml(getSession()?.displayName || (isCraftsman ? "職人ユーザー" : "ユーザー"))}</a>
             <button class="logout-btn" id="logoutButton" type="button">ログアウト</button>
           </div>
         </div>
@@ -238,11 +256,7 @@ const Traemon = (() => {
 
     let posts=getPosts();
     const s=getSession();
-    const query=(options.query ?? $("#searchInput")?.value ?? "").trim().toLowerCase();
     const tag=options.tag ?? $("#tagFilter")?.value ?? "";
-    // 並び順は現状「いいね順」をデフォルトにしています。
-    // 将来のUI復活用に「new（新着順）」もコード上は残しています。
-    const sort=options.sort ?? $("#sortSelect")?.value ?? "likes";
 
     // 職人専用画面では、ログイン中の職人が持つ専門タグと
     // 投稿タグが1つでも一致する投稿だけを表示します。
@@ -250,14 +264,11 @@ const Traemon = (() => {
       const specialtyTags=s?.specialtyTags || getCraftsmanProfile(s?.email || "").specialtyTags;
       posts=posts.filter(p=>p.tags.some(t=>specialtyTags.includes(t)));
     }
-    if(query){
-      posts=posts.filter(p=>
-        `${p.user} ${p.body} ${p.tags.join(" ")}`.toLowerCase().includes(query)
-      );
-    }
+
     if(tag) posts=posts.filter(p=>p.tags.includes(tag));
-    if(sort==="likes") posts.sort((a,b)=>b.likes-a.likes);
-    else posts.sort((a,b)=>String(b.createdAt).localeCompare(String(a.createdAt)));
+
+    // 投稿一覧は常に「いいね順」をデフォルトにします。
+    posts.sort((a,b)=>b.likes-a.likes);
 
     if(!posts.length){
       el.innerHTML=`<div class="card empty">条件に一致する投稿がありません。</div>`;
@@ -268,49 +279,65 @@ const Traemon = (() => {
       const liked=!!s && (post.likedBy||[]).includes(s.email);
       const considered=!!s && (post.consideredBy||[]).includes(s.email);
       const action=options.craftsmanOnly
-        ? `<button class="btn btn-outline btn-consider ${considered?"active":""}" data-consider="${post.id}">
-             ${considered?"✓ 検討中":"検討中"}
-           </button>`
+        ? `<div class="post-action-group">
+             <span class="like-count" aria-label="いいね数">♥ ${post.likes}</span>
+             <button class="btn btn-outline btn-consider ${considered?"active":""}" data-consider="${post.id}">
+               ${considered?"✓ 検討中":"検討中"}
+             </button>
+           </div>`
         : `<button class="btn btn-outline btn-like ${liked?"active":""}" data-like="${post.id}">
              ♥ ${liked?"いいね済み":"いいね"} ${post.likes}
            </button>`;
 
+      const title=post.title || "無題の投稿";
+      const summary=(post.body||"").replace(/\s+/g," ").trim();
+      const shortSummary=summary.length>70 ? summary.slice(0,70)+"…" : summary;
+
       return `
-        <article class="card post-card">
+        <article class="card post-card post-list-card">
           <div class="post-top">
             <div>
-              <div class="post-user">${escapeHtml(post.user)}</div>
+              <div class="post-author"><span class="role-badge ${post.role==="craftsman"?"craftsman":"consumer"}"><span class="role-dot"></span>${post.role==="craftsman"?"職人":"ユーザー"}</span><span class="post-user">${escapeHtml(post.user)}</span></div>
               <div class="post-date">${escapeHtml(post.createdAt)}</div>
             </div>
-            <span class="role-badge ${post.role==="craftsman"?"craftsman":"consumer"}">
-              ${post.role==="craftsman"?"職人":"ユーザー"}
-            </span>
           </div>
-          <div class="post-body">${escapeHtml(post.body)}</div>
+
+          <a class="post-title-link" href="${(getSession()?.role === "craftsman") ? "post-detail.html" : "customer-post-detail.html"}?id=${encodeURIComponent(post.id)}">
+            ${escapeHtml(title)}
+          </a>
+          <p class="post-summary">${escapeHtml(shortSummary)}</p>
+
           <div class="post-tags">
             ${post.tags.map(t=>`<span class="tag">#${escapeHtml(t)}</span>`).join("")}
           </div>
+
           <div class="post-actions">
-            <span style="color:var(--muted);font-size:12px">
-              ${post.role==="consumer"?"職人への需要":"作品・サービス紹介"}
-            </span>
+            ${options.craftsmanOnly ? `<div class="like-count">♥ ${post.likes} いいね</div>` : `<div></div>`}
             <div>${action}</div>
           </div>
         </article>`;
     }).join("");
 
-    $$("[data-like]",el).forEach(btn=>{
-      btn.addEventListener("click",()=>toggleLike(Number(btn.dataset.like),options));
+    $$('[data-like]',el).forEach(btn=>{
+      btn.addEventListener('click',e=>{
+        e.preventDefault();
+        e.stopPropagation();
+        toggleLike(Number(btn.dataset.like),options);
+      });
     });
-    $$("[data-consider]",el).forEach(btn=>{
-      btn.addEventListener("click",()=>toggleConsider(Number(btn.dataset.consider),options));
+    $$('[data-consider]',el).forEach(btn=>{
+      btn.addEventListener('click',e=>{
+        e.preventDefault();
+        e.stopPropagation();
+        toggleConsider(Number(btn.dataset.consider),options);
+      });
     });
   }
 
   function toggleLike(id,options={}){
     const s=getSession();
     if(!s){
-      location.href="consumer-login.html";
+      location.href="customer-login.html";
       return;
     }
     if(s.role!=="consumer"){
@@ -331,13 +358,17 @@ const Traemon = (() => {
       addNotification(`「${post.user}」の投稿にいいねしました。`);
     }
     savePosts(posts);
-    renderTimeline("#postList",options);
+    if(options.detail){
+      renderPostDetail("#postDetail", options.detailMode || (s.role === "craftsman" ? "craftsman" : "consumer"));
+    }else{
+      renderTimeline("#postList",options);
+    }
   }
 
   function toggleConsider(id,options={}){
     const s=getSession();
     if(!s){
-      location.href="craftsman-login.html";
+      location.href="artisan-login.html";
       return;
     }
     if(s.role!=="craftsman"){
@@ -355,7 +386,11 @@ const Traemon = (() => {
       addNotification(`「${post.user}」の投稿を検討中にしました。`);
     }
     savePosts(posts);
-    renderTimeline("#postList",options);
+    if(options.detail){
+      renderPostDetail("#postDetail", options.detailMode || "craftsman");
+    }else{
+      renderTimeline("#postList",options);
+    }
   }
 
   function populateTags(options={}){
@@ -379,20 +414,24 @@ const Traemon = (() => {
     seed();
     if(!options.noTagFilter) populateTags(options);
     renderTimeline("#postList",options);
-    $("#searchInput")?.addEventListener("input",()=>renderTimeline("#postList",options));
     if(!options.noTagFilter){
-      $("#tagFilter")?.addEventListener("change",()=>renderTimeline("#postList",options));
+      $("#filterButton")?.addEventListener("click",()=>{
+      const selectedTag = $("#tagFilter")?.value || "";
+      renderTimeline("#postList", {...options, tag:selectedTag});
+    });
+    $("#clearFilterButton")?.addEventListener("click",()=>{
+      if($("#tagFilter")) $("#tagFilter").value = "";
+      renderTimeline("#postList", {...options, tag:""});
+    });
     }
-    // 現在は並び順UIを非表示にしていますが、将来復活できるよう処理は残しています。
-    $("#sortSelect")?.addEventListener("change",()=>renderTimeline("#postList",options));
   }
 
   function savePostDraft(form){
     const data=Object.fromEntries(new FormData(form).entries());
     const s=getSession();
-    // 投稿者名はフォーム入力値ではなく、ログイン中アカウントの登録名を自動反映します。
+    // 投稿者名はログイン中アカウントの登録名を自動反映します。
     data.name=s?.displayName || (s?.role==="craftsman" ? "職人ユーザー" : "ユーザー");
-    data.tags=(data.tags||"").split(/[、,\s]+/).map(s=>s.trim()).filter(Boolean);
+    data.tags=data.tags ? [data.tags] : [];
     sessionStorage.setItem(KEY.postDraft,JSON.stringify(data));
   }
 
@@ -407,6 +446,7 @@ const Traemon = (() => {
     const posts=getPosts();
     posts.unshift({
       id:Date.now(),
+      title:d.title || "無題の投稿",
       user:s.displayName || (s.role==="craftsman"?"職人ユーザー":"ユーザー"),
       role:s.role,
       body:d.body,
@@ -486,6 +526,54 @@ const Traemon = (() => {
     return s ? getPosts().filter(p=>p.owner===s.email) : [];
   }
 
+  function getPostById(id){
+    return getPosts().find(p=>String(p.id)===String(id)) || null;
+  }
+
+  function renderPostDetail(target="#postDetail", mode=null){
+    const el=$(target);
+    if(!el) return;
+
+    const id=new URLSearchParams(location.search).get("id");
+    const post=getPostById(id);
+    if(!post){
+      el.innerHTML=`<div class="card empty">投稿が見つかりません。</div>`;
+      return;
+    }
+
+    const s=getSession();
+    const detailMode=mode || (s?.role === "craftsman" ? "craftsman" : "consumer");
+    const liked=!!s && (post.likedBy||[]).includes(s.email);
+    const considered=!!s && (post.consideredBy||[]).includes(s.email);
+
+    let action="";
+    if(detailMode === "craftsman"){
+      action=`<div class="post-action-group">\n        <span class="like-count like-count-large">♥ ${post.likes} いいね</span>\n        <button class="btn btn-outline btn-consider ${considered?"active":""}" id="detailConsider">${considered?"✓ 検討中":"検討中"}</button>\n      </div>`;
+    }else{
+      action=`<button class="btn btn-outline btn-like ${liked?"active":""}" id="detailLike">♥ ${liked?"いいね済み":"いいね"} ${post.likes}</button>`;
+    }
+
+    el.innerHTML=`
+      <article class="card detail-card">
+        <div class="post-top">
+          <div>
+            <div class="post-author"><span class="role-badge ${post.role==="craftsman"?"craftsman":"consumer"}"><span class="role-dot"></span>${post.role==="craftsman"?"職人":"ユーザー"}</span><span class="post-user">${escapeHtml(post.user)}</span></div>
+            <div class="post-date">${escapeHtml(post.createdAt)}</div>
+          </div>
+        </div>
+        <h1 class="detail-title">${escapeHtml(post.title || "無題の投稿")}</h1>
+        <div class="detail-body">${escapeHtml(post.body)}</div>
+        <div class="post-tags">${post.tags.map(t=>`<span class="tag">#${escapeHtml(t)}</span>`).join("")}</div>
+        <div class="post-actions">
+          ${detailMode === "craftsman" ? `<div class="like-count">♥ ${post.likes} いいね</div>` : `<div></div>`}
+          <div>${action}</div>
+        </div>
+      </article>`;
+
+    $("#detailLike",el)?.addEventListener("click",()=>toggleLike(post.id,{detail:true,detailMode:"consumer"}));
+    $("#detailConsider",el)?.addEventListener("click",()=>toggleConsider(post.id,{detail:true,detailMode:"craftsman"}));
+  }
+
   function renderMyPosts(target="#myPosts"){
     const el=$(target);
     if(!el) return;
@@ -498,17 +586,21 @@ const Traemon = (() => {
         </div>`;
       return;
     }
-    el.innerHTML=posts.map(p=>`
-      <article class="card post-card">
+    el.innerHTML=posts.map(p=>{
+      const summary=(p.body||"").replace(/\s+/g," ").trim();
+      const shortSummary=summary.length>70 ? summary.slice(0,70)+"…" : summary;
+      return `
+      <article class="card post-card post-list-card">
         <div class="post-top">
           <strong>${escapeHtml(p.user)}</strong>
           <span class="post-date">${escapeHtml(p.createdAt)}</span>
         </div>
-        <div class="post-body">${escapeHtml(p.body)}</div>
+        <a class="post-title-link" href="${getSession()?.role === "craftsman" ? "post-detail.html" : "customer-post-detail.html"}?id=${encodeURIComponent(p.id)}">${escapeHtml(p.title || "無題の投稿")}</a>
+        <p class="post-summary">${escapeHtml(shortSummary)}</p>
         <div class="post-tags">${p.tags.map(t=>`<span class="tag">#${escapeHtml(t)}</span>`).join("")}</div>
         <div class="post-actions"><span style="font-size:12px;color:var(--muted)">♥ ${p.likes} いいね</span></div>
-      </article>
-    `).join("");
+      </article>`;
+    }).join("");
   }
 
   return {
@@ -516,7 +608,7 @@ const Traemon = (() => {
     homeByRole, requireLogin, login, getPosts, savePosts, getNotifications,
     addNotification, renderHeader, renderTimeline, toggleLike, toggleConsider,
     populateTags, setupTimeline, savePostDraft, getPostDraft, createPost,
-    saveAccountDraft, getAccountDraft, registerAccount, updateAccount, getMyPosts, renderMyPosts
+    saveAccountDraft, getAccountDraft, registerAccount, updateAccount, getMyPosts, renderMyPosts, getPostById, renderPostDetail
   };
 })();
 

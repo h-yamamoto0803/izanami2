@@ -14,7 +14,7 @@
 
 <section>
   <h1 class="page-title">投稿作成ページ</h1>
-  <p class="page-subtitle">投稿内容と伝統工芸品のカテゴリタグを入力してください。</p>
+  <p class="page-subtitle">タイトル・投稿内容・カテゴリタグを入力してください。</p>
 
   <form id="postForm" class="card form-card">
     <div class="form-group">
@@ -23,14 +23,19 @@
       <div class="form-hint">アカウントに登録されている名前が投稿者名として表示されます。</div>
     </div>
     <div class="form-group">
+      <label for="title">タイトル</label>
+      <input id="title" name="title" type="text" required maxlength="80" placeholder="例：暮らしに馴染む器を作ってほしい">
+    </div>
+
+    <div class="form-group">
       <label for="body">投稿内容</label>
       <textarea id="body" name="body" rows="8" required placeholder="職人への需要、作品紹介、相談などを入力してください。"></textarea>
     </div>
 
     <div class="form-group">
       <label for="tags">カテゴリタグ</label>
-      <input id="tags" name="tags" required placeholder="例：陶芸、器">
-      <div class="form-hint">複数入力する場合は「、」「,」「空白」で区切ってください。</div>
+      <select id="tags" name="tags" required></select>
+      <div class="form-hint">一覧のタグ絞り込みと同じカテゴリから1つ選択してください。</div>
     </div>
 
     <div class="actions">
@@ -47,6 +52,8 @@ document.addEventListener("DOMContentLoaded",()=>{
   if(!Traemon.requireLogin()) return;
   const session=Traemon.getSession();
   Traemon.$("#postAuthor").value=session.displayName || (session.role==="craftsman" ? "職人ユーザー" : "ユーザー");
+  const tags=[...new Set(Traemon.getPosts().flatMap(p=>p.tags))].sort();
+  Traemon.$("#tags").innerHTML=`<option value="">カテゴリタグを選択してください</option>`+tags.map(t=>`<option value="${Traemon.escapeHtml(t)}">${Traemon.escapeHtml(t)}</option>`).join("");
   Traemon.$("#postForm").addEventListener("submit",e=>{
     e.preventDefault();
     Traemon.savePostDraft(e.target);

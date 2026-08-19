@@ -38,6 +38,12 @@ document.addEventListener("DOMContentLoaded",()=>{
       <dt>名前</dt><dd>${Traemon.escapeHtml(d.name || "")}</dd>
     </div>
     <div class="confirm-row">
+      <dt>タイトル</dt><dd>${Traemon.escapeHtml(d.title)}</dd>
+    </div>
+    <div class="confirm-row">
+      <dt>投稿者</dt><dd>${Traemon.escapeHtml(d.name)}</dd>
+    </div>
+    <div class="confirm-row">
       <dt>投稿内容</dt><dd>${Traemon.escapeHtml(d.body)}</dd>
     </div>
     <div class="confirm-row">
