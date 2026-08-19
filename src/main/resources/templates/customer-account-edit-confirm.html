@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ユーザーアカウント登録確認 | Traemon</title>
+<title>ユーザーアカウント編集確認 | Traemon</title>
 <link rel="stylesheet" href="../css/styles.css">
 <script src="../js/common.js" defer></script>
 </head>
@@ -13,8 +13,8 @@
 <div class="container">
 
 <section>
-  <h1 class="page-title">ユーザーアカウント登録確認</h1>
-  <p class="page-subtitle">入力した内容を確認してください。</p>
+  <h1 class="page-title">ユーザーアカウント編集確認</h1>
+  <p class="page-subtitle">変更内容を確認してください。</p>
 
   <div class="card form-card">
     <div id="confirmArea"></div>
@@ -22,8 +22,8 @@
       ※これはフロントエンドのデモです。実運用ではパスワードをこのように表示しないでください。
     </div>
     <div class="actions">
-      <a class="btn btn-secondary" href="consumer-register.html">戻る</a>
-      <button id="registerBtn" class="btn btn-primary">登録確定</button>
+      <a class="btn btn-secondary" href="customer-account-edit.html">戻る</a>
+      <button id="saveBtn" class="btn btn-primary">登録確定</button>
     </div>
   </div>
 </section>
@@ -32,8 +32,9 @@
 </main>
 <script>
 document.addEventListener("DOMContentLoaded",()=>{
+  if(!Traemon.requireLogin("consumer")) return;
   const d=Traemon.getAccountDraft();
-  if(!d){ location.href="consumer-register.html"; return; }
+  if(!d){ location.href="customer-account-edit.html"; return; }
 
   Traemon.$("#confirmArea").innerHTML=`
     <dl class="confirm-list">
@@ -43,12 +44,9 @@ document.addEventListener("DOMContentLoaded",()=>{
       <div class="confirm-row"><dt>確認用パスワード</dt><dd>${Traemon.escapeHtml(d.passwordConfirm)}</dd></div>
     </dl>`;
 
-  Traemon.$("#registerBtn").addEventListener("click",()=>{
-    if(Traemon.registerAccount()){
-      location.href="consumer-menu.html";
-    }else{
-      alert("このメールアドレスはすでに登録されています。");
-    }
+  Traemon.$("#saveBtn").addEventListener("click",()=>{
+    Traemon.updateAccount();
+    location.href="customer-account.html";
   });
 });
 </script>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>職人用ログイン | Traemon</title>
+<title>ユーザーログイン | Traemon</title>
 <link rel="stylesheet" href="../css/styles.css">
 <script src="../js/common.js" defer></script>
 </head>
@@ -13,20 +13,23 @@
 <div class="container">
 
 <section>
-  <h1 class="page-title">職人用ログイン</h1>
-  <p class="page-subtitle">職人アカウントでTraemonを利用します。</p>
+  <h1 class="page-title">ユーザーログイン</h1>
+  <p class="page-subtitle">ユーザーアカウントでTraemonを利用します。</p>
+
   <form id="loginForm" class="card form-card">
     <div class="form-group">
       <label for="email">メールアドレス</label>
-      <input id="email" name="email" type="email" required placeholder="craftsman@example.com">
+      <input id="email" type="email" required placeholder="user@example.com">
     </div>
     <div class="form-group">
       <label for="password">パスワード</label>
-      <input id="password" name="password" type="password" required>
+      <input id="password" type="password" required>
     </div>
     <p id="error" style="color:#b52e3c;text-align:center;font-size:12px"></p>
+
     <div class="actions">
       <a class="btn btn-secondary" href="menu.html">戻る</a>
+      <a class="btn btn-outline" href="customer-register.html">新規登録</a>
       <button class="btn btn-primary" type="submit">ログイン</button>
     </div>
   </form>
@@ -38,8 +41,8 @@
 document.addEventListener("DOMContentLoaded",()=>{
   Traemon.$("#loginForm").addEventListener("submit",e=>{
     e.preventDefault();
-    const r=Traemon.login("craftsman",Traemon.$("#email").value.trim(),Traemon.$("#password").value);
-    if(r.ok) location.href="craftsman-menu.html";
+    const r=Traemon.login("consumer",Traemon.$("#email").value.trim(),Traemon.$("#password").value);
+    if(r.ok) location.href="customer-menu.html";
     else Traemon.$("#error").textContent=r.message;
   });
 });

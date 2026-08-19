@@ -12,14 +12,14 @@
 <main>
 <div class="container">
 
-<section class="hero craftsman-tile">
+<section class="hero artisan-tile">
   <h1>職人専用メニュー</h1>
   <p>職人向けのカテゴリを中心に、ユーザーからの需要を確認できます。</p>
 </section>
 
 
 <div class="toolbar">
-  <div class="search-area"><input id="searchInput" type="search" placeholder="投稿を検索"></div>
+<select id="tagFilter" aria-label="専門タグで絞り込み"></select>
 </div>
 
 <div class="specialty-note">
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded",()=>{
   const s=Traemon.getSession();
   const tags=s.specialtyTags || Traemon.getCraftsmanProfile(s.email).specialtyTags;
   Traemon.$("#specialtyTags").innerHTML=tags.map(t=>`<span class="tag">#${Traemon.escapeHtml(t)}</span>`).join("");
-  Traemon.setupTimeline({craftsmanOnly:true, noTagFilter:true});
+  Traemon.setupTimeline({craftsmanOnly:true});
 });
 </script>
 </body>
