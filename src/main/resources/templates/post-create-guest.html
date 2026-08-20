@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>投稿作成 | Traemon</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header class="site-header guest-header">
+  <div class="container header-inner">
+    <a class="logo" href="menu.html">Traemon</a>
+    <div class="header-right">
+      <span class="role-badge guest"><span class="role-dot"></span>ゲスト</span>
+      <a class="header-post guest-post" href="post-create-guest.html">＋ 投稿する</a>
+      <a class="header-login artisan-login" href="artisan-login.html">職人用ログイン</a>
+      <a class="header-login customer-login" href="customer-login.html">ユーザー用ログイン</a>
+    </div>
+  </div>
+</header>
+<main><div class="container"><section>
+  <h1 class="page-title">投稿作成ページ</h1><p class="page-subtitle">タイトル・投稿内容・カテゴリタグを入力してください。</p>
+  <form class="card form-card" action="post-confirm-guest.html" method="get">
+    <div class="form-group"><label for="postAuthor-guest">名前</label><input id="postAuthor-guest" type="text" readonly value="ゲストユーザー"><div class="form-hint">静的モックのサンプル表示です。</div></div>
+    <div class="form-group"><label for="postTitle-guest">タイトル</label><input id="postTitle-guest" name="postTitle" type="text" required value="玄関に置ける小さな花器が欲しい"></div>
+    <div class="form-group"><label for="postText-guest">投稿内容</label><textarea id="postText-guest" name="postText" rows="8" required>玄関に置ける小さな花器を探しています。落ち着いた色味で、長く使えるものが希望です。</textarea></div>
+    <div class="form-group"><label for="tag-guest">カテゴリタグ</label><select id="tag-guest" name="tag" required><option>陶芸</option><option>漆器</option><option>木工</option><option>染織</option><option>金工</option></select></div>
+    <div class="actions"><a class="btn btn-secondary" href="menu.html">戻る</a><button class="btn btn-primary" type="submit">確認画面へ</button></div>
+  </form>
+</section></div></main>
+</body>
+</html>

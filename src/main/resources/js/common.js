@@ -1,5 +1,4 @@
-// Traemon common UI behavior.
-// Business logic, session management, data rendering and navigation are handled by Spring/Thymeleaf.
+// Traemon static mock: notification panel open/close only.
 
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.querySelector("#notificationButton");
