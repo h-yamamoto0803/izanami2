@@ -22,15 +22,48 @@
   </div>
 </header>
 </div>
-<main><div class="container"><section class="card account-head customer-tile"><h1 class="page-title">ユーザーアカウントページ</h1><p>自分が投稿したコメントの一覧とアカウント情報を確認できます。</p><p class="account-name" th:text="'名前：' + ${session.userName}">名前：ユーザー</p><p class="account-email" th:text="'メールアドレス：' + ${session.email}">メールアドレス：user@example.com</p><div class="account-actions"><a class="btn btn-primary" th:href="@{/customer/account/edit}">アカウント編集</a></div></section><div class="section-title"><h2>自分の投稿</h2></div>
+<main><div class="container"><section class="card account-head customer-tile">
+	<h1 class="page-title">ユーザーアカウントページ</h1>
+	<p>自分が投稿したコメントの一覧とアカウント情報を確認できます。</p>
+	<p class="account-name" th:text="'名前：' + ${session.userName}">名前：ユーザー</p>
+	<p class="account-email" th:text="'メールアドレス：' + ${session.email}">メールアドレス：user@example.com</p>
+	<div class="account-actions">
+	<a class="btn btn-primary" th:href="@{/CustomerAccountEdit}">アカウント編集</a>
+	<a class="btn btn-primary" th:href="@{/DeleteCustomerAccount}">削除</a>
+	
+	</div></section>
+	<div class="section-title">
+		<h2>自分の投稿</h2>
+	</div>
 <div class="timeline">
-  <div class="card empty" hidden th:if="${myPosts == null or #lists.isEmpty(myPosts)}" th:attr="hidden=${myPosts == null or #lists.isEmpty(myPosts)} ? null : 'hidden'">まだ投稿がありません。<br><a class="btn btn-primary" style="margin-top:12px" th:href="@{/posts/create}">投稿を作成する</a></div>
-  <div th:each="post : ${myPosts}" th:replace="~{fragments/post-card :: postCard(${post})}"><article class="card post-card post-list-card">
-  <div class="post-top"><div><div class="post-author"><span class="role-badge customer"><span class="role-dot"></span>ユーザー</span><span class="post-user">伝統工芸が好き</span></div><div class="post-date">2026/08/19 12:00</div></div></div>
+  <div class="card empty" 
+  hidden th:if="${myPosts == null or #lists.isEmpty(myPosts)}" 
+  th:attr="hidden=${myPosts == null or #lists.isEmpty(myPosts)} ? null : 'hidden'">
+	まだ投稿がありません。
+	<br><a class="btn btn-primary" style="margin-top:12px" th:href="@{/posts/create}">投稿を作成する</a>
+</div>
+  <div th:each="post : ${myPosts}" 
+  th:replace="~{fragments/post-card :: postCard(${post})}">
+	<article class="card post-card post-list-card">
+  <div class="post-top">
+	<div>
+	<div class="post-author">
+	<span class="role-badge customer">
+	<span class="role-dot"></span>
+	ユーザー</span>
+	<span class="post-user">伝統工芸が好き</span>
+</div><div class="post-date">2026/08/19 12:00</div>
+</div>
+</div>
   <a class="post-title-link" href="post-detail.html">玄関に置ける小さな花器が欲しい</a>
   <p class="post-summary">玄関に置ける小さな花器を探しています。落ち着いた色味で、長く使えるものが希望です。</p>
-  <div class="post-tags"><span class="tag">#陶芸</span><span class="tag">#花器</span></div>
-  <div class="post-actions"><span class="like-count">♥ 21 いいね</span></div>
+  <div class="post-tags">
+	<span class="tag">#陶芸</span>
+	<span class="tag">#花器</span>
+</div>
+  <div class="post-actions">
+	<span class="like-count">♥ 21 いいね</span>
+</div>
 </article></div>
 </div></div></main>
 </body>
