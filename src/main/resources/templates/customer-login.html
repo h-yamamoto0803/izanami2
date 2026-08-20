@@ -1,51 +1,35 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ユーザーログイン | Traemon</title>
-<link rel="stylesheet" href="../css/styles.css">
-<script src="../js/common.js" defer></script>
+<link rel="stylesheet" th:href="@{/css/styles.css}" href="../static/css/styles.css">
+<script th:src="@{/js/common.js}" src="../static/js/common.js" defer></script>
 </head>
 <body>
-<div id="header"></div>
-<main>
-<div class="container">
-
-<section>
+<div th:replace="~{fragments/header :: header}">
+<header class="site-header gest-header">
+  <div class="container header-inner">
+    <a class="logo" href="menu.html">Traemon</a>
+    <div class="header-right">
+      <span class="role-badge gest"><span class="role-dot"></span>ゲスト</span>
+      <a class="header-post gest-post" href="post-create.html">＋ 投稿する</a>
+      <a class="header-login artisan-login" href="artisan-login.html">職人用ログイン</a>
+      <a class="header-login customer-login" href="customer-login.html">ユーザー用ログイン</a>
+    </div>
+  </div>
+</header>
+</div>
+<main><div class="container"><section>
   <h1 class="page-title">ユーザーログイン</h1>
   <p class="page-subtitle">ユーザーアカウントでTraemonを利用します。</p>
-
-  <form id="loginForm" class="card form-card">
-    <div class="form-group">
-      <label for="email">メールアドレス</label>
-      <input id="email" type="email" required placeholder="user@example.com">
-    </div>
-    <div class="form-group">
-      <label for="password">パスワード</label>
-      <input id="password" type="password" required>
-    </div>
-    <p id="error" style="color:#b52e3c;text-align:center;font-size:12px"></p>
-
-    <div class="actions">
-      <a class="btn btn-secondary" href="menu.html">戻る</a>
-      <a class="btn btn-outline" href="customer-register.html">新規登録</a>
-      <button class="btn btn-primary" type="submit">ログイン</button>
-    </div>
+  <form class="card form-card" th:action="@{/customer/login}" th:object="${loginForm}" method="post">
+    <div class="form-group"><label for="email">メールアドレス</label><input id="email" type="email" required placeholder="user@example.com" th:field="*{email}" name="email"></div>
+    <div class="form-group"><label for="password">パスワード</label><input id="password" type="password" required th:field="*{password}" name="password"></div>
+    <p class="form-error" hidden th:if="${errorMessage}" th:attr="hidden=${errorMessage} ? null : 'hidden'" th:text="${errorMessage}" style="color:#b52e3c;text-align:center;font-size:12px">ログイン情報を確認してください。</p>
+    <div class="actions"><a class="btn btn-secondary" th:href="@{/menu}" href="menu.html">戻る</a><a class="btn btn-outline" th:href="@{/customer/register}" href="customer-register.html">新規登録</a><button class="btn btn-primary" type="submit">ログイン</button></div>
   </form>
-</section>
-
-</div>
-</main>
-<script>
-document.addEventListener("DOMContentLoaded",()=>{
-  Traemon.$("#loginForm").addEventListener("submit",e=>{
-    e.preventDefault();
-    const r=Traemon.login("consumer",Traemon.$("#email").value.trim(),Traemon.$("#password").value);
-    if(r.ok) location.href="customer-menu.html";
-    else Traemon.$("#error").textContent=r.message;
-  });
-});
-</script>
+</section></div></main>
 </body>
 </html>

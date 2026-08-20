@@ -1,65 +1,36 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>投稿作成 | Traemon</title>
-<link rel="stylesheet" href="../css/styles.css">
-<script src="../js/common.js" defer></script>
+<link rel="stylesheet" th:href="@{/css/styles.css}" href="../static/css/styles.css">
+<script th:src="@{/js/common.js}" src="../static/js/common.js" defer></script>
 </head>
 <body>
-<div id="header"></div>
-<main>
-<div class="container">
-
-<section>
-  <h1 class="page-title">投稿作成ページ</h1>
-  <p class="page-subtitle">タイトル・投稿内容・カテゴリタグを入力してください。</p>
-
-  <form id="postForm" class="card form-card">
-    <div class="form-group">
-      <label for="postAuthor">名前</label>
-      <input id="postAuthor" type="text" readonly>
-      <div class="form-hint">アカウントに登録されている名前が投稿者名として表示されます。</div>
+<div th:replace="~{fragments/header :: header}">
+<header class="site-header customer-header">
+  <div class="container header-inner">
+    <a class="logo" href="customer-menu.html">Traemon</a>
+    <div class="header-right">
+      <span class="role-badge customer"><span class="role-dot"></span>ユーザー</span>
+      <a class="header-post customer-post" href="post-create.html">＋ 投稿する</a>
+      <div class="notification-wrap"><button class="icon-btn" type="button" aria-label="通知">🔔</button></div>
+      <a class="account-btn" href="customer-account.html">伝統工芸が好き</a>
+      <button class="logout-btn" type="button">ログアウト</button>
     </div>
-    <div class="form-group">
-      <label for="title">タイトル</label>
-      <input id="title" name="title" type="text" required maxlength="80" placeholder="例：暮らしに馴染む器を作ってほしい">
-    </div>
-
-    <div class="form-group">
-      <label for="body">投稿内容</label>
-      <textarea id="body" name="body" rows="8" required placeholder="職人への需要、作品紹介、相談などを入力してください。"></textarea>
-    </div>
-
-    <div class="form-group">
-      <label for="tags">カテゴリタグ</label>
-      <select id="tags" name="tags" required></select>
-      <div class="form-hint">一覧のタグ絞り込みと同じカテゴリから1つ選択してください。</div>
-    </div>
-
-    <div class="actions">
-      <a class="btn btn-secondary" href="javascript:history.back()">戻る</a>
-      <button class="btn btn-primary" type="submit">確認画面へ</button>
-    </div>
-  </form>
-</section>
-
+  </div>
+</header>
 </div>
-</main>
-<script>
-document.addEventListener("DOMContentLoaded",()=>{
-  if(!Traemon.requireLogin()) return;
-  const session=Traemon.getSession();
-  Traemon.$("#postAuthor").value=session.displayName || (session.role==="craftsman" ? "職人ユーザー" : "ユーザー");
-  const tags=[...new Set(Traemon.getPosts().flatMap(p=>p.tags))].sort();
-  Traemon.$("#tags").innerHTML=`<option value="">カテゴリタグを選択してください</option>`+tags.map(t=>`<option value="${Traemon.escapeHtml(t)}">${Traemon.escapeHtml(t)}</option>`).join("");
-  Traemon.$("#postForm").addEventListener("submit",e=>{
-    e.preventDefault();
-    Traemon.savePostDraft(e.target);
-    location.href="post-confirm.html";
-  });
-});
-</script>
+<main><div class="container"><section>
+<h1 class="page-title">投稿作成ページ</h1><p class="page-subtitle">タイトル・投稿内容・カテゴリタグを入力してください。</p>
+<form class="card form-card" th:action="@{/posts/confirm}" th:object="${postForm}" method="post">
+  <div class="form-group"><label for="postAuthor">名前</label><input id="postAuthor" type="text" readonly th:value="${session.userName}" value="伝統工芸が好き"><div class="form-hint">アカウントに登録されている名前が投稿者名として表示されます。</div></div>
+  <div class="form-group"><label for="postTitle">タイトル</label><input id="postTitle" type="text" required maxlength="80" placeholder="例：暮らしに馴染む器を作ってほしい" th:field="*{postTitle}" name="postTitle"></div>
+  <div class="form-group"><label for="postText">投稿内容</label><textarea id="postText" rows="8" required placeholder="職人への需要、作品紹介、相談などを入力してください。" th:field="*{postText}" name="postText">玄関に置ける小さな花器を探しています。</textarea></div>
+  <div class="form-group"><label for="tag">カテゴリタグ</label><select id="tag" required th:field="*{tag}" name="tag"><option value="">カテゴリタグを選択してください</option><option th:each="tag : ${tags}" th:value="${tag}" th:text="${tag}" value="陶芸">陶芸</option></select><div class="form-hint">一覧のタグ絞り込みと同じカテゴリから1つ選択してください。</div></div>
+  <p class="form-error" hidden th:if="${errorMessage}" th:attr="hidden=${errorMessage} ? null : 'hidden'" th:text="${errorMessage}" style="color:#b52e3c;text-align:center;font-size:12px">入力内容を確認してください。</p>
+  <div class="actions"><a class="btn btn-secondary" th:href="${session.userType == 'artisan'} ? @{/artisan/menu} : @{/customer/menu}" href="customer-menu.html">戻る</a><button class="btn btn-primary" type="submit">確認画面へ</button></div>
+</form>
+</section></div></main>
 </body>
 </html>

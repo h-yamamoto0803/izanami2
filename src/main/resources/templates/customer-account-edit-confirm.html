@@ -1,54 +1,40 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ユーザーアカウント編集確認 | Traemon</title>
-<link rel="stylesheet" href="../css/styles.css">
-<script src="../js/common.js" defer></script>
+<link rel="stylesheet" th:href="@{/css/styles.css}" href="../static/css/styles.css">
+<script th:src="@{/js/common.js}" src="../static/js/common.js" defer></script>
 </head>
 <body>
-<div id="header"></div>
-<main>
-<div class="container">
-
-<section>
-  <h1 class="page-title">ユーザーアカウント編集確認</h1>
-  <p class="page-subtitle">変更内容を確認してください。</p>
-
-  <div class="card form-card">
-    <div id="confirmArea"></div>
-    <div class="notice" style="margin-top:18px">
-      ※これはフロントエンドのデモです。実運用ではパスワードをこのように表示しないでください。
-    </div>
-    <div class="actions">
-      <a class="btn btn-secondary" href="customer-account-edit.html">戻る</a>
-      <button id="saveBtn" class="btn btn-primary">登録確定</button>
+<div th:replace="~{fragments/header :: header}">
+<header class="site-header customer-header">
+  <div class="container header-inner">
+    <a class="logo" href="customer-menu.html">Traemon</a>
+    <div class="header-right">
+      <span class="role-badge customer"><span class="role-dot"></span>ユーザー</span>
+      <a class="header-post customer-post" href="post-create.html">＋ 投稿する</a>
+      <div class="notification-wrap"><button class="icon-btn" type="button" aria-label="通知">🔔</button></div>
+      <a class="account-btn" href="customer-account.html">伝統工芸が好き</a>
+      <button class="logout-btn" type="button">ログアウト</button>
     </div>
   </div>
-</section>
-
+</header>
 </div>
-</main>
-<script>
-document.addEventListener("DOMContentLoaded",()=>{
-  if(!Traemon.requireLogin("consumer")) return;
-  const d=Traemon.getAccountDraft();
-  if(!d){ location.href="customer-account-edit.html"; return; }
-
-  Traemon.$("#confirmArea").innerHTML=`
-    <dl class="confirm-list">
-      <div class="confirm-row"><dt>名前</dt><dd>${Traemon.escapeHtml(d.name)}</dd></div>
-      <div class="confirm-row"><dt>メールアドレス</dt><dd>${Traemon.escapeHtml(d.email)}</dd></div>
-      <div class="confirm-row"><dt>パスワード</dt><dd>${Traemon.escapeHtml(d.password)}</dd></div>
-      <div class="confirm-row"><dt>確認用パスワード</dt><dd>${Traemon.escapeHtml(d.passwordConfirm)}</dd></div>
-    </dl>`;
-
-  Traemon.$("#saveBtn").addEventListener("click",()=>{
-    Traemon.updateAccount();
-    location.href="customer-account.html";
-  });
-});
-</script>
+<main><div class="container"><section>
+<h1 class="page-title">ユーザーアカウント編集確認</h1><p class="page-subtitle">変更内容を確認してください。</p>
+<form class="card form-card" th:action="@{/customer/account/edit}" th:object="${accountEditForm}" method="post">
+  <dl class="confirm-list">
+    <div class="confirm-row"><dt>名前</dt><dd th:text="*{userName}">山田 太郎</dd></div>
+    <div class="confirm-row"><dt>メールアドレス</dt><dd th:text="*{email}">user@example.com</dd></div>
+    <div class="confirm-row"><dt>パスワード</dt><dd>セキュリティのため非表示</dd></div>
+  </dl>
+  <input type="hidden" th:field="*{userName}" name="userName">
+  <input type="hidden" th:field="*{email}" name="email">
+  <input type="hidden" th:field="*{password}" name="password">
+  <input type="hidden" th:field="*{passwordConfirm}" name="passwordConfirm">
+  <div class="actions"><button class="btn btn-secondary" type="submit" th:formaction="@{/customer/account/edit/back}">戻る</button><button class="btn btn-primary" type="submit">変更確定</button></div>
+</form>
+</section></div></main>
 </body>
 </html>
