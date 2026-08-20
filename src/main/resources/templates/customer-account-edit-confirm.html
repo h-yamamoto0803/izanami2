@@ -23,7 +23,7 @@
 </div>
 <main><div class="container"><section>
 <h1 class="page-title">ユーザーアカウント編集確認</h1><p class="page-subtitle">変更内容を確認してください。</p>
-<form class="card form-card" th:action="@{/customer/account/edit}" th:object="${accountEditForm}" method="post">
+<form class="card form-card" th:action="@{/DoEditCustomerAccount}" th:object="${accountEditForm}" method="get">
   <dl class="confirm-list">
     <div class="confirm-row"><dt>名前</dt><dd th:text="*{userName}">山田 太郎</dd></div>
     <div class="confirm-row"><dt>メールアドレス</dt><dd th:text="*{email}">user@example.com</dd></div>
@@ -33,7 +33,10 @@
   <input type="hidden" th:field="*{email}" name="email">
   <input type="hidden" th:field="*{password}" name="password">
   <input type="hidden" th:field="*{passwordConfirm}" name="passwordConfirm">
-  <div class="actions"><button class="btn btn-secondary" type="submit" th:formaction="@{/customer/account/edit/back}">戻る</button><button class="btn btn-primary" type="submit">変更確定</button></div>
+  <div class="actions">
+	<button class="btn btn-secondary" 
+	type="submit" th:formaction="@{/CustomerAccountEdit}">戻る</button>
+	<button class="btn btn-primary" type="submit">変更確定</button></div>
 </form>
 </section></div></main>
 </body>
