@@ -12,8 +12,8 @@
   --customer-strong:#4f7fd9;
   --artisan:#fff0e3;
   --artisan-strong:#c97835;
-  --gest:#f1f1f1;
-  --gest-strong:#7a7a7a;
+  --guest:#f1f1f1;
+  --guest-strong:#7a7a7a;
   --success:#eef2ee;
   --danger:#f5d4d4;
   --shadow:0 12px 30px rgba(67,48,36,.08);
@@ -70,11 +70,11 @@ a{text-decoration:none;color:inherit}
 }
 .role-badge.customer{background:var(--customer);border-color:#c5d6f5;color:#315b9f}
 .role-badge.artisan{background:var(--artisan);border-color:#f0cba8;color:#9a5523}
-.role-badge.gest{background:var(--gest);border-color:#d5d5d5;color:#5e5e5e}
+.role-badge.guest{background:var(--guest);border-color:#d5d5d5;color:#5e5e5e}
 .role-dot{display:inline-block;width:8px;height:8px;margin-right:5px;border-radius:50%;vertical-align:1px}
 .role-badge.customer .role-dot{background:var(--customer-strong)}
 .role-badge.artisan .role-dot{background:var(--artisan-strong)}
-.role-badge.gest .role-dot{background:var(--gest-strong)}
+.role-badge.guest .role-dot{background:var(--guest-strong)}
 
 .account-btn,.icon-btn,.header-login{
   border:1px solid var(--line);
@@ -92,7 +92,7 @@ a{text-decoration:none;color:inherit}
 }
 .header-post.customer-post,.header-login.customer-login{background:var(--customer-strong);border-color:var(--customer-strong);}
 .header-post.artisan-post,.header-login.artisan-login{background:var(--artisan-strong);border-color:var(--artisan-strong);}
-.header-post.gest-post{background:var(--gest-strong);border-color:var(--gest-strong);}
+.header-post.guest-post{background:var(--guest-strong);border-color:var(--guest-strong);}
 .header-post:hover,.header-login:hover{transform:translateY(-1px);box-shadow:0 5px 16px rgba(0,0,0,.08)}
 .logout-btn{
   border:1px solid #d9d2cc;
@@ -302,12 +302,12 @@ main{padding:38px 0 70px}
   margin-top:15px;
   border-top:1px solid #f0ebe6;
 }
-.btn-like.active{
+.btn-favorite.active{
   background:#ffe1e4;
   color:#a62f3c;
   border-color:#edb4bb;
 }
-.btn-condidate.active{
+.btn-candidate.active{
   background:#e6defa;
   color:#6245a1;
   border-color:#c9b9eb;
@@ -335,7 +335,7 @@ main{padding:38px 0 70px}
 .menu-tile p{margin:0;color:var(--muted);font-size:12px}
 .customer-tile{background:var(--customer)}
 .artisan-tile{background:var(--artisan)}
-.gest-tile{background:var(--gest)}
+.guest-tile{background:var(--guest)}
 .success-tile{background:var(--success)}
 
 /* Confirm */
@@ -473,12 +473,12 @@ main{padding:38px 0 70px}
   gap:10px;
   flex-wrap:wrap;
 }
-.like-count{
+.favorite-count{
   color:var(--muted);
   font-size:12px;
   font-weight:800;
 }
-.like-count-large{
+.favorite-count-large{
   padding:9px 12px;
   border:1px solid var(--line);
   border-radius:10px;
