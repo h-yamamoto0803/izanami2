@@ -1,41 +1,161 @@
 <!doctype html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>職人専用メニュー | Traemon</title>
-<link rel="stylesheet" th:href="@{/css/styles.css}" href="../static/css/styles.css">
-<script th:src="@{/js/common.js}" src="../static/js/common.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>職人専用メニュー | Traemon</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <script th:src="@{/js/common.js}" defer></script>
 </head>
+
 <body>
-<div th:replace="~{fragments/header :: header}">
-<header class="site-header artisan-header">
-  <div class="container header-inner">
-    <a class="logo" href="artisan-menu.html">Traemon</a>
-    <div class="header-right">
-      <span class="role-badge artisan"><span class="role-dot"></span>職人</span>
-      <a class="header-post artisan-post" href="post-create.html">＋ 投稿する</a>
-      <div class="notification-wrap"><button class="icon-btn" type="button" aria-label="通知">🔔</button></div>
-      <a class="account-btn" href="artisan-account.html">山田工房</a>
-      <button class="logout-btn" type="button">ログアウト</button>
+
+<!-- 共通ヘッダー -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main>
+  <div class="container">
+
+    <section class="hero artisan-tile">
+      <h1>職人専用メニュー</h1>
+      <p>
+        職人向けのカテゴリを中心に、ユーザーからの需要を確認できます。
+      </p>
+    </section>
+
+    <form class="toolbar"
+          th:action="@{/artisan/menu}"
+          method="get">
+
+      <select name="tag" aria-label="専門タグで絞り込み">
+        <option value="">すべてのタグ</option>
+        <option>陶芸</option>
+        <option>器</option>
+        <option>花器</option>
+      </select>
+
+      <button class="btn btn-primary" type="submit">
+        絞り込み
+      </button>
+
+      <a class="btn btn-outline"
+         th:href="@{/artisan/menu}">
+        クリア
+      </a>
+
+    </form>
+
+    <div class="specialty-note">
+      <span class="specialty-label">あなたの専門タグ</span>
+
+      <div class="post-tags">
+        <span class="tag">#陶芸</span>
+        <span class="tag">#器</span>
+        <span class="tag">#花器</span>
+      </div>
     </div>
+
+    <div class="timeline">
+
+      <article class="card post-card post-list-card">
+
+        <div class="post-top">
+          <div>
+            <div class="post-author">
+              <span class="role-badge customer">
+                <span class="role-dot"></span>ユーザー
+              </span>
+
+              <span class="post-user">
+                伝統工芸が好き
+              </span>
+            </div>
+
+            <div class="post-date">
+              2026/08/19 12:00
+            </div>
+          </div>
+        </div>
+
+        <a class="post-title-link"
+           th:href="@{/artisan/post-detail}">
+          玄関に置ける小さな花器が欲しい
+        </a>
+
+        <p class="post-summary">
+          玄関に置ける小さな花器を探しています。
+          落ち着いた色味で、長く使えるものが希望です。
+        </p>
+
+        <div class="post-tags">
+          <span class="tag">#陶芸</span>
+          <span class="tag">#花器</span>
+        </div>
+
+        <div class="post-actions">
+          <span class="favorite-count">
+            ♥ 21 いいね
+          </span>
+
+          <button class="btn btn-outline btn-candidate"
+                  type="button">
+            検討中
+          </button>
+        </div>
+
+      </article>
+
+      <article class="card post-card post-list-card">
+
+        <div class="post-top">
+          <div>
+            <div class="post-author">
+              <span class="role-badge customer">
+                <span class="role-dot"></span>ユーザー
+              </span>
+
+              <span class="post-user">
+                工芸のある暮らし
+              </span>
+            </div>
+
+            <div class="post-date">
+              2026/08/17 20:10
+            </div>
+          </div>
+        </div>
+
+        <a class="post-title-link"
+           th:href="@{/artisan/post-detail}">
+          名刺が入る薄い漆塗りケースがほしい
+        </a>
+
+        <p class="post-summary">
+          仕事でも使える、派手すぎない漆塗りの名刺入れがあるとうれしいです。
+        </p>
+
+        <div class="post-tags">
+          <span class="tag">#漆器</span>
+          <span class="tag">#小物</span>
+        </div>
+
+        <div class="post-actions">
+          <span class="favorite-count">
+            ♥ 18 いいね
+          </span>
+
+          <button class="btn btn-outline btn-candidate"
+                  type="button">
+            検討中
+          </button>
+        </div>
+
+      </article>
+
+    </div>
+
   </div>
-</header>
-</div>
-<main><div class="container">
-<section class="hero artisan-tile"><h1>職人専用メニュー</h1><p>職人向けのカテゴリを中心に、ユーザーからの需要を確認できます。</p></section>
-<form class="toolbar" th:action="@{/artisan/menu}" method="get">
-  <select name="tag" aria-label="専門タグで絞り込み"><option value="">すべてのタグ</option><option th:each="tag : ${specialtyTags}" th:value="${tag}" th:text="${tag}" th:selected="${tag == selectedTag}">陶芸</option></select>
-  <button class="btn btn-primary" type="submit">絞り込み</button><a class="btn btn-outline" th:href="@{/artisan/menu}">クリア</a>
-</form>
-<div class="specialty-note"><span class="specialty-label">あなたの専門タグ</span><div class="post-tags"><span class="tag" th:each="tag : ${specialtyTags}" th:text="'#' + ${tag}">#陶芸</span></div></div>
-<div class="timeline"><div class="card empty" hidden th:if="${posts == null or #lists.isEmpty(posts)}" th:attr="hidden=${posts == null or #lists.isEmpty(posts)} ? null : 'hidden'">条件に一致する投稿がありません。</div><div th:each="post : ${posts}" th:replace="~{fragments/post-card :: postCard(${post})}"><article class="card post-card post-list-card">
-  <div class="post-top"><div><div class="post-author"><span class="role-badge customer"><span class="role-dot"></span>ユーザー</span><span class="post-user">伝統工芸が好き</span></div><div class="post-date">2026/08/19 12:00</div></div></div>
-  <a class="post-title-link" href="post-detail.html">玄関に置ける小さな花器が欲しい</a>
-  <p class="post-summary">玄関に置ける小さな花器を探しています。落ち着いた色味で、長く使えるものが希望です。</p>
-  <div class="post-tags"><span class="tag">#陶芸</span><span class="tag">#花器</span></div>
-  <div class="post-actions"><span class="like-count">♥ 21 いいね</span></div>
-</article></div></div>
-</div></main>
+</main>
+
 </body>
 </html>
