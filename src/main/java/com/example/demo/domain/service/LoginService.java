@@ -28,6 +28,10 @@ public class LoginService {
 	public Integer doLogin(LoginUserForm form, Integer userType) {
 	    Optional<UserEntity> optionalUser =
 	            userRepository.findByEmail(form.getEmail());
+	    if (optionalUser.isEmpty()) {
+	        return 0;
+	    }
+
 	    UserEntity user = optionalUser.get();
 
 		if (form.getEmail().equals(user.getEmail())
