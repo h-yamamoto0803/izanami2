@@ -8,33 +8,9 @@
   <script src="js/common.js" defer></script>
 </head>
 <body>
-<header class="site-header customer-header">
-  <div class="container header-inner">
-    <a class="logo" href="customer-menu.html">Traemon</a>
-    <div class="header-right">
-      <span class="role-badge customer"><span class="role-dot"></span>ユーザー</span>
-      <a class="header-post customer-post" href="post-create-customer.html">＋ 投稿する</a>
-      <div class="notification-wrap">
-        <button class="icon-btn" id="notificationButton" type="button" aria-label="通知">🔔</button>
-        <div class="notification-panel" id="notificationPanel">
-          <div class="notification-item">
-            <div>あなたの投稿に反応がありました。</div>
-            <small>2026/08/20 10:15</small>
-          </div>
-          <div class="notification-item">
-            <div>「玄関に置ける小さな花器が欲しい」に新しい反応があります。</div>
-            <small>2026/08/19 18:40</small>
-          </div>
-        </div>
-      </div>
-      <a class="account-btn" href="customer-account.html">伝統工芸が好き</a>
-      <a class="logout-btn" href="menu.html">ログアウト</a>
-    </div>
-  </div>
-</header>
 <main><div class="container"><section>
   <h1 class="page-title">投稿作成ページ</h1><p class="page-subtitle">タイトル・投稿内容・カテゴリタグを入力してください。</p>
-  <form class="card form-card" action="post-confirm-customer.html" method="get">
+  <form class="card form-card" th:action="@{/insertPostConfirm}" method="post" th:object="${insertPostForm}>
     <div class="form-group"><label for="postAuthor-customer">名前</label><input id="postAuthor-customer" type="text" readonly value="伝統工芸が好き"><div class="form-hint">静的モックのサンプル表示です。</div></div>
     <div class="form-group"><label for="postTitle-customer">タイトル</label><input id="postTitle-customer" name="postTitle" type="text" required value="玄関に置ける小さな花器が欲しい"></div>
     <div class="form-group"><label for="postText-customer">投稿内容</label><textarea id="postText-customer" name="postText" rows="8" required>玄関に置ける小さな花器を探しています。落ち着いた色味で、長く使えるものが希望です。</textarea></div>
