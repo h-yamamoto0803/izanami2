@@ -6,5 +6,5 @@ import lombok.Data;
 public class InsertPostForm {
 	private String postTitle;
 	private String postText;
-	private String tag;
+	private String[] tags;
 }
