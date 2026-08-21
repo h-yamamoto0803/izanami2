@@ -3,10 +3,12 @@ package com.example.demo.presentation.controller.customer;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.demo.domain.service.LoginService;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
 import com.example.demo.presentation.form.LoginUserForm;
 
@@ -15,7 +17,12 @@ import com.example.demo.presentation.form.LoginUserForm;
  */
 @Controller
 public class LoginCustomerController {
-
+	
+	private final LoginService loginService;
+	public LoginCustomerController(LoginService loginService) {
+		 this.loginService = loginService;
+   
+    }
     /**
      * Customerログイン画面を表示します。
      *
@@ -38,14 +45,35 @@ public class LoginCustomerController {
      * @param loginUserForm Customerログイン画面から送信された入力値
      * @return Customerメニュー画面
      */
-    @PostMapping("/customer/login")
+    @PostMapping(TransitionTargetPageNameKeyword.LOGIN_CUSTOMER_CONTROLLER)
     public String loginCustomer(
+    		
             @ModelAttribute("loginForm") LoginUserForm loginUserForm,
-            HttpSession session) {
+            HttpSession session,Model model) {
+    		Integer userType = 1;
+    		Integer loginResult = loginService.doLogin(
+    	            loginUserForm,
+    	            userType
+    	    );
 
-        // ユーザーとしてログインしたことをセッションに保存
-        session.setAttribute("userType", "customer");
+            if (loginResult == 1) {
 
-        return TransitionTargetPageNameKeyword.CUSTOMER_MENU_HTML;
+              
+                session.setAttribute("userType", "customer");
+
+                
+                return TransitionTargetPageNameKeyword.CUSTOMER_MENU_HTML;
+            }
+            model.addAttribute(
+                    "errorMessage",
+                    "メールアドレスまたはパスワードが正しくありません。"
+            );
+           //エラーメッセを出すようにする
+            //メッセージをHTMLに渡す感じでやる
+            return TransitionTargetPageNameKeyword.CUSTOMER_LOGIN_HTML;
+    	
+        
+
+        
     }
 }
