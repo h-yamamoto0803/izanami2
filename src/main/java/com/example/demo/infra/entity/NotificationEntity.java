@@ -15,28 +15,27 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-// いいね処理用の最低限の実装
-// FormへのConvert等おそらく必須の未実装機能あり
-
+// Candidate処理用に暫定的な追加
 @Entity
-@Table(name = "posts")
+@Table(name = "notifications")
 @Data
 @NoArgsConstructor
-public class PostEntity {
+public class NotificationEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "post_id")
-	private Integer postId;
+	@Column(name = "notification_id")
+	private Integer notificationId;
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "user_id", nullable = false)
 	private UserEntity user;
 
-	@Column(name = "post_title", nullable = false, length = 255)
-	private String postTitle;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "candidate_id")
+	private CandidateEntity candidate;
 
-	@Column(name = "post_text", columnDefinition = "TEXT")
-	private String postText;
+	@Column(name = "message", nullable = false, length = 255)
+	private String message;
 
 	@Column(name = "created_at", nullable = false, insertable = false, updatable = false)
 	private LocalDateTime createdAt;
@@ -44,7 +43,6 @@ public class PostEntity {
 	@Column(name = "updated_at", nullable = false, insertable = false, updatable = false)
 	private LocalDateTime updatedAt;
 
-	@Column(name = "is_deleted", nullable = false)
-	private Byte isDeleted = 0;
-
+	@Column(name = "is_read", nullable = false)
+	private Byte isRead = 0;
 }
