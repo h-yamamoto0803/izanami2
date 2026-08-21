@@ -6,7 +6,6 @@ import java.util.Set;
  * システムで利用しているJSPのリスト
  */
 public class TransitionTargetPageNameKeyword {
-<<<<<<< HEAD
 
     // 共通
 	public static final String MENU_HTML = "menu";
@@ -45,18 +44,11 @@ public class TransitionTargetPageNameKeyword {
         		POST
         );
     }
-=======
 	// Post
 		//Controller
 	public final static String POST_DETAIL = "/post-detail";
 		//HTML
 	public final static String POST_DETAIL_HTML = "post-detail";
-	
-	public static String getArtisanPageList() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
->>>>>>> feature/postDtail
 
     /**
      * 消費者向けのページリストを返す
