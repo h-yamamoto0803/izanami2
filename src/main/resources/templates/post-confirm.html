@@ -2,21 +2,53 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title> 投稿確認| Traemon</title>
-<link rel="stylesheet" th:href="@{css/styles.css}">
-<script th:src="@{/js/common.js}" defer></script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title> 投稿確認| Traemon</title>
+	<link rel="stylesheet" th:href="@{css/styles.css}">
+	<script th:src="@{/js/common.js}" defer></script>
 </head>
+
 <body>
-<main><div class="container"><section>
-  <h1 class="page-title">投稿確認ページ</h1><p class="page-subtitle">以下は確認画面の静的サンプルです。</p>
-  <div class="card form-card" th:object="${insertPostForm}"><dl class="confirm-list">
-    <div class="confirm-row"><dt>名前</dt><dd>伝統工芸が好き</dd></div>
-    <div class="confirm-row"><dt>タイトル</dt><dd th:text="*{postTitle}"></dd></div>
-    <div class="confirm-row"><dt>投稿内容</dt><dd th:text="*{postText}"></dd></div>
-    <div class="confirm-row"><dt>カテゴリタグ</dt><dd class="tag" th:each="tag : *{tags}" th:text="|#${tag}|"></dd></div>
-  </dl><div class="actions"><a class="btn btn-secondary" th:href="@{/insertPost}">戻る</a><a class="btn btn-primary" href="menu.html">投稿確定</a></div></div>
-</section></div></main>
+	<main>
+		<div class="container">
+			<section>
+				<h1 class="page-title">投稿確認ページ</h1>
+				<p class="page-subtitle">以下は確認画面の静的サンプルです。</p>
+				<div class="card form-card" th:object="${insertPostForm}">
+					<dl class="confirm-list">
+						<div class="confirm-row">
+							<dt>名前</dt>
+							<dd>伝統工芸が好き</dd>
+						</div>
+						<div class="confirm-row">
+							<dt>タイトル</dt>
+							<dd th:text="*{postTitle}"></dd>
+						</div>
+						<div class="confirm-row">
+							<dt>投稿内容</dt>
+							<dd th:text="*{postText}"></dd>
+						</div>
+						<div class="confirm-row">
+							<dt>カテゴリタグ</dt>
+							<dd class="tag" th:each="tag : *{tags}" th:text="|#${tag}|"></dd>
+						</div>
+					</dl>
+					<div class="actions">
+						<form th:action="@{/insertPost}" method="post" th:object="${insertPostForm}">
+
+							<input type="hidden" th:field="*{postTitle}">
+							<input type="hidden" th:field="*{postText}">
+
+							<input th:each="tag : *{tags}" type="hidden" name="tags" th:value="${tag}">
+
+							<button type="submit">戻る</button>
+						</form><a class="btn btn-primary" href="menu.html">投稿確定</a>
+					</div>
+				</div>
+			</section>
+		</div>
+	</main>
 </body>
+
 </html>
