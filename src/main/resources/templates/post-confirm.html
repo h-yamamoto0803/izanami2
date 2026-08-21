@@ -1,21 +1,22 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>投稿確認 | Traemon</title>
-  <link rel="stylesheet" href="css/styles.css">
-  <script src="js/common.js" defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> | Traemon</title>
+<link rel="stylesheet" th:href="@{css/styles.css}">
+<script th:src="@{/js/common.js}" defer></script>
 </head>
 <body>
 <main><div class="container"><section>
   <h1 class="page-title">投稿確認ページ</h1><p class="page-subtitle">以下は確認画面の静的サンプルです。</p>
   <div class="card form-card"><dl class="confirm-list">
     <div class="confirm-row"><dt>名前</dt><dd>伝統工芸が好き</dd></div>
-    <div class="confirm-row"><dt>タイトル</dt><dd>玄関に置ける小さな花器が欲しい</dd></div>
-    <div class="confirm-row"><dt>投稿内容</dt><dd>玄関に置ける小さな花器を探しています。落ち着いた色味で、長く使えるものが希望です。</dd></div>
-    <div class="confirm-row"><dt>カテゴリタグ</dt><dd>#陶芸</dd></div>
-  </dl><div class="actions"><a class="btn btn-secondary" href="post-create-customer.html">戻る</a><a class="btn btn-primary" href="customer-menu.html">投稿確定</a></div></div>
+    <div class="confirm-row"><dt>タイトル</dt><dd th:text="${insertPostForm.postTitle}"></dd></div>
+    <div class="confirm-row"><dt>投稿内容</dt><dd th:text="${insertPostForm.postText}"></dd></div>
+    <div class="confirm-row"><dt>カテゴリタグ</dt><dd class="tag" th:each="tag : ${insertPostForm.tag}" th:text="|#${insertPostForm.tag}|"></dd></div>
+  </dl><div class="actions"><a class="btn btn-secondary" th:href="@{/insertPost}">戻る</a><a class="btn btn-primary" href="menu.html">投稿確定</a></div></div>
 </section></div></main>
 </body>
 </html>

@@ -22,6 +22,7 @@ public class TransitionTargetPageNameKeyword {
 	public static final String RETURN_MENU = "/menu";
     public static final String INSERT_POST = "/insertPost";
     public static final String INSERT_POST_CONFIRM = "/insertPostConfirm";
+    public static final String POST = "/menu";
 
     // 一般向け(Controller)
 
@@ -39,7 +40,8 @@ public class TransitionTargetPageNameKeyword {
         		INDEX_SLASH,
         		RETURN_MENU,
         		INSERT_POST,
-        		INSERT_POST_CONFIRM
+        		INSERT_POST_CONFIRM,
+        		POST
         );
     }
 
@@ -54,7 +56,8 @@ public class TransitionTargetPageNameKeyword {
         		INDEX_SLASH,
         		RETURN_MENU,
         		INSERT_POST,
-        		INSERT_POST_CONFIRM
+        		INSERT_POST_CONFIRM,
+        		POST
         );
     }
 

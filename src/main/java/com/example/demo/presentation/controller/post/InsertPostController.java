@@ -17,12 +17,13 @@ public class InsertPostController {
 	}
 	
 	/*
-	 * 戻るボタン
-	 * メニュー画面表示
+	 * 投稿作成画面の戻るボタン
+	 * @return メニュー画面
 	 */
 	@GetMapping(TransitionTargetPageNameKeyword.RETURN_MENU)
 	public String returnMenu() {
 		return TransitionTargetPageNameKeyword.MENU_HTML;
 	}
-
+	
+	
 }

@@ -1,21 +1,22 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>投稿作成 | Traemon</title>
-  <link rel="stylesheet" href="css/styles.css">
-  <script src="js/common.js" defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> | Traemon</title>
+<link rel="stylesheet" th:href="@{css/styles.css}">
+<script th:src="@{/js/common.js}" defer></script>
 </head>
 <body>
 <main><div class="container"><section>
   <h1 class="page-title">投稿作成ページ</h1><p class="page-subtitle">タイトル・投稿内容・カテゴリタグを入力してください。</p>
-  <form class="card form-card" th:action="@{/insertPostConfirm}" method="post" th:object="${insertPostForm}>
+  <form class="card form-card" th:action="@{/insertPostConfirm}" method="post" th:object="${insertPostForm}">
     <div class="form-group"><label for="postAuthor-customer">名前</label><input id="postAuthor-customer" type="text" readonly value="伝統工芸が好き"><div class="form-hint">静的モックのサンプル表示です。</div></div>
     <div class="form-group"><label for="postTitle-customer">タイトル</label><input id="postTitle-customer" name="postTitle" type="text" required value="玄関に置ける小さな花器が欲しい"></div>
     <div class="form-group"><label for="postText-customer">投稿内容</label><textarea id="postText-customer" name="postText" rows="8" required>玄関に置ける小さな花器を探しています。落ち着いた色味で、長く使えるものが希望です。</textarea></div>
     <div class="form-group"><label for="tag-customer">カテゴリタグ</label><select id="tag-customer" name="tag" required><option>陶芸</option><option>漆器</option><option>木工</option><option>染織</option><option>金工</option></select></div>
-    <div class="actions"><a class="btn btn-secondary" href="customer-menu.html">戻る</a><button class="btn btn-primary" type="submit">確認画面へ</button></div>
+    <div class="actions"><a class="btn btn-secondary" th:href="@{/menu}">戻る</a><button class="btn btn-primary" type="submit">確認画面へ</button></div>
   </form>
 </section></div></main>
 </body>
