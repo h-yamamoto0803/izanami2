@@ -3,10 +3,12 @@ package com.example.demo.presentation.controller.artisan;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.demo.domain.service.LoginService;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
 import com.example.demo.presentation.form.LoginUserForm;
 /**
@@ -15,6 +17,10 @@ import com.example.demo.presentation.form.LoginUserForm;
 @Controller
 public class LoginArtisanController {
 
+	private final LoginService loginService;
+	public LoginArtisanController(LoginService loginService) {
+		 this.loginService = loginService;
+	}
     /**
      * Artisanログイン画面を表示します。
      *
@@ -40,15 +46,33 @@ public class LoginArtisanController {
      */
     @PostMapping(TransitionTargetPageNameKeyword.LOGIN_ARTISAN_CONTROLLER)
     public String loginArtisan(
+    		
             @ModelAttribute("loginForm") LoginUserForm loginUserForm,
-            HttpSession session) {
+            HttpSession session,Model model) {
+    		Integer userType = 2;
+    		Integer loginResult = loginService.doLogin(
+    	            loginUserForm,
+    	            userType
+    	    );
 
-        // 職人としてログインしたことをセッションに保存
-        session.setAttribute("userType", "artisan");
+            if (loginResult == 1) {
 
-        /*
-         * Artisanメニュー画面へ遷移します。
-         */
-        return TransitionTargetPageNameKeyword.ARTISAN_MENU_HTML;
+              
+                session.setAttribute("userType", "artisan");
+
+                System.out.println("loginResult = " + loginResult);
+                return TransitionTargetPageNameKeyword.ARTISAN_MENU_HTML;
+            }
+            model.addAttribute(
+                    "errorMessage",
+                    "メールアドレスまたはパスワードが正しくありません。"
+            );
+           //エラーメッセを出すようにする
+            //メッセージをHTMLに渡す感じでやる
+            return TransitionTargetPageNameKeyword.ARTISAN_LOGIN_HTML;
+    	
+        
+
+        
     }
 }

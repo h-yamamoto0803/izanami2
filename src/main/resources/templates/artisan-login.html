@@ -18,7 +18,7 @@
       <p class="page-subtitle">
         職人アカウントでTraemonを利用します。
       </p>
-
+	  <p th:if="${errorMessage}" th:text="${errorMessage}"></p>
       <form class="card form-card"
             th:action="@{/artisan/login}"
             th:object="${loginForm}"
