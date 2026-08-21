@@ -15,42 +15,40 @@ import com.example.demo.presentation.form.LoginForm;
 @Controller
 public class LoginArtisanController {
 
-	/**
+    /**
      * Artisanログイン画面を表示します。
      *
      * @param loginForm Artisanログイン画面で使用するフォーム
      * @return Artisanログイン画面
      */
-	@GetMapping("/artisan/login")
-	public String showLoginArtisan(
-	        @ModelAttribute("loginForm") LoginForm loginForm) {
+    @GetMapping(TransitionTargetPageNameKeyword.LOGIN_ARTISAN_CONTROLLER)
+    public String showLoginArtisan(
+            @ModelAttribute("loginForm") LoginForm loginForm) {
 
-	  
-	
-
-	
         /*
          * Artisanログイン画面を表示します。
          */
-		  return TransitionTargetPageNameKeyword.ARTISAN_LOGIN_HTML;
-	}
-	/**
-	 * Artisanログイン画面からログイン処理を実行します。。
-	 *
-	 * @param loginForm Artisanログイン画面から送信された入力値
-	 * @return Artisanメニュー画面
-	 */
-	@PostMapping("/artisan/login")
-	public String loginArtisan(
-	        @ModelAttribute("loginForm") LoginForm loginForm,
-	        HttpSession session) {
+        return TransitionTargetPageNameKeyword.ARTISAN_LOGIN_HTML;
+    }
 
-	    // 職人としてログインしたことをセッションに保存
-	    session.setAttribute("userType", "artisan");
+    /**
+     * Artisanログイン画面からログイン処理を実行します。
+     *
+     * @param loginForm Artisanログイン画面から送信された入力値
+     * @param session ログイン情報を保持するセッション
+     * @return Artisanメニュー画面
+     */
+    @PostMapping(TransitionTargetPageNameKeyword.LOGIN_ARTISAN_CONTROLLER)
+    public String loginArtisan(
+            @ModelAttribute("loginForm") LoginForm loginForm,
+            HttpSession session) {
 
-	    /*
-	     * Artisanメニュー画面へ遷移します。
-	     */
-	    return TransitionTargetPageNameKeyword.ARTISAN_MENU_HTML;
-	}
+        // 職人としてログインしたことをセッションに保存
+        session.setAttribute("userType", "artisan");
+
+        /*
+         * Artisanメニュー画面へ遷移します。
+         */
+        return TransitionTargetPageNameKeyword.ARTISAN_MENU_HTML;
+    }
 }
