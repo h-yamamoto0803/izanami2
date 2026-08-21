@@ -1,7 +1,5 @@
 package com.example.demo.presentation.form;
 
-public class LoginUserForm {
-
 import com.example.demo.infra.entity.UserEntity;
 
 import lombok.AllArgsConstructor;
@@ -11,7 +9,6 @@ import lombok.NoArgsConstructor;
 /**
  * ログインユーザーの情報を管理するform
  * Entityへの変換メソッドもこちらに属する
- * ユーザータイプの判定メソッド等未実装
  */
 @Data
 @AllArgsConstructor
@@ -23,14 +20,19 @@ public class LoginUserForm {
 	private String userName;
 	private String email;
 	private String password;
+
+	/**
+	 * userTypeの値が判定用メソッドが指定する値と一致するか判定
+	 * 消費者:1, 職人:2
+	 * @return: 指定された種類のユーザーと一致すればtrue
+	 */
+
 	public boolean isArtisan() {
-		// TODO 自動生成されたメソッド・スタブ
-		return false;
+		return getUserType() == 2;
 	}
 
 	public boolean isCustomer() {
-		// TODO 自動生成されたメソッド・スタブ
-		return false;
+		return getUserType() == 1;
 	}
 
 	/**
