@@ -12,11 +12,11 @@ public class TransitionTargetPageNameKeyword {
 	public static final String CUSTOMER_ACCOUNT_EDIT_CONFIRM_HTML = "customer-account-edit-confirm";
 
 	//消費者アカウント登録・削除・編集関連のController
-	public static final String CUSTOMER_ACCOUNT = "/CustomerAccount";
+	public static final String CUSTOMER_ACCOUNT = "/customerAccount";
 
-	public static final String CUSTOMER_ACCOUNT_EDIT = "/CustomerAccountEdit";
-	public static final String CONFIRM_CUSTOMER_ACCOUNT_EDIT = "/ConfirmCustomerAccountEdit";
-	public static final String DO_EDIT_CUSTOMER_ACCOUNT = "/DoEditCustomerAccount";
+	public static final String CUSTOMER_ACCOUNT_EDIT = "/customerAccountEdit";
+	public static final String CONFIRM_CUSTOMER_ACCOUNT_EDIT = "/confirmCustomerAccountEdit";
+	public static final String DO_EDIT_CUSTOMER_ACCOUNT = "/doEditCustomerAccount";
 
 	public static String getArtisanPageList() {
 		// TODO 自動生成されたメソッド・スタブ

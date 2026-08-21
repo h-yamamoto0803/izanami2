@@ -33,7 +33,7 @@
 				<h1 class="page-title">ユーザーアカウント編集</h1>
 				<p class="page-subtitle">変更したい情報を入力してください。</p>
 				<form class="card form-card" 
-				action="ConfirmCustomerAccountEdit" 
+				th:action="@{/confirmCustomerAccountEdit}" 
 				th:object="${accountEditForm}"
 				method="get">
 					<div class="form-group">
