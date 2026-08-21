@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja"xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,8 +13,11 @@
     <div class="header-right">
       <span class="role-badge guest"><span class="role-dot"></span>ゲスト</span>
       <a class="header-post guest-post" href="post-create-guest.html">＋ 投稿する</a>
-      <a class="header-login artisan-login" href="artisan-login.html">職人用ログイン</a>
-      <a class="header-login customer-login" href="customer-login.html">ユーザー用ログイン</a>
+	  <a class="header-login artisan-login"
+	     th:href="@{/artisan/login}">職人用ログイン</a>
+
+		 <a class="header-login customer-login"
+		    th:href="@{/customer/login}">ユーザー用ログイン</a>
     </div>
   </div>
 </header>

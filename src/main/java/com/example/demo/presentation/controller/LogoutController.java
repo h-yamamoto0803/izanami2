@@ -16,7 +16,7 @@ import com.example.demo.presentation.controller.pageproperty.TransitionTargetPag
 @Controller
 public class LogoutController {
 
-	@PostMapping("/logout")
+	@PostMapping(TransitionTargetPageNameKeyword.LOGOUT_CONTROLLER)
 	public String logout(HttpSession session) {
 
 	    session.invalidate();
