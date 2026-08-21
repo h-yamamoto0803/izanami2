@@ -1,5 +1,4 @@
-
-	<!-- =========================
+<!-- =========================
      ヘッダーメニュー部分を構成する
 	 レスポンスからuserTypeを受け取り、
 	 メニューレイアウトを分岐する。
@@ -16,40 +15,34 @@
 		↑で代入したuserTypeによって、classの値を割り当てる
 	ここで設定されたuserType、classappendによって、メニューレイアウトが分岐する。
 	 ============================================================-->
-	<header th:fragment="header" 
-			th:with="
+	<header th:fragment="header" th:with="
 				userType=
 					${userType != null
         				? userType
             			: 'guest'}
-			" 
-			class="site-header" 
-			th:classappend="
+			" class="site-header" th:classappend="
 				${userType == 'artisan'}
            			? ' artisan-header'
             		: (${userType == 'customer'}
                 		? ' customer-header'
                    		: ' guest-header')
-			"
-	>
+			">
 
 		<div class="container header-inner">
 
 			<!-- ロゴ -->
-			<a class="logo" 
-				th:href="
+			<a class="logo" th:href="
 					${userType == 'artisan'}
                    		? @{/artisan/menu}
                     	: (${userType == 'customer'}
                        		? @{/customer/menu}
                         	: @{/menu})
-				"
-			>
+				">
 				Traemon
 			</a>
 
 
-		<!-- =========================
+			<!-- =========================
              guest
         ========================== -->
 			<div class="header-right" th:if="${userType == 'guest'}">
@@ -74,7 +67,7 @@
 			</div>
 
 
-		<!-- =========================
+			<!-- =========================
              artisan
         ========================== -->
 			<div class="header-right" th:if="${userType == 'artisan'}">
@@ -98,25 +91,20 @@
 
 					<div class="notification-panel" id="notificationPanel">
 
-						<!-- 現段階では静的データのままでOK -->
-						<div class="notification-item">
-							<div>
-								あなたの投稿に反応がありました。
-							</div>
+						<a class="notification-item" th:each="notification : ${notifications}"
+							th:href="@{/post-detail/{postId}(postId=${notification.postId})}">
 
-							<small>
-								2026/08/20 10:15
-							</small>
-						</div>
+							<div th:text="${notification.message}"></div>
 
-						<div class="notification-item">
-							<div>
-								「玄関に置ける小さな花器が欲しい」に新しい反応があります。
-							</div>
+							<small th:text="${#temporals.format(
+						               notification.createdAt,
+						               'yyyy/MM/dd HH:mm'
+						           )}"></small>
 
-							<small>
-								2026/08/19 18:40
-							</small>
+						</a>
+
+						<div class="notification-empty" th:if="${#lists.isEmpty(notifications)}">
+							通知はありません。
 						</div>
 
 					</div>
@@ -142,7 +130,7 @@
 			</div>
 
 
-		<!-- =========================
+			<!-- =========================
              customer
         ========================== -->
 			<div class="header-right" th:if="${userType == 'customer'}">
@@ -166,24 +154,20 @@
 
 					<div class="notification-panel" id="notificationPanel">
 
-						<div class="notification-item">
-							<div>
-								あなたの投稿に反応がありました。
-							</div>
+						<a class="notification-item" th:each="notification : ${notifications}"
+							th:href="@{/post-detail/{postId}(postId=${notification.postId})}">
 
-							<small>
-								2026/08/20 10:15
-							</small>
-						</div>
+							<div th:text="${notification.message}"></div>
 
-						<div class="notification-item">
-							<div>
-								「玄関に置ける小さな花器が欲しい」に新しい反応があります。
-							</div>
+							<small th:text="${#temporals.format(
+											               notification.createdAt,
+											               'yyyy/MM/dd HH:mm'
+											           )}"></small>
 
-							<small>
-								2026/08/19 18:40
-							</small>
+						</a>
+
+						<div class="notification-empty" th:if="${#lists.isEmpty(notifications)}">
+							通知はありません。
 						</div>
 
 					</div>
