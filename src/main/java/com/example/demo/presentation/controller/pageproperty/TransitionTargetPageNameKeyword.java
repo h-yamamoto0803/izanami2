@@ -5,11 +5,14 @@ public class TransitionTargetPageNameKeyword {
 		// HTML
 	public static final String MENU_HTML= "menu";
 		// Controller
+	public static final String REDIRECT="redirect";
 	public static final String INDEX_BLANK="";
 	public static final String INDEX_SLASH="/";
+	public static final String NOTIFICATION = "/notification";
 	// artisan
 	
 	// customer
+	
 	// Post
 		//Controller
 	public final static String POST_DETAIL = "/post-detail";

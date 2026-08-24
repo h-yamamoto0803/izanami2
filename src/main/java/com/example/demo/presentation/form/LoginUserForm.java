@@ -1,5 +1,8 @@
 package com.example.demo.presentation.form;
 
+import lombok.Data;
+
+@Data
 public class LoginUserForm {
 
 	public boolean isArtisan() {
