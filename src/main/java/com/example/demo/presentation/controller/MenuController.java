@@ -14,15 +14,26 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MenuController {
 
-    private final MenuService menuService;
+	private final MenuService menuService;
 
-    @GetMapping(TransitionTargetPageNameKeyword.MENU)
-    public String showMenu(
-    @RequestParam(required = false) String genre,
-    Model model) {
-    model.addAttribute("posts", menuService.getPostListByGenre(genre));
-    model.addAttribute("userType", "guest");
-    model.addAttribute("selectedGenre", genre);
-        return "menu";
-    }
+	@GetMapping(TransitionTargetPageNameKeyword.MENU)
+	public String showMenu(
+
+			@RequestParam(required = false) String tag,
+			Model model) {
+
+		model.addAttribute(
+				"posts",
+				menuService.getPostListFromDatabase(tag));
+
+		model.addAttribute(
+				"tags",
+				menuService.getAllTags());
+
+		model.addAttribute("userType", "guest");
+
+		model.addAttribute("selectedTag", tag);
+
+		return "menu";
+	}
 }
