@@ -52,7 +52,7 @@ public class LoginArtisanController {
             HttpSession session,
             Model model) {
 
-        Integer userType = 2;
+    	Byte userType = 2;
 
         UserEntity user = loginService.doLogin(
                 loginUserForm,

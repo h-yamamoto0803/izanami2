@@ -23,6 +23,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class PostEntity {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "post_id")
@@ -48,3 +49,5 @@ public class PostEntity {
 	private Byte isDeleted = 0;
 
 }
+
+
