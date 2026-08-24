@@ -1,4 +1,4 @@
-package com.example.demo.domain.service;
+package com.example.demo.domain.service.post;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
-public class MenuService {
+public class PostService {
 	private final PostRepository postRepository;
 	private final PostTagRepository postTagRepository;
 	private final TagRepository tagRepository;

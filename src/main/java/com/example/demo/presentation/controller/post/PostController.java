@@ -1,20 +1,20 @@
-package com.example.demo.presentation.controller;
+package com.example.demo.presentation.controller.post;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.demo.domain.service.MenuService;
+import com.example.demo.domain.service.post.PostService;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
 
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-public class MenuController {
+public class PostController {
 
-	private final MenuService menuService;
+	private final PostService postService;
 
 	@GetMapping(TransitionTargetPageNameKeyword.MENU)
 	public String showMenu(
@@ -24,11 +24,11 @@ public class MenuController {
 
 		model.addAttribute(
 				"posts",
-				menuService.getPostListFromDatabase(tag));
+				postService.getPostListFromDatabase(tag));
 
 		model.addAttribute(
 				"tags",
-				menuService.getAllTags());
+				postService.getAllTags());
 
 		model.addAttribute("userType", "guest");
 
