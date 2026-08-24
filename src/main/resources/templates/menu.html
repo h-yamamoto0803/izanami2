@@ -1,20 +1,23 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja"xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>メニューページ | Traemon</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
 <header class="site-header guest-header">
   <div class="container header-inner">
-    <a class="logo" href="menu.html">Traemon</a>
+    <a class="logo" th:href="@{/menu}">Traemon</a>
     <div class="header-right">
       <span class="role-badge guest"><span class="role-dot"></span>ゲスト</span>
       <a class="header-post guest-post" href="post-create-guest.html">＋ 投稿する</a>
-      <a class="header-login artisan-login" href="artisan-login.html">職人用ログイン</a>
-      <a class="header-login customer-login" href="customer-login.html">ユーザー用ログイン</a>
+	  <a class="header-login artisan-login"
+	     th:href="@{/artisan/login}">職人用ログイン</a>
+
+		 <a class="header-login customer-login"
+		    th:href="@{/customer/login}">ユーザー用ログイン</a>
     </div>
   </div>
 </header>
@@ -31,52 +34,93 @@
       <button class="btn btn-primary" type="submit">絞り込み</button>
       <a class="btn btn-outline" href="menu.html">クリア</a>
     </form>
-    <div class="timeline"><article class="card post-card post-list-card">
-  <div class="post-top">
-    <div>
-      <div class="post-author">
-        <span class="role-badge customer"><span class="role-dot"></span>ユーザー</span>
-        <span class="post-user">伝統工芸が好き</span>
-      </div>
-      <div class="post-date">2026/08/19 12:00</div>
-    </div>
-  </div>
-  <a class="post-title-link" href="post-detail-guest.html">玄関に置ける小さな花器が欲しい</a>
-  <p class="post-summary">玄関に置ける小さな花器を探しています。落ち着いた色味で、長く使えるものが希望です。</p>
-  <div class="post-tags"><span class="tag">#陶芸</span><span class="tag">#花器</span></div>
-  <div class="post-actions"><span class="favorite-count">♥ 21 いいね</span><a class="btn btn-outline btn-favorite" href="customer-login.html">♥ いいね 21</a></div>
-</article>
-<article class="card post-card post-list-card">
-  <div class="post-top">
-    <div>
-      <div class="post-author">
-        <span class="role-badge artisan"><span class="role-dot"></span>職人</span>
-        <span class="post-user">山田工房</span>
-      </div>
-      <div class="post-date">2026/08/18 09:30</div>
-    </div>
-  </div>
-  <a class="post-title-link" href="post-detail-guest.html">暮らしに馴染む一点ものの器</a>
-  <p class="post-summary">毎日の食卓で使いやすい一点ものの器を制作しています。色やサイズについても相談できます。</p>
-  <div class="post-tags"><span class="tag">#陶芸</span><span class="tag">#器</span></div>
-  <div class="post-actions"><span class="favorite-count">♥ 12 いいね</span><a class="btn btn-outline btn-favorite" href="customer-login.html">♥ いいね 12</a></div>
-</article>
-<article class="card post-card post-list-card">
-  <div class="post-top">
-    <div>
-      <div class="post-author">
-        <span class="role-badge customer"><span class="role-dot"></span>ユーザー</span>
-        <span class="post-user">工芸のある暮らし</span>
-      </div>
-      <div class="post-date">2026/08/17 20:10</div>
-    </div>
-  </div>
-  <a class="post-title-link" href="post-detail-guest.html">名刺が入る薄い漆塗りケースがほしい</a>
-  <p class="post-summary">仕事でも使える、派手すぎない漆塗りの名刺入れがあるとうれしいです。</p>
-  <div class="post-tags"><span class="tag">#漆器</span><span class="tag">#小物</span></div>
-  <div class="post-actions"><span class="favorite-count">♥ 18 いいね</span><a class="btn btn-outline btn-favorite" href="customer-login.html">♥ いいね 18</a></div>
-</article></div>
-  </div>
+	<div class="timeline">
+
+	    <article class="card post-card post-list-card"
+	             th:each="post : ${posts}">
+
+	        <div class="post-top">
+	            <div>
+
+	                <div class="post-author">
+
+	                    <!-- Customer -->
+	                    <span class="role-badge customer"
+	                          th:if="${post.userType == 'customer'}">
+	                        <span class="role-dot"></span>
+	                        ユーザー
+	                    </span>
+
+	                    <!-- Artisan -->
+	                    <span class="role-badge artisan"
+	                          th:if="${post.userType == 'artisan'}">
+	                        <span class="role-dot"></span>
+	                        職人
+	                    </span>
+
+	                    <span class="post-user"
+	                          th:text="${post.userName}">
+	                        投稿者名
+	                    </span>
+
+	                </div>
+
+	                <div class="post-date"
+	                     th:text="${post.postDate}">
+	                    投稿日時
+	                </div>
+
+	            </div>
+	        </div>
+
+	        <!-- 投稿タイトル -->
+	        <a class="post-title-link"
+	           href="#"
+	           th:text="${post.title}">
+	            投稿タイトル
+	        </a>
+
+	        <!-- 投稿本文 -->
+	        <p class="post-summary"
+	           th:text="${post.summary}">
+	            投稿本文
+	        </p>
+
+	        <!-- ジャンル・タグ -->
+	        <div class="post-tags">
+
+	            <span class="tag"
+	                  th:text="'#' + ${post.genre}">
+	                #ジャンル
+	            </span>
+
+	            <span class="tag"
+	                  th:text="'#' + ${post.tag}">
+	                #タグ
+	            </span>
+
+	        </div>
+
+	        <!-- いいね -->
+	        <div class="post-actions">
+
+	            <span class="favorite-count"
+	                  th:text="'♥ ' + ${post.favoriteCount} + ' いいね'">
+	                ♥ 0 いいね
+	            </span>
+
+	            <a class="btn btn-outline btn-favorite"
+	               th:href="@{/customer/login}"
+	               th:text="'♥ いいね ' + ${post.favoriteCount}">
+	                ♥ いいね
+	            </a>
+
+	        </div>
+
+	    </article>
+
+	</div>
+  
 </main>
 </body>
 </html>
