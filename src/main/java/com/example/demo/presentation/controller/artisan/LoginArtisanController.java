@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.domain.service.LoginService;
-import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
 import com.example.demo.presentation.form.LoginUserForm;
 
@@ -52,19 +51,17 @@ public class LoginArtisanController {
             HttpSession session,
             Model model) {
 
-    	Byte userType = 2;
+    	
 
-        UserEntity user = loginService.doLogin(
-                loginUserForm,
-                userType
+        Integer user = loginService.doLogin(loginUserForm
         );
 
         if (user != null) {
 
             // ログインユーザーの情報をセッションに保存
-            session.setAttribute("userId", user.getUserId());
-            session.setAttribute("userName", user.getUserName());
-            session.setAttribute("userType", "artisan");
+            session.setAttribute("userId", loginUserForm.getUserId());
+            session.setAttribute("userName", loginUserForm.getUserName());
+            session.setAttribute("userType", loginUserForm.getUserName());
 
             return TransitionTargetPageNameKeyword.ARTISAN_MENU_HTML;
         }

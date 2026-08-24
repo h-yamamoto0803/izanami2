@@ -28,27 +28,33 @@ public class LoginService {
 	private final UserRepository userRepository;
 	
 	    
-	public UserEntity doLogin(LoginUserForm form, Byte userType) {
+	public Integer doLogin(LoginUserForm loginUserForm) {
 	    Optional<UserEntity> optionalUser =
-	            userRepository.findByEmail(form.getEmail());
+	            userRepository.findByEmail(loginUserForm.getEmail());
 	    if (optionalUser.isEmpty()) {
-	        return null;
+	        return 0;
 	    }
 
 	    UserEntity user = optionalUser.get();
 
 	    if (user.getIsDeleted() != null && user.getIsDeleted() == 1) {
-            return null;
+            return 0;
         }
 	    
-		if (form.getEmail().equals(user.getEmail())
-		        && form.getPassword().equals(user.getPassword())
-		        && userType.equals(user.getUserType())) {
+		if (loginUserForm.getEmail().equals(user.getEmail())
+		        && loginUserForm.getPassword().equals(user.getPassword()))
+		        {
 
-		    return user;
+		    return 0;
 		}
-		
-			return null;
+		loginUserForm.setUserId(user.getUserId());
+		loginUserForm.setUserType(user.getUserType());
+		loginUserForm.setUserName(user.getUserName());
+      
+			return 1;
 		}
+
+
 	}
+	
     
