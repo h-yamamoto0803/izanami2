@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title> | Traemon</title>
+<title>ユーザーアカウント編集確認 | Traemon</title>
 <link rel="stylesheet" th:href="@{css/styles.css}">
 <script th:src="@{/js/common.js}" defer></script>
 </head>
@@ -37,13 +37,37 @@
 <main><div class="container"><section>
 
   <h1 class="page-title">ユーザーアカウント編集確認</h1><p class="page-subtitle">変更内容の静的サンプルです。</p>
-  <div class="card form-card"><dl class="confirm-list">
-    <div class="confirm-row"><dt>名前</dt><dd>伝統工芸が好き</dd></div>
-    <div class="confirm-row"><dt>メールアドレス</dt><dd>user@example.com</dd></div>
-    <div class="confirm-row"><dt>パスワード</dt><dd>セキュリティのため非表示</dd></div>
-  </dl><div class="actions">
-	<a class="btn btn-secondary" href="customer-account-edit.html">戻る</a>
-	<a class="btn btn-primary" th:href="@{/doEditCustomerAccount}">変更確定</a></div></div>
+  <form class="card form-card" 
+    				th:action="@{/doEditCustomerAccount}" 
+    				th:object="${customerAccountEditForm}"
+    				method="post">
+    					<div class="form-group">
+    						<label for="userName">名前</label>
+    						<input id="userName" type="text" required
+    							maxlength="40" th:field="*{userName}" name="userName"   readonly>
+    						</div>
+    					<div class="form-group">
+    						<label for="email">メールアドレス</label>
+    						<input id="email" type="email" required
+    							th:field="*{email}" name="email"  readonly>
+    						</div>
+    					<div class="form-group">
+    						<label for="password">パスワード</label>
+    						<input id="password" type="text"
+    							required minlength="6" 							th:name="password"
+							           th:value="${customerAccountEditForm.password}" name="password"  readonly>
+    						</div>
+    				
+    					<div class="actions">
+    						
+    						<button class="btn btn-primary"
+    							type="submit">編集確定</button>
+								<button type="submit" 
+								                th:formaction="@{/customerAccountEdit}" 
+								                formmethod="get" 
+								                class="btn btn-secondary">戻る</button>
+    						</div>
+    				</form>
 
 </section></div></main>
 </body>
