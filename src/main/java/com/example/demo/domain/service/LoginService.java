@@ -28,11 +28,11 @@ public class LoginService {
 	private final UserRepository userRepository;
 	
 	    
-	public Integer doLogin(LoginUserForm form, Integer userType) {
+	public UserEntity doLogin(LoginUserForm form, Integer userType) {
 	    Optional<UserEntity> optionalUser =
 	            userRepository.findByEmail(form.getEmail());
 	    if (optionalUser.isEmpty()) {
-	        return 0;
+	        return null;
 	    }
 
 	    UserEntity user = optionalUser.get();
@@ -45,10 +45,10 @@ public class LoginService {
 		        && form.getPassword().equals(user.getPassword())
 		        && userType.equals(user.getUserType())) {
 
-		    return 1;
+		    return user;
 		}
 		
-			return 0;
+			return null;
 		}
 	}
     

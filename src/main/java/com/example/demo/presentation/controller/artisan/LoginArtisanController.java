@@ -12,16 +12,17 @@ import com.example.demo.domain.service.LoginService;
 import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
 import com.example.demo.presentation.form.LoginUserForm;
+
+import lombok.RequiredArgsConstructor;
 /**
  * Artisan（職人）のログインに関する画面遷移を担当するControllerです。
  */
+@RequiredArgsConstructor
 @Controller
 public class LoginArtisanController {
 
 	private final LoginService loginService;
-	public LoginArtisanController(LoginService loginService) {
-		 this.loginService = loginService;
-	}
+	
     /**
      * Artisanログイン画面を表示します。
      *

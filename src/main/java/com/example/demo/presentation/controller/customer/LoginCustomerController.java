@@ -13,17 +13,19 @@ import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
 import com.example.demo.presentation.form.LoginUserForm;
 
+import lombok.RequiredArgsConstructor;
+
 /**
  * Customer（消費者）のログインに関する画面遷移を担当するControllerです。
  */
+@RequiredArgsConstructor
 @Controller
 public class LoginCustomerController {
 	
 	private final LoginService loginService;
-	public LoginCustomerController(LoginService loginService) {
-		 this.loginService = loginService;
+	
    
-    }
+    
     /**
      * Customerログイン画面を表示します。
      *
@@ -47,7 +49,7 @@ public class LoginCustomerController {
      * @return Customerメニュー画面
      */
     @PostMapping(TransitionTargetPageNameKeyword.LOGIN_CUSTOMER_CONTROLLER)
-    public String loginArtisan(
+    public String loginCustomer(
             @ModelAttribute(TransitionTargetPageNameKeyword.LOGIN_FORM) LoginUserForm loginUserForm,
             HttpSession session,
             Model model) {
