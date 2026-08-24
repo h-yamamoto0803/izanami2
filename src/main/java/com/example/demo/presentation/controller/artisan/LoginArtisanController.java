@@ -56,12 +56,14 @@ public class LoginArtisanController {
         Integer user = loginService.doLogin(loginUserForm
         );
 
-        if (user != null) {
+        if (user != null
+        		&& user == 1
+                && loginUserForm.isArtisan()) {
 
             // ログインユーザーの情報をセッションに保存
             session.setAttribute("userId", loginUserForm.getUserId());
             session.setAttribute("userName", loginUserForm.getUserName());
-            session.setAttribute("userType", loginUserForm.getUserName());
+            session.setAttribute("userType", loginUserForm.getUserType());
 
             return TransitionTargetPageNameKeyword.ARTISAN_MENU_HTML;
         }

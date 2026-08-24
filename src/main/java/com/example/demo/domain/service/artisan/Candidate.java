@@ -3,6 +3,7 @@ package com.example.demo.domain.service.artisan;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.CandidateResponseDto;
 import com.example.demo.infra.entity.CandidateEntity;
@@ -14,7 +15,7 @@ import com.example.demo.infra.repository.NotificationRepository;
 import com.example.demo.infra.repository.PostRepository;
 import com.example.demo.presentation.form.LoginUserForm;
 import com.example.demo.presentation.form.artisan.CandidateForm;
-
+@Service
 public class Candidate {
 
 	CandidateRepository candidateRepository;
@@ -49,7 +50,7 @@ public class Candidate {
 
 		// 一致する要素がcandidatesテーブルにあるか確認し変更を行う
 		// 結果をDTOに記録
-		Optional<CandidateEntity> candidated = candidateRepository.findByUserIdAndPostId(userEntity, postEntity);
+		Optional<CandidateEntity> candidated = candidateRepository.findByUserAndPost(userEntity, postEntity);
 		if (candidated.isPresent()) {
 			candidateRepository.delete(candidated.get());
 			response.setCandidated(false);

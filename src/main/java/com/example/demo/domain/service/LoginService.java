@@ -40,12 +40,10 @@ public class LoginService {
 	    if (user.getIsDeleted() != null && user.getIsDeleted() == 1) {
             return 0;
         }
+	    if (!loginUserForm.getEmail().equals(user.getEmail())
+	            || !loginUserForm.getPassword().equals(user.getPassword())) {
+	        return 0;
 	    
-		if (loginUserForm.getEmail().equals(user.getEmail())
-		        && loginUserForm.getPassword().equals(user.getPassword()))
-		        {
-
-		    return 0;
 		}
 		loginUserForm.setUserId(user.getUserId());
 		loginUserForm.setUserType(user.getUserType());

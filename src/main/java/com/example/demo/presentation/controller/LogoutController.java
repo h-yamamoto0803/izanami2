@@ -21,6 +21,6 @@ public class LogoutController {
 
 	    session.invalidate();
 
-	    return TransitionTargetPageNameKeyword.MENU_HTML;
+	    return "redirect:" + TransitionTargetPageNameKeyword.RETURN_MENU;
 	}
 }
