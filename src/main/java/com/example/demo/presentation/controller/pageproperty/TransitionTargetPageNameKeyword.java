@@ -6,14 +6,14 @@ public class TransitionTargetPageNameKeyword {
 
 	// guest, utill
 		// HTML
-	public static final String MENU_HTML = "menu";
-
+	
+	public static final String MENU_HTML="menu";
 		// Controller
 	public static final String INDEX_BLANK = "";
 	public static final String INDEX_SLASH = "/";
 	public static final String LOGOUT_CONTROLLER = "/logout";
 	public static final String RETURN_MENU = "/menu";
-
+	public final static String MENU="menu";
 	// artisan
 		// HTML
 	public static final String ARTISAN_LOGIN_HTML = "artisan-login";

@@ -1,142 +1,90 @@
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
 
-	<!-- =========================
-     ヘッダーメニュー部分を構成する
-	 レスポンスからuserTypeを受け取り、
-	 メニューレイアウトを分岐する。
-========================== -->
->>>>>>> feature/postDtail
->>>>>>> origin/feature/createPost
 <!doctype html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 
 <body>
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> origin/feature/createPost
-	<header th:fragment="header" th:with="userType=${userType != null
-                          ? userType
-                          : 'guest'}" class="site-header" th:classappend="${userType == 'artisan'}
-                        ? ' artisan-header'
-                        : (${userType == 'customer'}
-                            ? ' customer-header'
-                            : ' guest-header')">
-<<<<<<< HEAD
-=======
-=======
-	<!--==========================================
-	th:with 部分＝
-		レスポンスのuserTypeがnullならguest、そうでないならその値をuserTypeへ代入
-	th:classapeend 部分＝
-		↑で代入したuserTypeによって、classの値を割り当てる
-	ここで設定されたuserType、classappendによって、メニューレイアウトが分岐する。
-	 ============================================================-->
-	<header th:fragment="header" 
+	<!-- =========================
+	     共通ヘッダー
+	     userType によって
+	     guest / artisan / customer
+	     のメニューを切り替える
+	========================== -->
+
+	<header th:fragment="header"
 			th:with="
-				userType=
-					${userType != null
-        				? userType
-            			: 'guest'}
-			" 
-			class="site-header" 
+				userType=${userType != null
+					? userType
+					: 'guest'}
+			"
+			class="site-header"
 			th:classappend="
 				${userType == 'artisan'}
-           			? ' artisan-header'
-            		: (${userType == 'customer'}
-                		? ' customer-header'
-                   		: ' guest-header')
-			"
-	>
->>>>>>> feature/postDtail
->>>>>>> origin/feature/createPost
+					? ' artisan-header'
+					: (${userType == 'customer'}
+						? ' customer-header'
+						: ' guest-header')
+			">
 
 		<div class="container header-inner">
 
 			<!-- ロゴ -->
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> origin/feature/createPost
-			<a class="logo" th:href="${userType == 'artisan'}
-                    ? @{/artisan/menu}
-                    : (${userType == 'customer'}
-                        ? @{/customer/menu}
-                        : @{/menu})">
-<<<<<<< HEAD
-=======
-=======
-			<a class="logo" 
-				th:href="
+			<a class="logo"
+			   th:href="
 					${userType == 'artisan'}
-                   		? @{/artisan/menu}
-                    	: (${userType == 'customer'}
-                       		? @{/customer/menu}
-                        	: @{/menu})
-				"
-			>
->>>>>>> feature/postDtail
->>>>>>> origin/feature/createPost
+						? @{/artisan/menu}
+						: (${userType == 'customer'}
+							? @{/customer/menu}
+							: @{/menu})
+			   ">
 				Traemon
 			</a>
 
 
-<<<<<<< HEAD
 			<!-- =========================
-=======
-<<<<<<< HEAD
-			<!-- =========================
-=======
-		<!-- =========================
->>>>>>> feature/postDtail
->>>>>>> origin/feature/createPost
-             guest
-        ========================== -->
-			<div class="header-right" th:if="${userType == 'guest'}">
+			     guest
+			========================== -->
+
+			<div class="header-right"
+				 th:if="${userType == 'guest'}">
 
 				<span class="role-badge guest">
 					<span class="role-dot"></span>
 					ゲスト
 				</span>
 
-				<a class="header-post guest-post" th:href="@{/posts/create}">
+				<a class="header-post guest-post"
+				   th:href="@{/posts/create}">
 					＋ 投稿する
 				</a>
 
-				<a class="header-login artisan-login" th:href="@{/artisan/login}">
+				<a class="header-login artisan-login"
+				   th:href="@{/artisan/login}">
 					職人用ログイン
 				</a>
 
-				<a class="header-login customer-login" th:href="@{/customer/login}">
+				<a class="header-login customer-login"
+				   th:href="@{/customer/login}">
 					ユーザー用ログイン
 				</a>
 
 			</div>
 
 
-<<<<<<< HEAD
 			<!-- =========================
-=======
-<<<<<<< HEAD
-			<!-- =========================
-=======
-		<!-- =========================
->>>>>>> feature/postDtail
->>>>>>> origin/feature/createPost
-             artisan
-        ========================== -->
-			<div class="header-right" th:if="${userType == 'artisan'}">
+			     artisan
+			========================== -->
+
+			<div class="header-right"
+				 th:if="${userType == 'artisan'}">
 
 				<span class="role-badge artisan">
 					<span class="role-dot"></span>
 					職人
 				</span>
 
-				<a class="header-post artisan-post" th:href="@{/posts/create}">
+				<a class="header-post artisan-post"
+				   th:href="@{/posts/create}">
 					＋ 投稿する
 				</a>
 
@@ -144,14 +92,18 @@
 				<!-- 通知 -->
 				<div class="notification-wrap">
 
-					<button class="icon-btn" id="notificationButton" type="button" aria-label="通知">
+					<button class="icon-btn"
+							id="notificationButton"
+							type="button"
+							aria-label="通知">
 						🔔
 					</button>
 
-					<div class="notification-panel" id="notificationPanel">
+					<div class="notification-panel"
+						 id="notificationPanel">
 
-						<!-- 現段階では静的データのままでOK -->
 						<div class="notification-item">
+
 							<div>
 								あなたの投稿に反応がありました。
 							</div>
@@ -159,9 +111,11 @@
 							<small>
 								2026/08/20 10:15
 							</small>
+
 						</div>
 
 						<div class="notification-item">
+
 							<div>
 								「玄関に置ける小さな花器が欲しい」に新しい反応があります。
 							</div>
@@ -169,6 +123,7 @@
 							<small>
 								2026/08/19 18:40
 							</small>
+
 						</div>
 
 					</div>
@@ -177,15 +132,19 @@
 
 
 				<!-- アカウント -->
-				<a class="account-btn" th:href="@{/artisan/account}" th:text="${userName}">
+				<a class="account-btn"
+				   th:href="@{/artisan/account}"
+				   th:text="${userName}">
 					山田工房
 				</a>
 
 
 				<!-- ログアウト -->
-				<form th:action="@{/logout}" method="post">
+				<form th:action="@{/logout}"
+					  method="post">
 
-					<button class="logout-btn" type="submit">
+					<button class="logout-btn"
+							type="submit">
 						ログアウト
 					</button>
 
@@ -194,25 +153,20 @@
 			</div>
 
 
-<<<<<<< HEAD
 			<!-- =========================
-=======
-<<<<<<< HEAD
-			<!-- =========================
-=======
-		<!-- =========================
->>>>>>> feature/postDtail
->>>>>>> origin/feature/createPost
-             customer
-        ========================== -->
-			<div class="header-right" th:if="${userType == 'customer'}">
+			     customer
+			========================== -->
+
+			<div class="header-right"
+				 th:if="${userType == 'customer'}">
 
 				<span class="role-badge customer">
 					<span class="role-dot"></span>
 					ユーザー
 				</span>
 
-				<a class="header-post customer-post" th:href="@{/posts/create}">
+				<a class="header-post customer-post"
+				   th:href="@{/posts/create}">
 					＋ 投稿する
 				</a>
 
@@ -220,13 +174,18 @@
 				<!-- 通知 -->
 				<div class="notification-wrap">
 
-					<button class="icon-btn" id="notificationButton" type="button" aria-label="通知">
+					<button class="icon-btn"
+							id="notificationButton"
+							type="button"
+							aria-label="通知">
 						🔔
 					</button>
 
-					<div class="notification-panel" id="notificationPanel">
+					<div class="notification-panel"
+						 id="notificationPanel">
 
 						<div class="notification-item">
+
 							<div>
 								あなたの投稿に反応がありました。
 							</div>
@@ -234,9 +193,11 @@
 							<small>
 								2026/08/20 10:15
 							</small>
+
 						</div>
 
 						<div class="notification-item">
+
 							<div>
 								「玄関に置ける小さな花器が欲しい」に新しい反応があります。
 							</div>
@@ -244,6 +205,7 @@
 							<small>
 								2026/08/19 18:40
 							</small>
+
 						</div>
 
 					</div>
@@ -252,15 +214,19 @@
 
 
 				<!-- アカウント -->
-				<a class="account-btn" th:href="@{/customer/account}" th:text="${userName}">
+				<a class="account-btn"
+				   th:href="@{/customer/account}"
+				   th:text="${userName}">
 					伝統工芸が好き
 				</a>
 
 
 				<!-- ログアウト -->
-				<form th:action="@{/logout}" method="post">
+				<form th:action="@{/logout}"
+					  method="post">
 
-					<button class="logout-btn" type="submit">
+					<button class="logout-btn"
+							type="submit">
 						ログアウト
 					</button>
 
