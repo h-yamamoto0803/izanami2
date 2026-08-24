@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>メニューページ | Traemon</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
 <header class="site-header guest-header">
   <div class="container header-inner">
-    <a class="logo" href="menu.html">Traemon</a>
+    <a class="logo" th:href="@{/menu}">Traemon</a>
     <div class="header-right">
       <span class="role-badge guest"><span class="role-dot"></span>ゲスト</span>
       <a class="header-post guest-post" href="post-create-guest.html">＋ 投稿する</a>
