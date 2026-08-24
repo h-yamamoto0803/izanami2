@@ -43,7 +43,7 @@ public class Favorite {
 
 		// 一致する要素がfavoritesテーブルにあるか確認し変更を行う
 		// 結果をDTOに記録
-		Optional<FavoriteEntity> favorited = repository.findByUserIdAndPostId(userEntity, postEntity);
+		Optional<FavoriteEntity> favorited = repository.findByUserAndPost(userEntity, postEntity);
 		if (favorited.isPresent()) {
 			repository.delete(favorited.get());
 			response.setFavorited(true);

@@ -56,9 +56,10 @@ public class LoginCustomerController {
 
     	Integer user = loginService.doLogin(loginUserForm
     	        );
-
-
-        if (user != null) {
+    	
+    	 if (user != null
+    	            && user == 1
+    	            && loginUserForm.isCustomer()) {
 
             // ログインユーザーの情報をセッションに保存
         	session.setAttribute("userId", loginUserForm.getUserId());

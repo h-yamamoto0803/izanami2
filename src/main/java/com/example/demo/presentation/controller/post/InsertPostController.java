@@ -36,14 +36,6 @@ public class InsertPostController {
 	}
 	
 	
-	/*
-	 * 投稿作成画面の戻るボタン
-	 * @return メニュー画面
-	 */
-	@GetMapping(TransitionTargetPageNameKeyword.RETURN_MENU)
-	public String returnMenu() {
-		return TransitionTargetPageNameKeyword.MENU_HTML;
-	}
 	
 	
 }
