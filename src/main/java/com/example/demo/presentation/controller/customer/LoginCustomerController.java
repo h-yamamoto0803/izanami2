@@ -9,20 +9,23 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.domain.service.LoginService;
+import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
 import com.example.demo.presentation.form.LoginUserForm;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * Customer（消費者）のログインに関する画面遷移を担当するControllerです。
  */
+@RequiredArgsConstructor
 @Controller
 public class LoginCustomerController {
 	
 	private final LoginService loginService;
-	public LoginCustomerController(LoginService loginService) {
-		 this.loginService = loginService;
+	
    
-    }
+    
     /**
      * Customerログイン画面を表示します。
      *
@@ -31,7 +34,7 @@ public class LoginCustomerController {
      */
     @GetMapping(TransitionTargetPageNameKeyword.LOGIN_CUSTOMER_CONTROLLER)
     public String showLoginCustomer(
-            @ModelAttribute("loginForm") LoginUserForm loginUserForm) {
+            @ModelAttribute(TransitionTargetPageNameKeyword.LOGIN_FORM) LoginUserForm loginUserForm) {
 
         /*
          * Customerログイン画面を表示します。
@@ -47,33 +50,32 @@ public class LoginCustomerController {
      */
     @PostMapping(TransitionTargetPageNameKeyword.LOGIN_CUSTOMER_CONTROLLER)
     public String loginCustomer(
-    		
-            @ModelAttribute("loginForm") LoginUserForm loginUserForm,
-            HttpSession session,Model model) {
-    		Integer userType = 1;
-    		Integer loginResult = loginService.doLogin(
-    	            loginUserForm,
-    	            userType
-    	    );
+            @ModelAttribute(TransitionTargetPageNameKeyword.LOGIN_FORM) LoginUserForm loginUserForm,
+            HttpSession session,
+            Model model) {
 
-            if (loginResult == 1) {
+        Integer userType = 1;
 
-              
-                session.setAttribute("userType", "customer");
+        UserEntity user = loginService.doLogin(
+                loginUserForm,
+                userType
+        );
 
-                
-                return TransitionTargetPageNameKeyword.CUSTOMER_MENU_HTML;
-            }
-            model.addAttribute(
-                    "errorMessage",
-                    "メールアドレスまたはパスワードが正しくありません。"
-            );
-           //エラーメッセを出すようにする
-            //メッセージをHTMLに渡す感じでやる
-            return TransitionTargetPageNameKeyword.CUSTOMER_LOGIN_HTML;
-    	
-        
+        if (user != null) {
 
-        
+            // ログインユーザーの情報をセッションに保存
+            session.setAttribute("userId", user.getUserId());
+            session.setAttribute("userName", user.getUserName());
+            session.setAttribute("userType", "customer");
+
+            return TransitionTargetPageNameKeyword.CUSTOMER_MENU_HTML;
+        }
+
+        model.addAttribute(
+                "errorMessage",
+                "メールアドレスまたはパスワードが正しくありません。"
+        );
+
+        return TransitionTargetPageNameKeyword.CUSTOMER_LOGIN_HTML;
     }
 }

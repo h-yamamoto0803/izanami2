@@ -8,6 +8,8 @@ import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.infra.repository.UserRepository;
 import com.example.demo.presentation.form.LoginUserForm;
 
+import lombok.RequiredArgsConstructor;
+
 /**
  * ログインに関する演算処理を担当するServiceです。
  *
@@ -20,28 +22,33 @@ import com.example.demo.presentation.form.LoginUserForm;
  * といった業務上の判定を担当します。
  */
 @Service
+@RequiredArgsConstructor
+
 public class LoginService {
 	private final UserRepository userRepository;
-	 public LoginService(UserRepository userRepository) {
-	        this.userRepository = userRepository;
-	    }
-	public Integer doLogin(LoginUserForm form, Integer userType) {
+	
+	    
+	public UserEntity doLogin(LoginUserForm form, Integer userType) {
 	    Optional<UserEntity> optionalUser =
 	            userRepository.findByEmail(form.getEmail());
 	    if (optionalUser.isEmpty()) {
-	        return 0;
+	        return null;
 	    }
 
 	    UserEntity user = optionalUser.get();
 
+	    if (user.getIsDeleted() != null && user.getIsDeleted() == 1) {
+            return null;
+        }
+	    
 		if (form.getEmail().equals(user.getEmail())
 		        && form.getPassword().equals(user.getPassword())
 		        && userType.equals(user.getUserType())) {
 
-		    return 1;
+		    return user;
 		}
 		
-			return 0;
+			return null;
 		}
 	}
     
