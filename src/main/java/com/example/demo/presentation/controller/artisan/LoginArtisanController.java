@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.domain.service.LoginService;
+import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
 import com.example.demo.presentation.form.LoginUserForm;
 /**
@@ -29,7 +30,7 @@ public class LoginArtisanController {
      */
     @GetMapping(TransitionTargetPageNameKeyword.LOGIN_ARTISAN_CONTROLLER)
     public String showLoginArtisan(
-            @ModelAttribute("loginForm") LoginUserForm loginUserForm) {
+            @ModelAttribute(TransitionTargetPageNameKeyword.LOGIN_FORM) LoginUserForm loginUserForm) {
 
         /*
          * Artisanログイン画面を表示します。
@@ -46,33 +47,34 @@ public class LoginArtisanController {
      */
     @PostMapping(TransitionTargetPageNameKeyword.LOGIN_ARTISAN_CONTROLLER)
     public String loginArtisan(
-    		
-            @ModelAttribute("loginForm") LoginUserForm loginUserForm,
-            HttpSession session,Model model) {
-    		Integer userType = 2;
-    		Integer loginResult = loginService.doLogin(
-    	            loginUserForm,
-    	            userType
-    	    );
+            @ModelAttribute(TransitionTargetPageNameKeyword.LOGIN_FORM) LoginUserForm loginUserForm,
+            HttpSession session,
+            Model model) {
 
-            if (loginResult == 1) {
+        Integer userType = 2;
 
-              
-                session.setAttribute("userType", "artisan");
+        UserEntity user = loginService.doLogin(
+                loginUserForm,
+                userType
+        );
 
-                System.out.println("loginResult = " + loginResult);
-                return TransitionTargetPageNameKeyword.ARTISAN_MENU_HTML;
-            }
-            model.addAttribute(
-                    "errorMessage",
-                    "メールアドレスまたはパスワードが正しくありません。"
-            );
-           //エラーメッセを出すようにする
-            //メッセージをHTMLに渡す感じでやる
-            return TransitionTargetPageNameKeyword.ARTISAN_LOGIN_HTML;
-    	
-        
+        if (user != null) {
+
+            // ログインユーザーの情報をセッションに保存
+            session.setAttribute("userId", user.getUserId());
+            session.setAttribute("userName", user.getUserName());
+            session.setAttribute("userType", "artisan");
+
+            return TransitionTargetPageNameKeyword.ARTISAN_MENU_HTML;
+        }
+
+        model.addAttribute(
+                "errorMessage",
+                "メールアドレスまたはパスワードが正しくありません。"
+        );
+
+        return TransitionTargetPageNameKeyword.ARTISAN_LOGIN_HTML;
+    }
 
         
     }
-}

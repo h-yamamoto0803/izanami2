@@ -12,6 +12,8 @@ public class TransitionTargetPageNameKeyword {
 	public static final String LOGIN_CUSTOMER_CONTROLLER = "/customer/login";
 	public static final String LOGOUT_CONTROLLER = "/logout";
 	public static final String MENU_HTML = "menu";
+	public static final String LOGIN_FORM = "loginForm";
+	
 	
 	public static Set<String> getArtisanPageList() {
 	    return Set.of(
