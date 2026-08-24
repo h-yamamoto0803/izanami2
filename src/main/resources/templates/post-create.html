@@ -28,9 +28,8 @@
 					<div class="form-group"><label for="tag-customer">カテゴリタグ</label>
 						<div class="form-group">
 
-							<label for="tagInput">カテゴリタグ</label>
 
-							<input id="tagInput" type="text" placeholder="タグを入力してEnter">
+							<input id="tagInput" th:field="*{tags}" type="text" placeholder="タグを入力してEnter">
 
 							<div id="tagList"></div>
 
