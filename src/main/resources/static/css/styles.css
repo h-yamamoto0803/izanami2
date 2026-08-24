@@ -121,6 +121,7 @@ a{text-decoration:none;color:inherit}
   border-radius:15px;
   box-shadow:var(--shadow);
   padding:8px;
+  z-index:1000;
 }
 .notification-panel.open{display:block}
 .notification-item{
@@ -368,7 +369,7 @@ main{padding:38px 0 70px}
 
 @media(max-width:800px){
   .header-inner{min-height:64px;gap:10px}
-  .header-right{gap:6px;overflow-x:auto;padding:6px 0}
+  .header-right{gap:6px;flex-wrap:wrap;overflow-x:visible;padding:6px 0}
   .role-badge{display:inline-flex}
   .header-post,.header-login,.account-btn,.icon-btn,.logout-btn{padding:8px 9px;font-size:11px;white-space:nowrap}
   .account-btn{max-width:170px;overflow:hidden;text-overflow:ellipsis}
