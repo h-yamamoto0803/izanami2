@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
 import lombok.Data;
 
 /**
@@ -56,7 +57,7 @@ public class UserEntity {
      * を判定するために使用します。
      */
     @Column(name = "user_type")
-    private Integer userType;
+    private Byte userType;
 
     /**
      * ユーザー名

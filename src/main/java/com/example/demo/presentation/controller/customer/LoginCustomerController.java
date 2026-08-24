@@ -54,7 +54,7 @@ public class LoginCustomerController {
             HttpSession session,
             Model model) {
 
-        Integer userType = 1;
+    	Byte userType = 1;
 
         UserEntity user = loginService.doLogin(
                 loginUserForm,
