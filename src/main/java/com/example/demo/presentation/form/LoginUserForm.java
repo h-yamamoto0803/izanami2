@@ -1,61 +1,65 @@
 package com.example.demo.presentation.form;
 
+
+import com.example.demo.infra.entity.UserEntity;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+/**
+ * ログインユーザーの情報を管理するform
+ * Entityへの変換メソッドもこちらに属する
+ */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class LoginUserForm {
+
+	private Integer userId;
+	private Byte userType;
+	private String userName;
+	private String email;
+	private String password;
+
+	/**
+	 * userTypeの値が判定用メソッドが指定する値と一致するか判定
+	 * 消費者:1, 職人:2
+	 * @return: 指定された種類のユーザーと一致すればtrue
+	 */
+
 /**
  * ログイン画面で入力された情報を保持するFormです。
  *
  * Artisan・Customerの両方のログイン処理から使用します。
  */
-public class LoginUserForm {
-
-	/** メールアドレス */
-	private String email;
-
-	/** パスワード */
-	private String password;
-
-	/**
-	 * メールアドレスを取得します。
-	 *
-	 * @return メールアドレス
-	 */
-	public String getEmail() {
-		return email;
-	}
-
-	/**
-	 * メールアドレスを設定します。
-	 *
-	 * @param email メールアドレス
-	 */
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	/**
-	 * パスワードを取得します。
-	 *
-	 * @return パスワード
-	 */
-	public String getPassword() {
-		return password;
-	}
-
-	/**
-	 * パスワードを設定します。
-	 *
-	 * @param password パスワード
-	 */
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 	public boolean isArtisan() {
-		// TODO 自動生成されたメソッド・スタブ
-		return false;
+		return getUserType() == 2;
 	}
 
 	public boolean isCustomer() {
-		// TODO 自動生成されたメソッド・スタブ
-		return false;
+		return getUserType() == 1;
+	}
+
+
+	/**
+	 * ログインユーザーの情報をユーザーEntityに変換して返す
+	 * @param LoginUserForm
+	 * @return UserEntity
+	 */
+	public UserEntity convertToUserEntity(LoginUserForm form) {
+		UserEntity user = new UserEntity();
+
+		user.setUserId(form.getUserId());
+		user.setUserType(form.getUserType());
+		user.setUserName(form.getUserName());
+		user.setEmail(form.getEmail());
+		user.setPassword(form.getPassword());
+
+		return user;
 	}
 }
+
+
+

@@ -56,6 +56,7 @@ public class LoginCustomerController {
 
     	Byte userType = 1;
 
+
         UserEntity user = loginService.doLogin(
                 loginUserForm,
                 userType

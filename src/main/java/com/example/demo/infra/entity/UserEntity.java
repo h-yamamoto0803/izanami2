@@ -9,124 +9,68 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 
 /**
  * usersテーブルのデータをJavaオブジェクトとして扱うためのEntityです。
  *
- * Entity：
- * DBの1レコードをJavaのオブジェクトとして表現する役割を持ちます。
- *
- * 今回はusersテーブルを対象とするため、
- * UserEntityとusersテーブルを対応付けます。
+ * DBのusersテーブル1レコードをJavaオブジェクトとして表現します。
  */
-@Data
 @Entity
 @Table(name = "users")
+@Getter
+@Setter
+@NoArgsConstructor
 public class UserEntity {
 
-    /**
-     * ユーザーID
-     *
-     * DB上では「user_id」が主キーであり、
-     * AUTO INCREMENTによって登録時にDB側で自動採番されます。
-     *
-     * @Id
-     * → この項目が主キーであることをJPAに伝えます。
-     *
-     * @GeneratedValue
-     * → IDの値をDB側のAUTO INCREMENTに任せることを表します。
-     */
+    /** ユーザーID */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Integer userId;
 
     /**
-     * ユーザータイプ
+     * ユーザー種別
      *
-     * DB設計では、
-     * 1：消費者（Customer）
-     * 2：職人（Artisan）
-     *
-     * と定義されています。
-     *
-     * ログイン時に、
-     * 「Customerとしてログインしようとしているのか」
-     * 「Artisanとしてログインしようとしているのか」
-     * を判定するために使用します。
+     * 1：Customer
+     * 2：Artisan
      */
-    @Column(name = "user_type")
+
+   
+
+    @Column(name = "user_type", nullable = false)
+
     private Byte userType;
 
-    /**
-     * ユーザー名
-     *
-     * DBのuser_nameに対応します。
-     * VARCHAR(50)で定義されています。
-     */
-    @Column(name = "user_name")
+    /** ユーザー名 */
+    @Column(name = "user_name", nullable = false, length = 50)
     private String userName;
 
-    /**
-     * メールアドレス
-     *
-     * DBのemailに対応します。
-     *
-     * emailにはUNIQUE制約があるため、
-     * 同じメールアドレスを複数のユーザーが登録することはできません。
-     *
-     * ログイン時には、このメールアドレスを検索条件として
-     * ユーザーを取得します。
-     */
-    @Column(name = "email")
+    /** メールアドレス */
+    @Column(name = "email", nullable = false, unique = true, length = 255)
     private String email;
 
-    /**
-     * パスワード
-     *
-     * DBのpasswordに対応します。
-     *
-     * ログイン時には、
-     * 入力されたパスワードとDBに保存されているパスワードを
-     * 照合するために使用します。
-     */
-    @Column(name = "password")
+    /** パスワード */
+    @Column(name = "password", nullable = false, length = 255)
     private String password;
 
-    /**
-     * 作成日時
-     *
-     * DBのcreated_atに対応します。
-     * DATETIME型なので、JavaではLocalDateTimeで扱います。
-     *
-     * DB側にDEFAULT CURRENT_TIMESTAMPが設定されているため、
-     * 新規登録時にはDBが日時を設定します。
-     */
-    @Column(name = "created_at")
+    /** 作成日時 */
+    @Column(name = "created_at", nullable = false, insertable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    /**
-     * 更新日時
-     *
-     * DBのupdated_atに対応します。
-     * DATETIME型なので、JavaではLocalDateTimeで扱います。
-     */
-    @Column(name = "updated_at")
+    /** 更新日時 */
+    @Column(name = "updated_at", nullable = false, insertable = false, updatable = false)
     private LocalDateTime updatedAt;
 
     /**
      * 削除フラグ
      *
-     * DB設計では、
      * 0：未削除
      * 1：削除済み
-     *
-     * と定義されています。
-     *
-     * ログイン処理では、削除済みユーザーがログインできないように
-     * この値を確認する必要があります。
      */
-    @Column(name = "is_deleted")
-    private Integer isDeleted;
+    @Column(name = "is_deleted", nullable = false)
+    private Byte isDeleted = 0;
 }
