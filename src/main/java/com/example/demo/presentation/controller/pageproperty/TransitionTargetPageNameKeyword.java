@@ -1,7 +1,6 @@
 package com.example.demo.presentation.controller.pageproperty;
 
 public class TransitionTargetPageNameKeyword {
-<<<<<<< HEAD
 	// guest, utill
 		// HTML
 	public static final String MENU_HTML= "menu";
@@ -11,14 +10,12 @@ public class TransitionTargetPageNameKeyword {
 	// artisan
 	
 	// customer
-=======
 	// Post
 		//Controller
 	public final static String POST_DETAIL = "/post-detail";
 		//HTML
 	public final static String POST_DETAIL_HTML = "post-detail";
 	
->>>>>>> feature/postDtail
 	public static String getArtisanPageList() {
 		// TODO 自動生成されたメソッド・スタブ
 		return null;
