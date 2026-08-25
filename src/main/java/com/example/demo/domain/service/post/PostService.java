@@ -65,11 +65,9 @@ public class PostService {
 
 						post.getPostText(),
 
-						null,
-
 						getTagNamesByPostId(post.getPostId()),
 
-						(int) favoriteRepository.countByPost(post)))
+						favoriteRepository.countByPost(post)))
 				.toList();
 	}
 

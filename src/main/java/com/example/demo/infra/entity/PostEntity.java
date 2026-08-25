@@ -1,6 +1,6 @@
 package com.example.demo.infra.entity;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,10 +40,10 @@ public class PostEntity {
 	private String postText;
 
 	@Column(name = "created_at", nullable = false, insertable = false, updatable = false)
-	private LocalDateTime createdAt;
+	private Timestamp createdAt;
 
 	@Column(name = "updated_at", nullable = false, insertable = false, updatable = false)
-	private LocalDateTime updatedAt;
+	private Timestamp updatedAt;
 
 	@Column(name = "is_deleted", nullable = false)
 	private Byte isDeleted = 0;

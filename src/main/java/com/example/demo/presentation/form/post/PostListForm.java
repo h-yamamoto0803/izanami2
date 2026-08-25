@@ -27,12 +27,9 @@ public class PostListForm {
     /** 本文 */
     private String summary;
 
-    /** ジャンル */
-    private String genre;
-
     /** タグ */
     private List<String> tags;
 
     /** いいね数 */
-    private Integer favoriteCount;
+    private long favoriteCount;
 }

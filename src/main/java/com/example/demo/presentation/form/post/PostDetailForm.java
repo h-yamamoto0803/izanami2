@@ -1,6 +1,7 @@
 package com.example.demo.presentation.form.post;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import lombok.Data;
 
@@ -14,7 +15,7 @@ public class PostDetailForm {
 	/*
 	 * ユーザータイプ
 	 */
-	private String userType;
+	private Byte userType;
 	
 	/**
 	 * ユーザー名
@@ -39,10 +40,10 @@ public class PostDetailForm {
 	/**
 	 * タグリスト
 	 */
-	private String[] tags;
+	private List<String> tags;
 	
 	/**
 	 * いいね数
 	 */
-	private Integer favoriteCount;
+	private long favoriteCount;
 }
