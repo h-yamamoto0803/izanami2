@@ -23,6 +23,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class PostEntity {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "post_id")
@@ -30,7 +31,7 @@ public class PostEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "user_id", nullable = false)
-	private User user;
+	private UserEntity user;
 
 	@Column(name = "post_title", nullable = false, length = 255)
 	private String postTitle;
@@ -48,3 +49,5 @@ public class PostEntity {
 	private Byte isDeleted = 0;
 
 }
+
+
