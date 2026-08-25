@@ -9,6 +9,8 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class PostListForm {
+	/** 投稿Id　*/
+	private Integer postId;
 
     /** 投稿者種別（artisan / customer） */
     private String userType;

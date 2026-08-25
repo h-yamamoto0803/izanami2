@@ -1,5 +1,7 @@
 package com.example.demo.presentation.controller;
 
+import static com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword.*;
+
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -20,7 +22,7 @@ public class MenuController {
 
 	private final PostService postService;
 
-	@GetMapping(TransitionTargetPageNameKeyword.RETURN_MENU)
+	@GetMapping({INDEX_BLANK, INDEX_SLASH,MENU_HTML})
 	public String showMenu(
 
 			@RequestParam(required = false) String tag,

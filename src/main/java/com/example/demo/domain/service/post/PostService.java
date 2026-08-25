@@ -52,6 +52,7 @@ public class PostService {
 					return tagNames.contains(tag);
 				})
 				.map(post -> new PostListForm(
+						post.getPostId(),
 						post.getUser().getUserType() == 1
 								? "customer"
 								: "artisan",

@@ -99,7 +99,7 @@
 	    </div>
 
 	    <a class="post-title-link"
-	       th:href="@{/artisan/post-detail}"
+	       th:href="@{/post-detail?postId={postId}(postId=${post.postId})}"
 	       th:text="${post.title}">
 	      投稿タイトル
 	    </a>

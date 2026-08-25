@@ -29,10 +29,16 @@ public class NotificationsForm {
 	 */
 	private Boolean isRead;
 	
+	/**
+	 *  NotificationEntityをNotificationsFormに変換するメソッド
+	 * @param entity
+	 * @return NotificationsForm
+	 */
     public static NotificationsForm convertFrom(NotificationEntity entity) {
 
         NotificationsForm form = new NotificationsForm();
         
+        //　NotificationEntity→CandidateEntity→PostEntity→getPostId()
         form.setPostId(
                 entity.getCandidate()
                       .getPost()

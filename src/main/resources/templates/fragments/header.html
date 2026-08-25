@@ -15,7 +15,14 @@
 		↑で代入したuserTypeによって、classの値を割り当てる
 	ここで設定されたuserType、classappendによって、メニューレイアウトが分岐する。
 	 ============================================================-->
-	<header th:fragment="header" th:with="userType=${session.userType != null ? session.userType : 'guest'}"
+	<header th:fragment="header" 
+		th:with="userType=${session.loginUser == null
+				?'guest'
+				:session.loginUser.userType == 1 
+					? 'customer'
+					:session.loginUser.userType == 2
+						? 'artisan'
+						: 'guest'}"
 		class="site-header" th:classappend="
 	             ${userType == 'artisan'}
 	                 ? ' artisan-header'
@@ -26,7 +33,7 @@
 		<div class="container header-inner">
 
 			<!-- ロゴ -->
-			<a class="logo" th:href=" @{/menu})">Traemon</a>
+			<a class="logo" th:href="@{/menu}">Traemon</a>
 
 			<div class="header-right">
 
@@ -38,7 +45,7 @@
 					<span th:text="
 	                     ${userType == 'artisan'}
 	                         ? '職人'
-	                         : (${userType == 'customer'}
+	                         : (${userType == 'custmer'}
 	                             ? 'ユーザー'
 	                             : 'ゲスト')">
 					</span>
@@ -112,7 +119,7 @@
 					<a class="account-btn" th:href="
 	                         ${userType == 'artisan'}
 	                             ? @{/artisan/account}
-	                             : @{/customer/account}" th:text="${session.userName}">
+	                             : @{/customer/account}" th:text="${session.loginUser.userName}">
 					</a>
 
 					<!-- ログアウト -->

@@ -12,22 +12,37 @@ import com.example.demo.presentation.form.NotificationsForm;
 
 import lombok.RequiredArgsConstructor;
 
+
 @Service
 @RequiredArgsConstructor
 public class SearchNotifications{
 	private final UserRepository userRepository;
 	private final NotificationsRepository notificationsRepository;
 	
+	/**
+	 * userIdから、UserEntity→NotificationEntityのListを取得し、
+	 * NotificationFormのListに変換し返すメソッド。
+	 * @param userId
+	 * @return List<NotificationsForm>
+	 */
 	public List<NotificationsForm> getNotifications(Integer userId) {
+		
 		//userIdを引数にUserテーブルからUserEntityを取得
 		UserEntity userEntity = userRepository.findById(userId).orElseThrow();
+		
 		//userEntityを引数にNotificationEntityのListを取得
 		List<NotificationEntity> notificationEntities = notificationsRepository.findByUser(userEntity);
+		
 		//NotificationEntityのListをNotificationFormのListに変換
 		List<NotificationsForm> notificationsFormList =
 		        notificationEntities.stream()
-		            .map(NotificationsForm::convertFrom)
-		            .toList();		
+			        .filter(entity -> { //投稿のisDeletedが0（＝削除済みでない）なら
+			            Byte isDeleted =
+			                entity.getCandidate().getPost().getIsDeleted();  //　NotificationEntity→CandidateEntity→PostEntity→getIsDeleted()
+			            return isDeleted != null && isDeleted == 0;
+			        })	
+		        	.map(NotificationsForm::convertFrom) //NotificationFormに変換
+		            .toList(); //Listとして格納
 		return notificationsFormList;
 	}
 }
