@@ -19,6 +19,8 @@
         職人アカウントでTraemonを利用します。
       </p>
 	  <p th:if="${errorMessage}" th:text="${errorMessage}"></p>
+	  <p th:if="${messageForm != null}"th:text="${messageForm.message}">
+	  </p>
       <form class="card form-card"
             th:action="@{/artisan/login}"
             th:object="${loginForm}"

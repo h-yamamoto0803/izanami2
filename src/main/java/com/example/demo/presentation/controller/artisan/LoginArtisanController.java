@@ -75,7 +75,7 @@ public class LoginArtisanController {
             );
 
          return TransitionTargetPageNameKeyword.REDIRECT 
-        		 +TransitionTargetPageNameKeyword.POST_ARTISAN_CONTROLLER;
+        		 +TransitionTargetPageNameKeyword. RETURN_MENU;
         }
 
         model.addAttribute(

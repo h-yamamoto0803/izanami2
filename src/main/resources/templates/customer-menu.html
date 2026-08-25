@@ -10,7 +10,7 @@
 <body>
 <header class="site-header customer-header">
   <div class="container header-inner">
-    <a class="logo" th:href="@{/customer/menu}">Traemon</a>
+    <a class="logo" th:href="@{/menu}">Traemon</a>
     <div class="header-right">
       <span class="role-badge customer"><span class="role-dot"></span>ユーザー</span>
       <a class="header-post customer-post" href="post-create-customer.html">＋ 投稿する</a>
@@ -36,7 +36,7 @@
 </header>
 <main><div class="container">
   <section class="hero customer-tile"><h1>ユーザー専用メニュー</h1><p>職人の作品や、ほかのユーザーが投稿した需要をチェックできます。</p></section>
-  <form class="toolbar" th:action="@{/customer/menu}" method="get">
+  <form class="toolbar" th:action="@{/menu}" method="get">
 
       <select name="tag">
 
@@ -61,7 +61,7 @@
       </button>
 
       <a class="btn btn-outline"
-         th:href="@{/customer/menu}">
+         th:href="@{/menu}">
           クリア
       </a>
 

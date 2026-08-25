@@ -50,10 +50,8 @@ public class TransitionTargetPageNameKeyword {
 
 	public static Set<String> getArtisanPageList() {
 		return Set.of(
-			
 		);
 	}
-
 
 	public static Set<String> getCustomerPageList() {
 		return Set.of(
