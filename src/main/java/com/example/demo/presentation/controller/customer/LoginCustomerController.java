@@ -66,7 +66,7 @@ public class LoginCustomerController {
             session.setAttribute("userName", loginUserForm.getUserName());
             session.setAttribute("userType", loginUserForm.getUserName());
 
-            return TransitionTargetPageNameKeyword.CUSTOMER_MENU_HTML;
+            return "redirect:" + TransitionTargetPageNameKeyword.LOGIN_CUSTOMER_CONTROLLER;
         }
 
         model.addAttribute(
