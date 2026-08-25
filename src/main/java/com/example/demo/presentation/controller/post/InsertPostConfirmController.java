@@ -41,7 +41,8 @@ public class InsertPostConfirmController {
 //		サービスの呼び出し
 		insertPost.insertPost(insertPostForm, userId);
 		
-		return "redirect:/menu";
+		return TransitionTargetPageNameKeyword.REDIRECT
+       		 +TransitionTargetPageNameKeyword.RETURN_MENU;
 }
 	
 }

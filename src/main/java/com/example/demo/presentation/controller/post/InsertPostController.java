@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
 import com.example.demo.presentation.form.post.InsertPostForm;
@@ -28,5 +29,25 @@ public class InsertPostController {
 		
 		return TransitionTargetPageNameKeyword.POST_CREATE_HTML;
 	}
-
+	
+	/*
+	 * 投稿確認画面の戻るボタン
+	 * POSTされた入力中の値がformに入ったまま
+	 * @return 投稿作成画面
+	 */
+	@PostMapping(TransitionTargetPageNameKeyword.INSERT_POST_RET)
+    public String insertPostRet(InsertPostForm insertPostForm) {
+        return TransitionTargetPageNameKeyword.POST_CREATE_HTML;
+    }
+	
+	/*
+	 * 戻るボタン
+	 * メニュー画面表示
+	 */
+	@GetMapping(TransitionTargetPageNameKeyword.RETURN_MENU)
+	public String returnMenu() {
+		return TransitionTargetPageNameKeyword.MENU_HTML;
+	}
+	
+	
 }

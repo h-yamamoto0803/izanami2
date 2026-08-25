@@ -25,15 +25,15 @@ public class PostTagEntity {
 	 @EmbeddedId
 	    private PostTagId id;
 
-	    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-	    @MapsId("postId")
-	    @JoinColumn(name = "post_id", nullable = false)
-	    private PostEntity post;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @MapsId("postId")
+    @JoinColumn(name = "post_id", nullable = false)
+    private PostEntity post;
 
-	    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-	    @MapsId("tagId")
-	    @JoinColumn(name = "tag_id", nullable = false)
-	    private TagEntity tag;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @MapsId("tagId")
+    @JoinColumn(name = "tag_id", nullable = false)
+    private TagEntity tag;
 
     @Column(name = "created_at", nullable = false, insertable = false, updatable = false)
     private LocalDateTime createdAt;
