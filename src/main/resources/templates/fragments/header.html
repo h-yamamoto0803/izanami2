@@ -26,14 +26,7 @@
 		<div class="container header-inner">
 
 			<!-- ロゴ -->
-			<a class="logo" th:href="
-	                 ${userType == 'artisan'}
-	                     ? @{/artisan/menu}
-	                     : (${userType == 'customer'}
-	                         ? @{/customer/menu}
-	                         : @{/menu})">
-				Traemon
-			</a>
+			<a class="logo" th:href=" @{/menu})">Traemon</a>
 
 
 			<div class="header-right">
@@ -122,7 +115,6 @@
 	                             ? @{/artisan/account}
 	                             : @{/customer/account}" th:text="${session.userName}">
 					</a>
-
 
 					<!-- ログアウト -->
 					<form th:action="@{/logout}" method="post">
