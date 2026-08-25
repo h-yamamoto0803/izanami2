@@ -21,8 +21,15 @@ public class InsertPost {
 	TagRepository tagRepository;
 	PostTagRepository postTagRepository;
 	
+	/**
+	 * @param insertPostForm
+	 * @param userId
+	 */
 	public void insertPost(InsertPostForm insertPostForm, Integer userId) {
 		
+		/*
+		 * 投稿処理 PostEntity保存
+		 */
 		PostEntity postEntity = new PostEntity();
         postEntity.setPostTitle(insertPostForm.getPostTitle());
         postEntity.setPostText(insertPostForm.getPostText());
@@ -31,7 +38,8 @@ public class InsertPost {
         postRepository.save(postEntity);
         
         /*
-         * タグにあるかないか検索して新規追加
+         * タグリストにあるかないか検索して新規追加
+         * TagEntity保存
          */
         for (String tag : insertPostForm.getTags()) {
 
@@ -43,6 +51,7 @@ public class InsertPost {
                 tagEntity = tagRepository.save(tagEntity);
             }
 
+//			PostTagEntity保存
             PostTagEntity postTagEntity = new PostTagEntity();
             postTagEntity.setPost(postEntity);
             postTagEntity.setTag(tagEntity);

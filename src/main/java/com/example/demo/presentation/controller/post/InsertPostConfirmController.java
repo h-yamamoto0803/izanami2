@@ -1,5 +1,7 @@
 package com.example.demo.presentation.controller.post;
 
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 public class InsertPostConfirmController {
 	
 	private final InsertPost insertPost;
+	private final HttpSession httpSession;
 	
 	/*
 	 * 投稿確認画面表示
@@ -32,7 +35,13 @@ public class InsertPostConfirmController {
 	 */
 	@PostMapping(TransitionTargetPageNameKeyword.POST)
 	public String post(@ModelAttribute InsertPostForm insertPostForm) {
-		return TransitionTargetPageNameKeyword.MENU_HTML;
+		
+//		セッションからユーザーIDを取得
+		Integer userId = (Integer) httpSession.getAttribute("userId");
+//		サービスの呼び出し
+		insertPost.insertPost(insertPostForm, userId);
+		
+		return "redirect:/menu";
 }
 	
 }
