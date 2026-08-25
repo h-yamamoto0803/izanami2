@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.domain.service.LoginService;
+import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
 import com.example.demo.presentation.form.LoginUserForm;
 
@@ -62,11 +63,13 @@ public class LoginCustomerController {
     	            && loginUserForm.isCustomer()) {
 
             // ログインユーザーの情報をセッションに保存
-        	session.setAttribute("userId", loginUserForm.getUserId());
-            session.setAttribute("userName", loginUserForm.getUserName());
-            session.setAttribute("userType", loginUserForm.getUserName());
+    		 session.setAttribute(
+    		            SessionKeyword.LOGIN_USER,
+    		            loginUserForm
+    		    );
 
-            return "redirect:" + TransitionTargetPageNameKeyword.LOGIN_CUSTOMER_CONTROLLER;
+             return TransitionTargetPageNameKeyword.REDIRECT 
+            		 + TransitionTargetPageNameKeyword.POST_CUSTOMER_CONTROLLER;
         }
 
         model.addAttribute(
