@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +38,7 @@ public class LoginCustomerController {
     public String showLoginCustomer(
             @ModelAttribute(TransitionTargetPageNameKeyword.LOGIN_FORM) LoginUserForm loginUserForm) {
 
+    	
         /*
          * Customerログイン画面を表示します。
          */
@@ -53,8 +55,11 @@ public class LoginCustomerController {
     public String loginCustomer(
     		@Valid@ModelAttribute(TransitionTargetPageNameKeyword.LOGIN_FORM) LoginUserForm loginUserForm,
             HttpSession session,
+            BindingResult bindingResult,
             Model model) {
-
+    	if (bindingResult.hasErrors()) {
+            return TransitionTargetPageNameKeyword.CUSTOMER_LOGIN_HTML;
+        }
 
     	Integer user = loginService.doLogin(loginUserForm
     	        );
