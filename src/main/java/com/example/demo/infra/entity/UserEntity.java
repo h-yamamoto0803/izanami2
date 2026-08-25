@@ -13,39 +13,64 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-//いいね処理用の最低限の実装
-//FormへのConvert等おそらく必須となる未実装機能あり
 
+/**
+ * usersテーブルのデータをJavaオブジェクトとして扱うためのEntityです。
+ *
+ * DBのusersテーブル1レコードをJavaオブジェクトとして表現します。
+ */
 @Entity
 @Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor
 public class UserEntity {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "user_id")
-	private Integer userId;
 
-	@Column(name = "user_type", nullable = false)
-	private Byte userType;
+    /** ユーザーID */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    private Integer userId;
 
-	@Column(name = "user_name", nullable = false, length = 50)
-	private String userName;
+    /**
+     * ユーザー種別
+     *
+     * 1：Customer
+     * 2：Artisan
+     */
 
-	@Column(name = "email", nullable = false, unique = true, length = 255)
-	private String email;
+   
 
-	@Column(name = "password", nullable = false, length = 255)
-	private String password;
+    @Column(name = "user_type", nullable = false)
 
-	@Column(name = "created_at", nullable = false, insertable = false, updatable = false)
-	private LocalDateTime createdAt;
+    private Byte userType;
 
-	@Column(name = "updated_at", nullable = false, insertable = false, updatable = false)
-	private LocalDateTime updatedAt;
+    /** ユーザー名 */
+    @Column(name = "user_name", nullable = false, length = 50)
+    private String userName;
 
-	@Column(name = "is_deleted", nullable = false)
-	private Byte isDeleted = 0;
+    /** メールアドレス */
+    @Column(name = "email", nullable = false, unique = true, length = 255)
+    private String email;
 
+    /** パスワード */
+    @Column(name = "password", nullable = false, length = 255)
+    private String password;
+
+    /** 作成日時 */
+    @Column(name = "created_at", nullable = false, insertable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    /** 更新日時 */
+    @Column(name = "updated_at", nullable = false, insertable = false, updatable = false)
+    private LocalDateTime updatedAt;
+
+    /**
+     * 削除フラグ
+     *
+     * 0：未削除
+     * 1：削除済み
+     */
+    @Column(name = "is_deleted", nullable = false)
+    private Byte isDeleted = 0;
 }

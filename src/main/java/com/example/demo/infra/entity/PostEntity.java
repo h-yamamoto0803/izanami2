@@ -23,28 +23,31 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class PostEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "post_id")
-    private Integer postId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "post_id")
+	private Integer postId;
 
-    @Column(name = "post_title", nullable = false, length = 255)
-    private String postTitle;
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "user_id", nullable = false)
+	private UserEntity user;
 
-    @Column(name = "post_text", columnDefinition = "TEXT")
-    private String postText;
+	@Column(name = "post_title", nullable = false, length = 255)
+	private String postTitle;
 
-    @Column(name = "created_at", nullable = false, insertable = false, updatable = false)
-    private LocalDateTime createdAt;
+	@Column(name = "post_text", columnDefinition = "TEXT")
+	private String postText;
 
-    @Column(name = "updated_at", nullable = false, insertable = false, updatable = false)
-    private LocalDateTime updatedAt;
+	@Column(name = "created_at", nullable = false, insertable = false, updatable = false)
+	private LocalDateTime createdAt;
 
-    @Column(name = "is_deleted", nullable = false)
-    private Byte isDeleted = 0;
+	@Column(name = "updated_at", nullable = false, insertable = false, updatable = false)
+	private LocalDateTime updatedAt;
+
+	@Column(name = "is_deleted", nullable = false)
+	private Byte isDeleted = 0;
 
 }
+
+
