@@ -40,7 +40,7 @@ public class NotificationsForm {
             );
         
         form.setMessage(entity.getMessage());
-        form.setIsRead(entity.isRead());
+        form.setIsRead(entity.getIsRead());
         form.setCreatedAt(entity.getCreatedAt());
 
         return form;
