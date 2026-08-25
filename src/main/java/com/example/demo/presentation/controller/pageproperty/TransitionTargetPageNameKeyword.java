@@ -21,7 +21,7 @@ public class TransitionTargetPageNameKeyword {
 
 		// Controller
 	public static final String LOGIN_ARTISAN_CONTROLLER = "/artisan/login";
-
+	public static final String POST_ARTISAN_CONTROLLER = "/artisan/menu";
 
 	// customer
 		// HTML
@@ -30,6 +30,7 @@ public class TransitionTargetPageNameKeyword {
 
 		// Controller
 	public static final String LOGIN_CUSTOMER_CONTROLLER = "/customer/login";
+	public static final String POST_CUSTOMER_CONTROLLER = "/customer/menu";
 
 
 	// Post
@@ -37,8 +38,8 @@ public class TransitionTargetPageNameKeyword {
 	public final static String POST_DETAIL = "/post-detail";
 	public final static String INSERT_POST = "/insertPost";
 	public final static String INSERT_POST_CONFIRM = "/insertPostConfirm";
-	public final static String POST = "/menu";
-
+	public final static String POST = "/post";
+	
 		// HTML
 	public final static String POST_DETAIL_HTML = "post-detail";
 	public final static String POST_CREATE_HTML = "post-create";
@@ -51,16 +52,15 @@ public class TransitionTargetPageNameKeyword {
 
 	public static Set<String> getArtisanPageList() {
 		return Set.of(
-			ARTISAN_LOGIN_HTML,
-			ARTISAN_MENU_HTML
+		POST_ARTISAN_CONTROLLER
+			
 		);
 	}
 
 
 	public static Set<String> getCustomerPageList() {
 		return Set.of(
-			CUSTOMER_LOGIN_HTML,
-			CUSTOMER_MENU_HTML
+		POST_CUSTOMER_CONTROLLER
 		);
 	}
 }

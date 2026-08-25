@@ -65,7 +65,7 @@ public class LoginArtisanController {
             session.setAttribute("userName", loginUserForm.getUserName());
             session.setAttribute("userType", loginUserForm.getUserType());
 
-            return TransitionTargetPageNameKeyword.ARTISAN_MENU_HTML;
+            return "redirect:" +TransitionTargetPageNameKeyword.ARTISAN_LOGIN_HTML;
         }
 
         model.addAttribute(
