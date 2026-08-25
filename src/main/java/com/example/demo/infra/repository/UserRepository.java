@@ -1,6 +1,5 @@
 package com.example.demo.infra.repository;
 
-
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -41,4 +40,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
      *         ユーザーが存在しない場合 → empty
      */
     Optional<UserEntity> findByEmail(String email);
+	Optional<UserEntity> findById(Integer userId);
+	
+	
+	
 }
