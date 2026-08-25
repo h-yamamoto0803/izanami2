@@ -32,9 +32,9 @@
 			<a class="logo"
 			   th:href="
 					${userType == 'artisan'}
-						? @{/artisan/menu}
+						? @{/menu}
 						: (${userType == 'customer'}
-							? @{/customer/menu}
+							? @{/menu}
 							: @{/menu})
 			   ">
 				Traemon
