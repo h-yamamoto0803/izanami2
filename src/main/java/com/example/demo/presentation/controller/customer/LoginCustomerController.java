@@ -1,6 +1,7 @@
 package com.example.demo.presentation.controller.customer;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,7 +51,7 @@ public class LoginCustomerController {
      */
     @PostMapping(TransitionTargetPageNameKeyword.LOGIN_CUSTOMER_CONTROLLER)
     public String loginCustomer(
-            @ModelAttribute(TransitionTargetPageNameKeyword.LOGIN_FORM) LoginUserForm loginUserForm,
+    		@Valid@ModelAttribute(TransitionTargetPageNameKeyword.LOGIN_FORM) LoginUserForm loginUserForm,
             HttpSession session,
             Model model) {
 
