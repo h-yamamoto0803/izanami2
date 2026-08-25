@@ -46,5 +46,13 @@ public class PostEntity {
 
 	@Column(name = "is_deleted", nullable = false)
 	private Byte isDeleted = 0;
+	
+//	public static PostEntity convertFrom(InsertPostForm insertPostForm) {
+//		return new PostEntity(
+//				insertPostForm.getPostTitle(),
+//				insertPostForm.getPostText(),
+//				insertPostForm.getTags()
+//				);
+//	}
 
 }

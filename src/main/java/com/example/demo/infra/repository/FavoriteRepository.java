@@ -11,7 +11,7 @@ import com.example.demo.infra.entity.UserEntity;
 // 不具合が発覚しない限り追加実装の予定は無し
 public interface FavoriteRepository extends JpaRepository<FavoriteEntity, Integer> {
 
-	Optional<FavoriteEntity> findByUserIdAndPostId(UserEntity user, PostEntity post);
+	Optional<FavoriteEntity> findByUserAndPost(UserEntity user, PostEntity post);
 
 	long countByPost(PostEntity post);
 

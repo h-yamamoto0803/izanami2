@@ -1,5 +1,7 @@
 package com.example.demo.presentation.controller.post;
 
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 public class InsertPostController {
 	
 	// private final SearchTags service;
+	HttpSession httpSession;
+	
 	/*
 	 * 投稿作成画面表示
 	 */

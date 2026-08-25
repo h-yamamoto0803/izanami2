@@ -4,11 +4,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.demo.domain.service.post.InsertPost;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
 import com.example.demo.presentation.form.post.InsertPostForm;
 
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 public class InsertPostConfirmController {
+	
+	private final InsertPost insertPost;
 	
 	/*
 	 * 投稿確認画面表示
@@ -19,14 +25,14 @@ public class InsertPostConfirmController {
 		return TransitionTargetPageNameKeyword.POST_CONFIRM_HTML;
 	}
 	
-//	/*
-//	 * 投稿処理
-//	 * @return メニュー画面
-//	 * 
-//	 */
-//	@PostMapping(TransitionTargetPageNameKeyword.POST)
-//	public String post(@ModelAttribute InsertPostForm insertPostForm) {
-//		return TransitionTargetPageNameKeyword.MENU_HTML;
-//}
+	/*
+	 * 投稿処理
+	 * @return メニュー画面
+	 * 
+	 */
+	@PostMapping(TransitionTargetPageNameKeyword.POST)
+	public String post(@ModelAttribute InsertPostForm insertPostForm) {
+		return TransitionTargetPageNameKeyword.MENU_HTML;
+}
 	
 }
