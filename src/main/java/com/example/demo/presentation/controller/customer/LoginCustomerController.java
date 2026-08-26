@@ -74,7 +74,7 @@ public class LoginCustomerController {
              
 
              return TransitionTargetPageNameKeyword.REDIRECT 
-            		 + TransitionTargetPageNameKeyword.POST_CUSTOMER_CONTROLLER;
+            		 + TransitionTargetPageNameKeyword.RETURN_MENU;
         }
 
         model.addAttribute(
