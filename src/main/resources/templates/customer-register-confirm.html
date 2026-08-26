@@ -19,15 +19,125 @@
   </div>
 </header>
 <main><div class="container"><section>
-  <h1 class="page-title">ユーザーアカウント登録確認</h1><p class="page-subtitle">入力した内容の静的サンプルです。</p>
+  <h1 class="page-title">ユーザーアカウント登録確認</h1>
   <div class="card form-card">
-    <dl class="confirm-list">
-      <div class="confirm-row"><dt>名前</dt><dd>山田 太郎</dd></div>
-      <div class="confirm-row"><dt>メールアドレス</dt><dd>user@example.com</dd></div>
-      <div class="confirm-row"><dt>パスワード</dt><dd>セキュリティのため非表示</dd></div>
-    </dl>
-    <div class="actions"><a class="btn btn-secondary" href="customer-register.html">戻る</a><a class="btn btn-primary" href="customer-menu.html">登録確定</a></div>
+	<form id="insertForm" th:object="${insertCustomerForm}">
+
+	    <div class="form-group">
+	        <label>名前</label>
+	        <input
+	            class="readOnly"
+	            th:field="*{userName}"
+	            readonly
+	            type="text">
+	    </div>
+
+	    <div class="form-group">
+	        <label>メールアドレス</label>
+	        <input
+	            class="readOnly"
+	            th:field="*{email}"
+	            readonly
+	            type="email">
+	    </div>
+
+		<div class="form-group">
+		    <label>パスワード</label>
+
+		    <!-- 表示用 -->
+		    <input
+		        class="readOnly"
+		        value="********"
+		        readonly
+		        type="text">
+
+		    <!-- 送信用 -->
+		    <input
+		        type="hidden"
+		        name="password"
+		        th:value="*{password}">
+		</div>
+
+		<div class="actions">
+
+
+		    <button type="button" id="registerButton" class="btn btn-primary">
+		        登録確定
+		    </button>
+			<button type="button" id="backButton" class="btn btn-secondary">
+			    戻る
+			</button>
+		</div>
+	</form>
   </div>
 </section></div></main>
+
+<script type="text/javascript">
+
+document.getElementById("registerButton").addEventListener("click", async () => {
+
+    const form = document.getElementById("insertForm");
+    const formData = new FormData(form);
+
+    const response = await fetch("insertCustomer", {
+        method: "POST",
+        body: formData
+    });
+
+    const result = await response.json();
+
+    if (result) {
+
+        const messageBox = document.createElement("div");
+        messageBox.textContent = "登録が完了しました。";
+
+        Object.assign(messageBox.style, {
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "400px",
+            padding: "30px",
+            backgroundColor: "white",
+            border: "1px solid #ccc",
+            borderRadius: "8px",
+            textAlign: "center",
+            zIndex: "1000"
+        });
+
+        document.body.appendChild(messageBox);
+
+        setTimeout(() => {
+            window.location.href = "loginCustomer";
+        }, 2000);
+
+		} else {
+			alert("登録に失敗しました。");
+
+			const transitionForm = document.createElement("form");
+
+			transitionForm.method = "POST";
+			transitionForm.action = "insertCustomerInput";
+
+			document.body.appendChild(transitionForm);
+
+			transitionForm.submit();
+		}
+
+});
+
+document.getElementById("backButton").addEventListener("click", () => {
+
+    const form = document.getElementById("insertForm");
+
+    form.method = "POST";
+    form.action = "insertCustomerInput";
+    form.submit();
+
+});
+
+</script>
+
+
 </body>
 </html>

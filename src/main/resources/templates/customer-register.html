@@ -19,13 +19,50 @@
   </div>
 </header>
 <main><div class="container"><section>
-  <h1 class="page-title">ユーザーアカウント登録</h1><p class="page-subtitle">アカウント情報を入力してください。</p>
-  <form class="card form-card" action="customer-register-confirm.html" method="get">
-    <div class="form-group"><label for="userName">名前</label><input id="userName" name="userName" type="text" required value="山田 太郎"></div>
-    <div class="form-group"><label for="email">メールアドレス</label><input id="email" name="email" type="email" required value="user@example.com"></div>
-    <div class="form-group"><label for="password">パスワード</label><input id="password" name="password" type="password" required value="password"></div>
-    <div class="form-group"><label for="passwordConfirm">確認用パスワード</label><input id="passwordConfirm" name="passwordConfirm" type="password" required value="password"></div>
-    <div class="actions"><a class="btn btn-secondary" href="customer-login.html">戻る</a><button class="btn btn-primary" type="submit">登録内容を確認</button></div>
+  <h1 class="page-title">ユーザーアカウント登録</h1>
+  <p class="page-subtitle">アカウント情報を入力してください。</p>
+
+  <form class="card form-card" 
+  action="insertCustomerConfirm" 
+  method="post" 
+  th:object="${insertCustomerForm}">	
+    <div class="form-group">
+		<label for="userName">名前</label>
+		<input maxlength="50"
+		       placeholder="ユーザー名"
+		       required="required"
+		       th:field="*{userName}"
+		       type="text"/>
+	</div>
+    <div class="form-group">
+		<label for="email">メールアドレス</label>
+		<input maxlength="255"
+				       placeholder="メールアドレス"
+				       required="required"
+				       th:field="*{email}"
+				       type="email"/>
+	</div>
+    <div class="form-group">
+		<label for="password">パスワード</label>
+		<input pattern="^(?=.*?[a-zA-Z])(?=.*?\d)[a-zA-Z\d]{3,10}$"
+				       placeholder="パスワード"
+				       required="required"
+				       th:field="*{password}"
+				       type="password"/>
+	</div>
+    <div class="form-group">
+		<label for="passwordConfirm">確認用パスワード</label>
+		<input pattern="^(?=.*?[a-zA-Z])(?=.*?\d)[a-zA-Z\d]{3,10}$"
+				       placeholder="確認用パスワード"
+				       required="required"
+				       th:field="*{passwordConfirm}"
+				       type="password"/>
+	</div>
+	<p style="color: red;"
+	   th:if="${messageError != null}"
+	   th:text="${messageError.message}">
+	</p>
+    <div class="actions"><button class="btn btn-primary" type="submit">登録内容を確認</button><a class="btn btn-secondary" href="menu">戻る</a></div>
   </form>
 </section></div></main>
 </body>
