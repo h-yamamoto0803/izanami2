@@ -18,6 +18,9 @@
 				<h1>ユーザー専用メニュー</h1>
 				<p>職人の作品や、ほかのユーザーが投稿した需要をチェックできます。</p>
 			</section>
+			<div th:if="${deleteMessage} != null">
+				<span th:text="${deleteMessage}"></span>
+			</div>
 			<form class="toolbar" th:action="@{/menu}" method="get">
 
 				<select name="tag">
@@ -78,7 +81,8 @@
 						</div>
 					</div>
 
-					<a class="post-title-link" th:href="@{/post-detail?postId={postId}(postId=${post.postId})}" th:text="${post.title}">
+					<a class="post-title-link" th:href="@{/post-detail?postId={postId}(postId=${post.postId})}"
+						th:text="${post.title}">
 						投稿タイトル
 					</a>
 

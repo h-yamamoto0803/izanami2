@@ -15,7 +15,7 @@ public class DeletePost {
 
 	private final PostRepository postRepository;
 
-	public void deletePost(Integer postId,
+	public String deletePost(Integer postId,
 						Integer userId) {
 
 		/*
@@ -27,14 +27,14 @@ public class DeletePost {
 
 		// 投稿が存在しない場合
 		if (optionalPost.isEmpty()) {
-			return;
+			return "投稿が存在しません。";
 		}
 
 		PostEntity postEntity = optionalPost.get();
 
 		// すでに削除済みの場合
 		if (postEntity.getIsDeleted() == 1) {
-			return;
+			return "既に削除されています。";
 		}
 		
 		// 投稿者IDを取得
@@ -42,11 +42,12 @@ public class DeletePost {
 
 		//ユーザーIDが一致しない場合
 		if (!postUserId.equals(userId)) {
-			return;
+			return "ユーザーIDが不正です。";
 		}
 
 		// 論理削除
 		postEntity.setIsDeleted((byte) 1);
 		postRepository.save(postEntity);
+		return "削除が完了しました。";
 	}
 }
