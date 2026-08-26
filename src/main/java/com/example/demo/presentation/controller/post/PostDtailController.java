@@ -26,9 +26,12 @@ public class PostDtailController {
 			Model model,
 			@RequestParam Integer postId,
 			HttpSession session) {
-				
-		PostDetailForm postDetailForm = searchPostDetail.getPostDetail(postId);
-		model.addAttribute("postDetailForm",postDetailForm);
+		try{
+			PostDetailForm postDetailForm = searchPostDetail.getPostDetail(postId);
+			model.addAttribute("postDetailForm",postDetailForm);
+		}catch(Exception e){
+			return REDIRECT+RETURN_MENU;
+		}
 		
 		return POST_DETAIL_HTML;
 	}

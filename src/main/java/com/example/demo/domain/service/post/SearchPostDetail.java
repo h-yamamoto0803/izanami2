@@ -25,9 +25,13 @@ public class SearchPostDetail {
 	 * @param postId
 	 * @return PostDetailForm
 	 */
-	public PostDetailForm getPostDetail (Integer postId) {
+	public PostDetailForm getPostDetail (Integer postId) throws Exception{
 		PostEntity entity = repository.findById(postId).orElseThrow();
-		return convertFrom(entity);
+		if(entity.getIsDeleted() != null && entity.getIsDeleted() != 0) {
+			return convertFrom(entity);
+		}else {
+			throw new Exception("投稿が見つかりませんでした");
+		}
 	}
 	
 	/**
