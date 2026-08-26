@@ -1,0 +1,232 @@
+package com.example.demo.domain.service;
+
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.example.demo.infra.entity.PostEntity;
+import com.example.demo.infra.entity.PostTagEntity;
+import com.example.demo.infra.entity.TagEntity;
+import com.example.demo.infra.entity.UserEntity;
+import com.example.demo.infra.repository.ArtisanTagRepository;
+import com.example.demo.infra.repository.FavoriteRepository;
+import com.example.demo.infra.repository.PostRepository;
+import com.example.demo.infra.repository.PostTagRepository;
+import com.example.demo.infra.repository.TagRepository;
+import com.example.demo.infra.repository.UserRepository;
+import com.example.demo.presentation.form.post.PostListForm;
+
+import lombok.RequiredArgsConstructor;
+
+/**
+ * ログインユーザーの種別に応じて、
+ * メニュー画面に表示する投稿を検索するServiceです。
+ *
+ * Guest / Customerの場合は全投稿を対象とし、
+ * Artisanの場合は自分の専門タグに関連する投稿を対象とします。
+ */
+@Service
+@RequiredArgsConstructor
+public class SearchPostByUserTypeService {
+
+	private final PostRepository postRepository;
+	private final PostTagRepository postTagRepository;
+	private final TagRepository tagRepository;
+	private final FavoriteRepository favoriteRepository;
+	private final UserRepository userRepository;
+	private final ArtisanTagRepository artisanTagRepository;
+
+	/**
+	 * ユーザー種別に応じて投稿を検索します。
+	 *
+	 * @param userId ログインユーザーのID
+	 * @param selectedTags 画面で選択されたタグ
+	 * @return メニュー画面に表示する投稿一覧
+	 */
+	public List<PostListForm> searchPostByUserType(
+			Integer userId,
+			Collection<String> selectedTags) {
+
+		// userIdがない場合はGuestとして全投稿を検索
+		if (userId == null) {
+			return searchAllPosts(selectedTags);
+		}
+
+		// ログインユーザーを取得
+		UserEntity user = userRepository.findById(userId)
+				.orElse(null);
+
+		// ユーザーが存在しない場合は全投稿を検索
+		if (user == null) {
+			return searchAllPosts(selectedTags);
+			}
+
+		// Artisanの場合は専門タグに関連する投稿を検索
+		if (user.getUserType() == 2) {
+			return searchPostsByArtisanTagPost(userId, selectedTags);
+		}
+
+		// Customerなど、それ以外の場合は全投稿を検索
+		return searchAllPosts(selectedTags);
+	}
+
+	/**
+	 * 全投稿を検索します。
+	 *
+	 * タグが選択されていない場合は全投稿を取得し、
+	 * タグが選択されている場合は選択されたタグが付いている投稿を取得します。
+	 *
+	 * @param selectedTags 画面で選択されたタグ
+	 * @return 投稿一覧
+	 */
+	private List<PostListForm> searchAllPosts(
+			Collection<String> selectedTags) {
+
+		List<PostEntity> posts;
+
+		// タグが選択されていない場合は削除されていない投稿を全件取得
+		if (selectedTags == null || selectedTags.isEmpty()) {
+
+			posts = postRepository.findAllByIsDeleted((byte) 0);
+
+		} else {
+
+			// 選択されたタグが付いている投稿を取得
+			posts = postRepository.findByAnyTagName(selectedTags);
+		}
+
+		// Entityを画面表示用Formに変換
+		return convertToPostListForm(posts);
+	}
+
+	/**
+	 * Artisan用の投稿を検索します。
+	 *
+	 * タグが選択されていない場合は、
+	 * Artisanに設定されている専門タグを使用して投稿を検索します。
+	 *
+	 * タグが選択されている場合は、
+	 * 選択されたタグを使用して投稿を検索します。
+	 *
+	 * @param userId ArtisanのユーザーID
+	 * @param selectedTags 画面で選択されたタグ
+	 * @return 投稿一覧
+	 */
+	private List<PostListForm> searchPostsByArtisanTagPost(
+			Integer userId,
+			Collection<String> selectedTags) {
+
+		// Artisanに設定されている専門タグを取得
+		List<TagEntity> tags =
+				artisanTagRepository.findTagsByUserId(userId);
+
+		// 専門タグがない場合は投稿を表示しない
+		if (tags.isEmpty()) {
+			return List.of();
+		}
+
+		// 検索に使用するタグ名
+		List<String> tagNames;
+
+		if (selectedTags == null || selectedTags.isEmpty()) {
+
+			// タグ未選択の場合は、Artisanの専門タグをすべて使用
+			tagNames = tags.stream()
+					.map(TagEntity::getTagName)
+					.toList();
+
+		} else {
+
+			// タグ選択ありの場合は、選択されたタグを使用
+			tagNames = selectedTags.stream().toList();
+		}
+
+		// 指定されたタグが付いている投稿を取得
+		List<PostEntity> posts =
+				postRepository.findByAnyTagName(tagNames);
+
+		// Entityを画面表示用Formに変換
+		return convertToPostListForm(posts);
+	}
+
+	/**
+	 * Artisanに設定されている専門タグの名前を取得します。
+	 *
+	 * メニュー画面の「あなたの専門タグ」の表示に使用します。
+	 *
+	 * @param userId ArtisanのユーザーID
+	 * @return 専門タグ名の一覧
+	 */
+	public List<String> getArtisanTagNames(Integer userId) {
+
+		// ユーザーIDがない場合は空の一覧を返す
+		if (userId == null) {
+			return List.of();
+		}
+
+		// Artisanに設定されているタグを取得し、
+		// タグ名だけを取り出して返す
+		return artisanTagRepository.findTagsByUserId(userId)
+				.stream()
+				.map(TagEntity::getTagName)
+				.toList();
+	}
+
+	/**
+	 * 投稿Entityを画面表示用のPostListFormに変換します。
+	 *
+	 * 投稿に紐づいているタグと、投稿のいいね数も取得します。
+	 *
+	 * @param posts 投稿Entityの一覧
+	 * @return PostListFormの一覧
+	 */
+	private List<PostListForm> convertToPostListForm(
+			List<PostEntity> posts) {
+
+		List<PostListForm> result = new java.util.ArrayList<>();
+
+		// 投稿を1件ずつ処理
+		for (PostEntity post : posts) {
+
+			// 投稿に紐づいているタグ名を格納するList
+			List<String> tags = new java.util.ArrayList<>();
+
+			// post_tagsから、この投稿に紐づいているタグを取得
+			List<PostTagEntity> postTags =
+					postTagRepository.findByIdPostId(post.getPostId());
+
+			// 投稿に紐づいているタグを1件ずつ処理
+			for (PostTagEntity postTag : postTags) {
+
+				// tag_idを使用してタグを取得
+				TagEntity tag = tagRepository
+						.findById(postTag.getId().getTagId())
+						.orElse(null);
+
+				// タグが存在する場合はタグ名をListに追加
+				if (tag != null) {
+					tags.add(tag.getTagName());
+				}
+			}
+
+			// PostEntityをPostListFormに変換
+			PostListForm form = new PostListForm(
+					post.getPostId(),
+					post.getUser().getUserType().toString(),
+					post.getUser().getUserName(),
+					post.getCreatedAt().toString(),
+					post.getPostTitle(),
+					post.getPostText(),
+					tags,
+					(int) favoriteRepository.countByPost(post)
+			);
+
+			// 変換したFormを結果に追加
+			result.add(form);
+		}
+
+		// 変換した投稿一覧を返す
+		return result;
+	}
+}

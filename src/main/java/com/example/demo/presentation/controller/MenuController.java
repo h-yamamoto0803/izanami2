@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.domain.service.SearchPostByUserTypeService;
 import com.example.demo.domain.service.post.PostService;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
@@ -20,58 +21,60 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MenuController {
 
-	private final PostService postService;
+    private final PostService postService;
+    private final SearchPostByUserTypeService searchPostByUserType;
 
-	@GetMapping(TransitionTargetPageNameKeyword.RETURN_MENU)
-	public String showMenu(
+    @GetMapping(TransitionTargetPageNameKeyword.RETURN_MENU)
+    public String showMenu(
+            @RequestParam(required = false, name = "tag")
+            Collection<String> tagNames,
+            Model model,
+            HttpSession session) {
 
-			@RequestParam(required = false, name = "tag") Collection<String> tagNames,
-			Model model,
-			HttpSession session) {
-
-		model.addAttribute(
-				"posts",
-				postService.getPostListFromDatabase(tagNames));
-
-		model.addAttribute(
-				"tags",
-				postService.getAllTags());
-		
-		 String selectedTag =
-		            tagNames == null || tagNames.isEmpty()
-		                    ? null
-		                    : tagNames.iterator().next();
-		
-		model.addAttribute("selectedTag",selectedTag);
-		
-		LoginUserForm loginUserForm =
+        // セッションからログインユーザー情報を取得
+        LoginUserForm loginUserForm =
                 (LoginUserForm) session.getAttribute(
                         SessionKeyword.LOGIN_USER
                 );
 
-        // 未ログイン
-        if (loginUserForm == null) {
-            model.addAttribute("userType", "guest");
+        // ユーザーIDを取得
+        Integer userId = loginUserForm == null
+                ? null
+                : loginUserForm.getUserId();
 
-            return TransitionTargetPageNameKeyword.MENU_HTML;
+        // Serviceで投稿を取得
+        model.addAttribute(
+                "posts",
+                searchPostByUserType.searchPostByUserType(
+                        userId,
+                        tagNames
+                ));
+
+     // タグ一覧を取得
+        if (userId != null && loginUserForm.isArtisan()) {
+
+            // 職人に紐づいているタグだけ取得
+            model.addAttribute(
+                    "tags",
+                    searchPostByUserType.getArtisanTagNames(userId));
+
+        } else {
+
+            // Guest / Customer は全タグ
+            model.addAttribute(
+                    "tags",
+                    postService.getAllTags());
         }
+        // 選択中のタグ
+        String selectedTag =
+                tagNames == null || tagNames.isEmpty()
+                        ? null
+                        : tagNames.iterator().next();
 
-        // Artisan
-        if (loginUserForm.isArtisan()) {
-            model.addAttribute("userType", "artisan");
-
-            return TransitionTargetPageNameKeyword.ARTISAN_MENU_HTML;
-        }
-
-        // Customer
-        if (loginUserForm.isCustomer()) {
-            model.addAttribute("userType", "customer");
-
-            return TransitionTargetPageNameKeyword.CUSTOMER_MENU_HTML;
-        }
-
-        // 想定外のユーザータイプ
+        model.addAttribute("selectedTag", selectedTag);
+        
+        
+        // 共通メニュー画面へ
         return TransitionTargetPageNameKeyword.MENU_HTML;
     }
 }
-	

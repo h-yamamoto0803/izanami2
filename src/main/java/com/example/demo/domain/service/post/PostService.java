@@ -51,6 +51,7 @@ public class PostService {
 		return posts.stream()
 				.map(post -> new PostListForm(
 						// ユーザータイプを画面表示用の文字列に変換
+						post.getPostId(),
 						post.getUser().getUserType() == 1
 								? "customer"
 								: "artisan",
@@ -58,7 +59,6 @@ public class PostService {
 						post.getCreatedAt().toString(),
 						post.getPostTitle(),
 						post.getPostText(),
-						null,
 						getTagNamesByPostId(post.getPostId()),
 						(int) favoriteRepository.countByPost(post)))
 				.toList();
@@ -102,13 +102,13 @@ public class PostService {
 	 *
 	 *user_id →artisan_tags→tagId→tags→tag_nameの順番でタグ名を取得する。
 	 */
-	
-	public List<String> getArtisanTags(Integer userId){
-		
+
+	public List<String> getArtisanTags(Integer userId) {
+
 		return artisanTagRepository.findTagsByUserId(userId)
-		.stream()	 
-		.map(TagEntity::getTagName)
-		.toList();
+				.stream()
+				.map(TagEntity::getTagName)
+				.toList();
 
 	}
 }
