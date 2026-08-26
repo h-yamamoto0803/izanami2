@@ -3,7 +3,8 @@ package com.example.demo.presentation.controller.post;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.domain.service.post.DeletePost;
@@ -18,10 +19,13 @@ public class DeletePostController {
     private final DeletePost deletePost;
     private final HttpSession httpSession;
 
-    @PostMapping(TransitionTargetPageNameKeyword.DELETE_POST)
-    public String deletePost(@RequestParam Integer postId, @RequestParam Integer userId) {
+    @GetMapping(TransitionTargetPageNameKeyword.DELETE_POST)
+    public String deletePost(@RequestParam Integer postId, 
+    		@RequestParam Integer userId,
+    		Model model) {
     	
-        deletePost.deletePost(postId, userId);
+        String deleteMessage = deletePost.deletePost(postId, userId);
+        model.addAttribute("deleteMessage", deleteMessage);
 
         return TransitionTargetPageNameKeyword.REDIRECT
        		 +TransitionTargetPageNameKeyword.RETURN_MENU;
