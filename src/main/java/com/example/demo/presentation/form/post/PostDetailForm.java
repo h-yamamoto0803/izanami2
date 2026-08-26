@@ -16,17 +16,17 @@ public class PostDetailForm {
 	 * ユーザータイプ
 	 */
 	private Byte userType;
-	
+
 	/**
 	 * ユーザー名
 	 */
 	private String userName;
-	
+
 	/**
 	 * 投稿作成日
 	 */
 	private Timestamp postTime;
-	
+
 	/**
 	 * 投稿タイトル
 	 */
@@ -36,19 +36,29 @@ public class PostDetailForm {
 	 * 投稿テキスト
 	 */
 	private String postText;
-	
+
 	/**
 	 * タグリスト
 	 */
 	private List<String> tags;
-	
+
 	/**
 	 * いいね数
 	 */
 	private long favoriteCount;
-	
+
 	/**
 	 * 検討されている数
 	 */
 	private long candidateCount;
+
+	/**
+	 * いいねフラグ
+	 */
+	private boolean favorited;
+
+	/**
+	 * 検討フラグ
+	 */
+	private boolean candidated;
 }

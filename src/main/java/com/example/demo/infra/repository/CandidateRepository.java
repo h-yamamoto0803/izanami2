@@ -15,4 +15,6 @@ public interface CandidateRepository extends JpaRepository<CandidateEntity, Inte
 
 	long countByPost(PostEntity post);
 
+	boolean existsByUserAndPost(UserEntity user, PostEntity post);
+
 }

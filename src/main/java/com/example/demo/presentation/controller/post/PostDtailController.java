@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.domain.service.post.SearchPostDetail;
+import com.example.demo.infra.entity.PostEntity;
+import com.example.demo.infra.entity.UserEntity;
+import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
+import com.example.demo.presentation.form.LoginUserForm;
 import com.example.demo.presentation.form.post.PostDetailForm;
 
 import lombok.RequiredArgsConstructor;;
@@ -17,7 +21,7 @@ import lombok.RequiredArgsConstructor;;
 @Controller
 @RequiredArgsConstructor
 public class PostDtailController {
-	
+
 	private final SearchPostDetail searchPostDetail;
 
 	/*--- 投稿詳細画面表示リクエスト ---*/
@@ -26,10 +30,24 @@ public class PostDtailController {
 			Model model,
 			@RequestParam Integer postId,
 			HttpSession session) {
-				
-		PostDetailForm postDetailForm = searchPostDetail.getPostDetail(postId);
-		model.addAttribute("postDetailForm",postDetailForm);
-		
+		LoginUserForm loginUser = (LoginUserForm) session.getAttribute(SessionKeyword.LOGIN_USER);
+
+		PostEntity postEntity = searchPostDetail.getPostDetail(postId);
+
+		UserEntity userEntity = null;
+		PostDetailForm postDetailForm = searchPostDetail.convertFrom(postEntity);
+		if (loginUser != null) {
+			userEntity = loginUser.convertToUserEntity(loginUser);
+			// いいね・検討フラグ情報を追加
+			postDetailForm = searchPostDetail.alreadyFlag(
+					postDetailForm,
+					userEntity,
+					postEntity);
+
+		}
+
+		model.addAttribute("postDetailForm", postDetailForm);
+
 		return POST_DETAIL_HTML;
 	}
 }

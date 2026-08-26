@@ -2,6 +2,8 @@ package com.example.demo.domain.service.artisan;
 
 import java.util.Optional;
 
+import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ import com.example.demo.infra.repository.NotificationRepository;
 import com.example.demo.infra.repository.PostRepository;
 import com.example.demo.presentation.form.LoginUserForm;
 import com.example.demo.presentation.form.artisan.CandidateForm;
+
 @Service
 public class Candidate {
 
@@ -27,6 +30,7 @@ public class Candidate {
 			PostRepository postRepository) {
 		this.candidateRepository = candidateRepository;
 		this.notificationRepository = notificationRepository;
+		this.postRepository = postRepository;
 	}
 
 	/**
@@ -38,6 +42,7 @@ public class Candidate {
 	 * @param form: 送信された対象投稿のID情報
 	 * @return 表示層で非同期処理を行うためのDTO
 	 */
+	@Transactional
 	public CandidateResponseDto switchCandidate(LoginUserForm user, CandidateForm form) {
 		CandidateResponseDto response = new CandidateResponseDto();
 
@@ -52,14 +57,20 @@ public class Candidate {
 		// 結果をDTOに記録
 		Optional<CandidateEntity> candidated = candidateRepository.findByUserAndPost(userEntity, postEntity);
 		if (candidated.isPresent()) {
+
+			CandidateEntity candidate = candidated.get();
+
+			// 先に通知を削除
+			notificationRepository.deleteByCandidate(candidate);
+
 			candidateRepository.delete(candidated.get());
 			response.setCandidated(false);
 		} else {
 			CandidateEntity candidate = new CandidateEntity();
 			NotificationEntity notificationEntity = new NotificationEntity();
 			postEntity = postRepository.findById(postEntity.getPostId()).orElseThrow();
-			candidate.setUser(user.convertToUserEntity(user));
-			candidate.setPost(form.convertToPostEntity(form));
+			candidate.setUser(userEntity);
+			candidate.setPost(postEntity);
 			candidateRepository.save(candidate);
 
 			//通知テーブルに検討されたという情報を追加

@@ -9,8 +9,8 @@ import lombok.Data;
 @Data
 public class CandidateResponseDto {
 
-	private Boolean Candidated;
+	private Boolean candidated;
 	private Integer postId;
-	private Long CandidateCount;
+	private Long candidateCount;
 
 }
