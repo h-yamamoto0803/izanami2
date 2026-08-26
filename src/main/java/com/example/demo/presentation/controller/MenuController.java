@@ -1,5 +1,7 @@
 package com.example.demo.presentation.controller;
 
+import java.util.Collection;
+
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -23,20 +25,24 @@ public class MenuController {
 	@GetMapping(TransitionTargetPageNameKeyword.RETURN_MENU)
 	public String showMenu(
 
-			@RequestParam(required = false) String tag,
+			@RequestParam(required = false, name = "tag") Collection<String> tagNames,
 			Model model,
 			HttpSession session) {
 
 		model.addAttribute(
 				"posts",
-				postService.getPostListFromDatabase(tag));
+				postService.getPostListFromDatabase(tagNames));
 
 		model.addAttribute(
 				"tags",
 				postService.getAllTags());
-
 		
-		model.addAttribute("selectedTag", tag);
+		 String selectedTag =
+		            tagNames == null || tagNames.isEmpty()
+		                    ? null
+		                    : tagNames.iterator().next();
+		
+		model.addAttribute("selectedTag",selectedTag);
 		
 		LoginUserForm loginUserForm =
                 (LoginUserForm) session.getAttribute(
