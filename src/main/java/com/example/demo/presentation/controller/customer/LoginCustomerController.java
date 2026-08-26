@@ -1,17 +1,16 @@
 package com.example.demo.presentation.controller.customer;
 
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.domain.service.LoginService;
-import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
 import com.example.demo.presentation.form.LoginUserForm;
 
@@ -53,9 +52,9 @@ public class LoginCustomerController {
      */
     @PostMapping(TransitionTargetPageNameKeyword.LOGIN_CUSTOMER_CONTROLLER)
     public String loginCustomer(
-    		@Valid@ModelAttribute(TransitionTargetPageNameKeyword.LOGIN_FORM) LoginUserForm loginUserForm,
+    		@Validated @ModelAttribute(TransitionTargetPageNameKeyword.LOGIN_FORM) LoginUserForm loginUserForm,
+    		BindingResult bindingResult,
             HttpSession session,
-            BindingResult bindingResult,
             Model model) {
     	if (bindingResult.hasErrors()) {
             return TransitionTargetPageNameKeyword.CUSTOMER_LOGIN_HTML;
@@ -69,13 +68,13 @@ public class LoginCustomerController {
     	            && loginUserForm.isCustomer()) {
 
             // ログインユーザーの情報をセッションに保存
-    		 session.setAttribute(
-    		            SessionKeyword.LOGIN_USER,
-    		            loginUserForm
-    		    );
+    		 session.setAttribute("userId", loginUserForm.getUserId());
+         	session.setAttribute("userType", loginUserForm.getUserType());
+         	session.setAttribute("userName", loginUserForm.getUserName());
+             
 
              return TransitionTargetPageNameKeyword.REDIRECT 
-            		 + TransitionTargetPageNameKeyword.RETURN_MENU;
+            		 + TransitionTargetPageNameKeyword.POST_CUSTOMER_CONTROLLER;
         }
 
         model.addAttribute(
