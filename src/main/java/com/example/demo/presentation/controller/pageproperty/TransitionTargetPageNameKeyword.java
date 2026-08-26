@@ -15,7 +15,7 @@ public class TransitionTargetPageNameKeyword {
 	public static final String LOGOUT_CONTROLLER = "/logout";
 	public static final String RETURN_MENU = "/menu";
 	public static final String REDIRECT = "redirect:";
-	
+
 	// artisan
 		// HTML
 	public static final String ARTISAN_LOGIN_HTML = "artisan-login";
@@ -44,17 +44,15 @@ public class TransitionTargetPageNameKeyword {
 	public final static String POST_DETAIL = "/post-detail";
 	public final static String INSERT_POST = "/insertPost";
 	public final static String INSERT_POST_CONFIRM = "/insertPostConfirm";
+	public final static String DELETE_POST = "/deletePost";
 	public final static String POST = "/post";
-	
 		// HTML
 	public final static String POST_DETAIL_HTML = "post-detail";
 	public final static String POST_CREATE_HTML = "post-create";
 	public final static String POST_CONFIRM_HTML = "post-confirm";
 
-
 	// Form
 	public final static String LOGIN_FORM = "loginForm";
-
 
 	public static Set<String> getArtisanPageList() {
 		return Set.of(
@@ -62,14 +60,11 @@ public class TransitionTargetPageNameKeyword {
 	}
 	
 	public static Set<String> getCustomerPageList() {
-		// TODO 自動生成されたメソッド・スタブ
 		return Set.of(
 				CUSTOMER_ACCOUNT,
 				CUSTOMER_ACCOUNT_EDIT,
 				CONFIRM_CUSTOMER_ACCOUNT_EDIT,
 				DO_EDIT_CUSTOMER_ACCOUNT
-				
-				
 				);
 	}
 }
