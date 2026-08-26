@@ -46,4 +46,9 @@ public class PostDetailForm {
 	 * いいね数
 	 */
 	private long favoriteCount;
+	
+	/**
+	 * 検討されている数
+	 */
+	private long candidateCount;
 }
