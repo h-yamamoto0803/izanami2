@@ -13,6 +13,7 @@ public class TransitionTargetPageNameKeyword {
 	public static final String INDEX_SLASH = "/";
 	public static final String LOGOUT_CONTROLLER = "/logout";
 	public static final String RETURN_MENU = "/menu";
+	public static final String REDIRECT = "redirect:";
 
 	// artisan
 		// HTML
@@ -37,7 +38,8 @@ public class TransitionTargetPageNameKeyword {
 	public final static String POST_DETAIL = "/post-detail";
 	public final static String INSERT_POST = "/insertPost";
 	public final static String INSERT_POST_CONFIRM = "/insertPostConfirm";
-	public final static String POST = "/menu";
+	public final static String DELETE_POST = "/deletePost";
+	public final static String POST = "/post";
 
 		// HTML
 	public final static String POST_DETAIL_HTML = "post-detail";
