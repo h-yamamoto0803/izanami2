@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.example.demo.domain.service.customer.SearchCustomer;
 import com.example.demo.domain.service.customer.UpdateCustomerAccount;
 import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
@@ -21,73 +22,75 @@ import com.example.demo.presentation.form.customer.CustomerAccountEditForm;
 
 @Controller
 public class ConfirmCustomerAccountEditController {
-	
+
 	@Autowired
-	UpdateCustomerAccount updateCustomerAccountTest;
+	UpdateCustomerAccount updateCustomerAccount;
 	HttpSession httpSession;
-	
-	public ConfirmCustomerAccountEditController(UpdateCustomerAccount updateCustomerAccountTest,HttpSession httpSession) {
-		this.updateCustomerAccountTest = updateCustomerAccountTest;
+	SearchCustomer searchCustomer;
+
+	public ConfirmCustomerAccountEditController(UpdateCustomerAccount updateCustomerAccountTest,
+			HttpSession httpSession, SearchCustomer searchCustomer) {
+		this.updateCustomerAccount = updateCustomerAccountTest;
 		this.httpSession = httpSession;
+		this.searchCustomer = searchCustomer;
 	}
-	
-	@RequestMapping(value = TransitionTargetPageNameKeyword.
-			CONFIRM_CUSTOMER_ACCOUNT_EDIT, 
-			method = RequestMethod.POST)
-	
-	public String confirmCustomerAccountEdit(@Valid CustomerAccountEditForm customerAccountEditForm, 
-			BindingResult bindingResult,Model model,HttpSession session) {
+
+	@RequestMapping(value = TransitionTargetPageNameKeyword.CONFIRM_CUSTOMER_ACCOUNT_EDIT, method = RequestMethod.POST)
+
+	public String confirmCustomerAccountEdit(@Valid CustomerAccountEditForm customerAccountEditForm,
+			BindingResult bindingResult, Model model, HttpSession session) {
+
 		try {
-			
-			final String DUPLICATION="既に登録済みのメールアドレスです。";
-			
-		List<UserEntity> error = updateCustomerAccountTest.searchUserByEmail(customerAccountEditForm.getEmail());
-		
-		LoginUserForm loginUser = (LoginUserForm)session.getAttribute(SessionKeyword.LOGIN_USER);
-		String beforeUsermail =loginUser.getEmail();
-		System.out.println(beforeUsermail);
-		System.out.println(customerAccountEditForm.getEmail());
-		if(bindingResult.hasErrors()) {
+			//Formのバリデーションではじかれたとき
+			if (bindingResult.hasErrors()) {
 				return TransitionTargetPageNameKeyword.CUSTOMER_ACCOUNT_EDIT_HTML;
 			}
-		if(!error.isEmpty()) {
-			if(customerAccountEditForm.getEmail().equals(beforeUsermail)) {
-				 model.addAttribute("CustomerAccountEditForm", customerAccountEditForm);
-				 System.out.println("メールアドレスがを変更しない場合（自分のメールアドレスをもう一度入れた場合）");
-				 return TransitionTargetPageNameKeyword.CUSTOMER_ACCOUNT_EDIT_CONFIRM_HTML;
-			}else{
+
+			//パスワードが確認用と違くてはじかれたとき
+			final String ERROR = "パスワードが一致していません";
+			String password = customerAccountEditForm.getPassword();
+			String passwordConfirm = customerAccountEditForm.getPasswordConfirm();
+			String passwordError = customerAccountEditForm.validatePassword(password, passwordConfirm);
+
+			if (passwordError.equals(ERROR)) {
+				model.addAttribute("CustomerAccountEditForm", customerAccountEditForm);
+				System.out.println(ERROR);
+				model.addAttribute("errorMessage", ERROR);
+				return TransitionTargetPageNameKeyword.CUSTOMER_ACCOUNT_EDIT_HTML;
+			}
+
+			//既に登録済みのメールアドレスを入力してはじかれたとき
+			final String DUPLICATION = "既に登録済みのメールアドレスです。";
+			LoginUserForm loginUser = (LoginUserForm) session.getAttribute(SessionKeyword.LOGIN_USER);
+			String beforeUsermail = loginUser.getEmail();
+
+			if (!beforeUsermail.equals(customerAccountEditForm.getEmail())) {
+				List<UserEntity> userListBymail = searchCustomer.searchUserByEmail(customerAccountEditForm.getEmail());
+
+				if (!userListBymail.isEmpty()) {
+					model.addAttribute("CustomerAccountEditForm", customerAccountEditForm);
+					model.addAttribute("errorMessage", DUPLICATION);
+					return TransitionTargetPageNameKeyword.CUSTOMER_ACCOUNT_EDIT_HTML;
+				}
+
+				// 登録確認画面に遷移
+				model.addAttribute("CustomerAccountEditForm", customerAccountEditForm);
+				return TransitionTargetPageNameKeyword.CUSTOMER_ACCOUNT_EDIT_CONFIRM_HTML;
+			}
+
+			// 登録確認画面に遷移
 			model.addAttribute("CustomerAccountEditForm", customerAccountEditForm);
-			System.out.println(DUPLICATION);
-			//画面側の表示処理はまだ
-			model.addAttribute("errorMessage", DUPLICATION);
-			return TransitionTargetPageNameKeyword.CUSTOMER_ACCOUNT_EDIT_HTML;
-			}
-			}
-		
-		
-//	         登録確認ページに遷移
-		System.out.println("保持してるパスワードは"+customerAccountEditForm.getPassword());
-	        model.addAttribute("CustomerAccountEditForm", customerAccountEditForm);
-	        // 登録確認画面に遷移
-	        System.out.println("アカウント編集確認画面に移る");
-	        System.out.println("modelで渡した後"+customerAccountEditForm.getPassword());
-	        return TransitionTargetPageNameKeyword.CUSTOMER_ACCOUNT_EDIT_CONFIRM_HTML;
+			return TransitionTargetPageNameKeyword.CUSTOMER_ACCOUNT_EDIT_CONFIRM_HTML;
 
+		} catch (Exception e) {
+			// ログイン情報の破棄
+			session.invalidate();
+			e.printStackTrace();
+			model.addAttribute("msg", "予期せぬエラーが発生しました。");
+			// エラー画面遷移
+			System.out.println("予期せぬエラー");
+			return TransitionTargetPageNameKeyword.MENU_HTML;
 
-	    } catch (Exception e) {
-	        // ログイン情報の破棄
-	        session.invalidate();
-
-	        e.printStackTrace();
-
-	        model.addAttribute("msg","予期せぬエラーが発生しました。" );
-//	        // エラー画面遷移
-	    	System.out.println("予期せぬエラー");
-	        return TransitionTargetPageNameKeyword.MENU_HTML;
-    
-		
-		
-		
+		}
 	}
-}
 }
