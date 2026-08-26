@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.infra.entity.PostEntity;
 import com.example.demo.infra.repository.CandidateRepository;
+import com.example.demo.infra.repository.FavoriteRepository;
 import com.example.demo.infra.repository.PostRepository;
 import com.example.demo.presentation.form.post.PostDetailForm;
 
@@ -15,6 +16,7 @@ public class SearchPostDetail {
 	
 	private final PostRepository repository;
 	private final PostService postService;
+	private final FavoriteRepository favoriteRepository;
 	private final CandidateRepository candidateRepository;
 	
 	/**
@@ -43,7 +45,8 @@ public class SearchPostDetail {
 		form.setPostTitle(entity.getPostTitle());
 		form.setPostText(entity.getPostText());
 		form.setTags(postService.getTagNamesByPostId(entity.getPostId()));
-		form.setFavoriteCount(candidateRepository.countByPost(entity));
+		form.setFavoriteCount(favoriteRepository.countByPost(entity));
+		form.setCandidateCount(candidateRepository.countByPost(entity));
 		
 		return form;
 	}
