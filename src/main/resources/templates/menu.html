@@ -27,12 +27,20 @@
       <h1>Traemon</h1>
       <p>職人の技術と、ユーザーの「こんなのが欲しい」をつなぐ伝統工芸コミュニティ。</p>
     </section>
-    <form class="toolbar" action="menu.html" method="get">
-      <select name="tag" aria-label="タグ">
-        <option value="">すべてのタグ</option><option>陶芸</option><option>漆器</option><option>木工</option><option>染織</option><option>金工</option>
-      </select>
+    <form class="toolbar" th:action="@{/menu}" method="get">
+		<select name="tag" aria-label="タグ">
+		    <option value=""
+			th:selected="${selectedTag == null or selectedTag == ''}">すべてのタグ</option>
+
+		    <option th:each="tag : ${tags}"
+		            th:value="${tag}"
+		            th:text="${tag}"
+					th:selected="${selectedTag == tag}">>
+		        タグ名
+		    </option>
+		</select>
       <button class="btn btn-primary" type="submit">絞り込み</button>
-      <a class="btn btn-outline" href="menu.html">クリア</a>
+      <a class="btn btn-outline" th:href="@{/menu}">クリア</a>
     </form>
 	<div class="timeline">
 
@@ -87,20 +95,13 @@
 	        </p>
 
 	        <!-- ジャンル・タグ -->
-	        <div class="post-tags">
+			<span class="tag"
+			          th:each="tag : ${post.tags}"
+			          th:text="'#' + ${tag}">
+			        #タグ
+			    </span>
 
-	            <span class="tag"
-	                  th:text="'#' + ${post.genre}">
-	                #ジャンル
-	            </span>
-
-	            <span class="tag"
-	                  th:text="'#' + ${post.tag}">
-	                #タグ
-	            </span>
-
-	        </div>
-
+	    
 	        <!-- いいね -->
 	        <div class="post-actions">
 

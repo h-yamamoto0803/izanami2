@@ -2,6 +2,9 @@ package com.example.demo.presentation.form;
 
 
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
 import com.example.demo.infra.entity.UserEntity;
 
 import lombok.AllArgsConstructor;
@@ -20,7 +23,10 @@ public class LoginUserForm {
 	private Integer userId;
 	private Byte userType;
 	private String userName;
+	@NotBlank(message = "メールアドレスを入力してください")
+	@Email(message = "正しいメールアドレスを入力してください")
 	private String email;
+	@NotBlank(message = "パスワードを入力してください")
 	private String password;
 
 

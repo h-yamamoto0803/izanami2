@@ -1,6 +1,8 @@
 
 package com.example.demo.presentation.form.post;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -27,7 +29,7 @@ public class PostListForm {
     private String genre;
 
     /** タグ */
-    private String tag;
+    private List<String> tags;
 
     /** いいね数 */
     private Integer favoriteCount;

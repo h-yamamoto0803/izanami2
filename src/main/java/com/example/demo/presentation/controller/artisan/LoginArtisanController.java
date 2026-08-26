@@ -1,14 +1,17 @@
 package com.example.demo.presentation.controller.artisan;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.domain.service.LoginService;
+import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
 import com.example.demo.presentation.form.LoginUserForm;
 
@@ -47,9 +50,14 @@ public class LoginArtisanController {
      */
     @PostMapping(TransitionTargetPageNameKeyword.LOGIN_ARTISAN_CONTROLLER)
     public String loginArtisan(
-            @ModelAttribute(TransitionTargetPageNameKeyword.LOGIN_FORM) LoginUserForm loginUserForm,
+    		@Valid @ModelAttribute(TransitionTargetPageNameKeyword.LOGIN_FORM) LoginUserForm loginUserForm,
             HttpSession session,
+            BindingResult bindingResult,
             Model model) {
+    	
+    	if (bindingResult.hasErrors()) {
+            return TransitionTargetPageNameKeyword.ARTISAN_LOGIN_HTML;
+        }
 
     	
 
@@ -61,11 +69,13 @@ public class LoginArtisanController {
                 && loginUserForm.isArtisan()) {
 
             // ログインユーザーの情報をセッションに保存
-            session.setAttribute("userId", loginUserForm.getUserId());
-            session.setAttribute("userName", loginUserForm.getUserName());
-            session.setAttribute("userType", loginUserForm.getUserType());
+        	session.setAttribute(
+                    SessionKeyword.LOGIN_USER,
+                    loginUserForm
+            );
 
-            return TransitionTargetPageNameKeyword.ARTISAN_MENU_HTML;
+         return TransitionTargetPageNameKeyword.REDIRECT 
+        		 +TransitionTargetPageNameKeyword. RETURN_MENU;
         }
 
         model.addAttribute(
