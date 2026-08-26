@@ -53,8 +53,9 @@ public class DoEditCustomerAccountController {
 		
 		System.out.println("アカウント編集登録処理完了");
 		System.out.println("");
-		return TransitionTargetPageNameKeyword.MENU_HTML;}
-		catch (Exception e) {
+		return TransitionTargetPageNameKeyword.MENU_HTML;
+		
+		}catch (Exception e) {
 	        // ログイン情報の破棄
 	        session.invalidate();
 

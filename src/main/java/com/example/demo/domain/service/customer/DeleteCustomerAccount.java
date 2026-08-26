@@ -36,7 +36,7 @@ public class DeleteCustomerAccount {
         return customerAccountEditForm;
     }
     public void deleteCustomer(CustomerAccountEditForm beforecustomerAccountEditForm, UserEntity deleteUser) {
-    	
+    	userRepository.save(deleteUser);
     }
 	
 }

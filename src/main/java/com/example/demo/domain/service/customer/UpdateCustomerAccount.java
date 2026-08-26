@@ -48,7 +48,7 @@ public class UpdateCustomerAccount {
 	}
 
 	public void updateCustomer(CustomerAccountEditForm beforecustomerAccountEditForm, UserEntity updateUser) {
-		
+		userRepository.save(updateUser);
 	}
 
 }
