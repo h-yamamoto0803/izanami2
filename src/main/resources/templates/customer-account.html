@@ -34,15 +34,30 @@
 </header>
 
 <main><div class="container">
-  <section class="card account-head customer-tile"><h1 class="page-title">ユーザーアカウントページ</h1><p>自分が投稿した内容の一覧とアカウント情報を確認できます。</p><p class="account-name">名前：伝統工芸が好き</p><p class="account-email">メールアドレス：user@example.com</p><div class="account-actions">
+  <section class="card account-head customer-tile">
+	<h1 class="page-title">ユーザーアカウントページ</h1>
+			<p>自分が投稿した内容の一覧とアカウント情報を確認できます。</p>
+			<p class="account-name">名前：伝統工芸が好き</p>
+			<p class="account-email">メールアドレス：user@example.com</p>
+			
+	<div class="account-actions">
 	<a class="btn btn-primary" th:href="@{/CustomerAccountEdit}">アカウント編集</a>
-		<a class="btn btn-primary" th:href="@{/DeleteCustomerAccount}">削除</a>
-	</div></section>
-  <div class="section-title"><h2>自分の投稿</h2></div><div class="timeline"><article class="card post-card post-list-card">
+	<a class="btn btn-primary" th:href="@{/DeleteCustomerAccount}">削除</a>
+	</div>
+</section>
+  <div class="section-title">
+	<h2>自分の投稿</h2>
+  </div>
+  <div class="timeline">
+	<article class="card post-card post-list-card">
   <div class="post-top">
-    <div>
+  	<div>
       <div class="post-author">
-        <span class="role-badge customer"><span class="role-dot"></span>ユーザー</span>
+        <span class="role-badge customer">
+			<span class="role-dot">
+				
+			</span>ユーザー
+		</span>
         <span class="post-user">伝統工芸が好き</span>
       </div>
       <div class="post-date">2026/08/19 12:00</div>
@@ -51,8 +66,14 @@
   <a class="post-title-link" href="post-detail-customer.html">玄関に置ける小さな花器が欲しい</a>
 
   <p class="post-summary">玄関に置ける小さな花器を探しています。落ち着いた色味で、長く使えるものが希望です。</p>
-  <div class="post-tags"><span class="tag">#陶芸</span><span class="tag">#花器</span></div>
-  <div class="post-actions"><span class="favorite-count">♥ 21 いいね</span><button class="btn btn-outline btn-favorite" type="button">♥ いいね 21</button></div>
+  <div class="post-tags">
+	<span class="tag">#陶芸</span>
+	<span class="tag">#花器</span>
+</div>
+  <div class="post-actions">
+	<span class="favorite-count">♥ 21 いいね</span>
+	<button class="btn btn-outline btn-favorite" type="button">♥ いいね 21</button>
+</div>
 
 </article></div>
 </div></main>
