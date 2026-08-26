@@ -3,12 +3,14 @@ package com.example.demo.presentation.controller.post;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.domain.service.post.DeletePost;
+import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
+import com.example.demo.presentation.form.LoginUserForm;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,15 +19,16 @@ import lombok.RequiredArgsConstructor;
 public class DeletePostController {
 
     private final DeletePost deletePost;
-    private final HttpSession httpSession;
 
     @GetMapping(TransitionTargetPageNameKeyword.DELETE_POST)
     public String deletePost(@RequestParam Integer postId, 
-    		@RequestParam Integer userId,
-    		Model model) {
+    		RedirectAttributes redirect,
+    		HttpSession session) {
     	
+    	LoginUserForm loginUserForm = (LoginUserForm)session.getAttribute(SessionKeyword.LOGIN_USER);
+    	Integer userId = loginUserForm.getUserId();
         String deleteMessage = deletePost.deletePost(postId, userId);
-        model.addAttribute("deleteMessage", deleteMessage);
+        redirect.addFlashAttribute("deleteMessage", deleteMessage);
 
         return TransitionTargetPageNameKeyword.REDIRECT
        		 +TransitionTargetPageNameKeyword.RETURN_MENU;

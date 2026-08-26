@@ -37,7 +37,7 @@
 <main><div class="container">
   <section class="hero customer-tile"><h1>ユーザー専用メニュー</h1><p>職人の作品や、ほかのユーザーが投稿した需要をチェックできます。</p></section>
   <div th:if="${deleteMessage} != null">
-      <span th:text="${deleteMassage}"></span>
+      <span th:text="${deleteMessage}"></span>
   </div>
    <form class="toolbar" action="customer-menu.html" method="get">
     <select name="tag"><option value="">すべてのタグ</option><option>陶芸</option><option>漆器</option><option>木工</option><option>染織</option><option>金工</option></select>
