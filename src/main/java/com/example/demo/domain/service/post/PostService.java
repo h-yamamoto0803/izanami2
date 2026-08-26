@@ -52,6 +52,7 @@ public class PostService {
 					return tagNames.contains(tag);
 				})
 				.map(post -> new PostListForm(
+						post.getPostId(),
 						post.getUser().getUserType() == 1
 								? "customer"
 								: "artisan",
@@ -63,8 +64,6 @@ public class PostService {
 						post.getPostTitle(),
 
 						post.getPostText(),
-
-						null,
 
 						getTagNamesByPostId(post.getPostId()),
 
@@ -91,4 +90,52 @@ public class PostService {
 				.map(TagEntity::getTagName)
 				.toList();
 	}
+	
+	public List<PostEntity> findByUserId(Integer userId){
+		
+		return postRepository.findByUser_UserId(userId);
+	}
+	
+	public List<PostListForm> convertToPostListForm(
+	        List<PostEntity> posts) {
+
+	    List<PostListForm> result = new java.util.ArrayList<>();
+
+	    for (PostEntity post : posts) {
+
+	        // 投稿についているタグを取得
+	        List<String> tags = new java.util.ArrayList<>();
+
+	        List<PostTagEntity> postTags =
+	                postTagRepository.findByIdPostId(post.getPostId());
+
+	        for (PostTagEntity postTag : postTags) {
+
+	            TagEntity tag = tagRepository
+	                    .findById(postTag.getId().getTagId())
+	                    .orElse(null);
+
+	            if (tag != null) {
+	                tags.add(tag.getTagName());
+	            }
+	        }
+
+	        // PostEntity → PostListForm
+	        PostListForm form = new PostListForm(
+	        		post.getPostId(),
+	                post.getUser().getUserType().toString(),
+	                post.getUser().getUserName(),
+	                post.getCreatedAt().toString(),
+	                post.getPostTitle(),
+	                post.getPostText(),
+	                tags,
+	                (int) favoriteRepository.countByPost(post)
+	        );
+
+	        result.add(form);
+	    }
+
+	    return result;
+	}
+	
 }

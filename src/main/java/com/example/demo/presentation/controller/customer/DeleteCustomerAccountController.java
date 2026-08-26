@@ -28,7 +28,7 @@ public class DeleteCustomerAccountController {
 		this.deleteCustomerAccount = deleteCustomerAccount;
 	}
 	
-	@RequestMapping(value = TransitionTargetPageNameKeyword.DELETE_CUSTOMER_ACCOUNT, method = RequestMethod.POST)
+	@RequestMapping(value = TransitionTargetPageNameKeyword.DELETE_CUSTOMER_ACCOUNT, method = RequestMethod.GET)
 	public String deleteCustomerAccount(Model model,
             @ModelAttribute CustomerAccountEditForm customerAccountEditForm,
             HttpSession session) {
