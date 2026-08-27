@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.example.demo.domain.service.customer.SearchCustomer;
 import com.example.demo.domain.service.customer.UpdateCustomerAccount;
 import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
@@ -20,17 +21,16 @@ import com.example.demo.presentation.form.customer.CustomerAccountEditForm;
 public class DoEditCustomerAccountController {
 	
 	
-	UpdateCustomerAccount updateCustomerAccountTest;
 	UpdateCustomerAccount updateCustomerAccount;
 	HttpSession httpSession;
+	SearchCustomer searchCustomer;
 	@Autowired
 	public DoEditCustomerAccountController(HttpSession httpsession,
-			UpdateCustomerAccount updateCustomerAccountTest,
-			UpdateCustomerAccount updateCustomerAccount) {
+			UpdateCustomerAccount updateCustomerAccount,
+			SearchCustomer searchCustomer) {
 		this.httpSession = httpsession;
-		this.updateCustomerAccountTest = updateCustomerAccountTest;
 		this.updateCustomerAccount = updateCustomerAccount;
-		
+		this.searchCustomer = searchCustomer;
 	}
 	
 	
@@ -43,7 +43,7 @@ public class DoEditCustomerAccountController {
 				(LoginUserForm)session.getAttribute(SessionKeyword.LOGIN_USER);
 		
 		CustomerAccountEditForm beforecustomerAccountEditForm 
-		= updateCustomerAccountTest.searchIdCustomer(loginUser.getUserId()); 
+		= searchCustomer.searchIdCustomer(loginUser.getUserId()); 
 		
 		UserEntity updateUserEntity = CustomerAccountEditForm.convertTo(customerAccountEditForm);
 		

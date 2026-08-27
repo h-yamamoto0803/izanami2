@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import com.example.demo.domain.service.customer.SearchCustomer;
 import com.example.demo.domain.service.customer.UpdateCustomerAccount;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
@@ -18,14 +19,16 @@ import com.example.demo.presentation.form.customer.CustomerAccountEditForm;
 public class CustomerAccountEditController {
 	
 	
-	UpdateCustomerAccount updateCustomerAccountTest;
+	UpdateCustomerAccount updateCustomerAccount;
 	 
 	HttpSession httpSession;
+	SearchCustomer searchCustomer;
 	
 	@Autowired
-	public CustomerAccountEditController(HttpSession httpsession,UpdateCustomerAccount updateCustomerAccountTest) {
+	public CustomerAccountEditController(HttpSession httpsession,UpdateCustomerAccount updateCustomerAccountTest,SearchCustomer searchCustomer) {
 		this.httpSession = httpsession;
-		this.updateCustomerAccountTest = updateCustomerAccountTest;
+		this.updateCustomerAccount = updateCustomerAccountTest;
+		this.searchCustomer = searchCustomer;
 		
 	}
 	
@@ -44,7 +47,7 @@ public String customerAccountEdit(Model model,
 		
 		System.out.println("userId"+userId+"を取得");
 		
-		customerAccountEditForm = updateCustomerAccountTest.searchIdCustomer(userId);
+		customerAccountEditForm = searchCustomer.searchIdCustomer(userId);
 		
 		model.addAttribute("customerAccountEditForm",customerAccountEditForm );
 	System.out.println("アカウント編集に行く");
