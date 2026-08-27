@@ -45,12 +45,9 @@ public class PostService {
 	 * @param selectedTag 画面で選択されたタグ
 	 * @return メニュー画面に表示する投稿一覧
 	 */
-	public List<PostListForm> searchPostByUserType(
-			Integer userId,
-			String selectedTag) {
+	public List<PostListForm> searchPostByUserType(Integer userId,String selectedTag) {
 		// ログインユーザーを取得
-		UserEntity user = userRepository.findById(userId)
-				.orElse(null);
+		UserEntity user = userRepository.findById(userId).orElse(null);
 
 		// Artisanの場合は専門タグに関連する投稿を検索
 		if (user.getUserType() == 2) {
