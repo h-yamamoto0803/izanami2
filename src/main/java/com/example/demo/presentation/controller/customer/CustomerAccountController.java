@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.example.demo.domain.service.customer.SearchCustomer;
 import com.example.demo.domain.service.customer.UpdateCustomerAccount;
 import com.example.demo.domain.service.post.PostService;
 import com.example.demo.infra.entity.PostEntity;
@@ -23,16 +24,18 @@ public class CustomerAccountController {
 
 	HttpSession httpSession;
 	PostService postService;
+	SearchCustomer searchCustomer;
 	UpdateCustomerAccount updateCustomerAccount;
 	
 
 	@Autowired
 	public CustomerAccountController(HttpSession httpsession, 
 			UpdateCustomerAccount updateCustomerAccount,
-			PostService postService) {
+			PostService postService,SearchCustomer searchCustomer) {
 		this.httpSession = httpsession;
 		this.updateCustomerAccount = updateCustomerAccount;
 		this.postService = postService;
+		this.searchCustomer = searchCustomer;
 		
 
 	}
@@ -43,6 +46,8 @@ public class CustomerAccountController {
 		//後で消す
 		LoginUserForm loginUserForm = new LoginUserForm();
 		loginUserForm.setUserId(1);
+		loginUserForm.setEmail("kenta.sato@example.com");
+		loginUserForm.setUserType((byte)1);
 		session.setAttribute(
 				SessionKeyword.LOGIN_USER,
 				loginUserForm);
@@ -51,7 +56,7 @@ public class CustomerAccountController {
 		LoginUserForm loginUser = (LoginUserForm) session.getAttribute(SessionKeyword.LOGIN_USER);
 		Integer userId = loginUser.getUserId();
 		
-		CustomerAccountEditForm customerAccountEditForm = updateCustomerAccount.searchIdCustomer(userId);
+		CustomerAccountEditForm customerAccountEditForm = searchCustomer.searchIdCustomer(userId);
 		String name = customerAccountEditForm.getUserName();
 		String mail = customerAccountEditForm.getEmail();
 
