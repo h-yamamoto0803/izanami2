@@ -30,6 +30,7 @@
                  type="email"
                  th:field="*{email}"
                  >
+
           <p th:if="${#fields.hasErrors('email')}"
              th:errors="*{email}"></p>
         </div>
@@ -38,8 +39,8 @@
           <label for="artisanPassword">パスワード</label>
           <input id="artisanPassword"
                  type="password"
-                 th:field="*{password}"
-                 >
+                 th:field="*{password}" >
+
           <p th:if="${#fields.hasErrors('password')}"
              th:errors="*{password}"></p>
         </div>

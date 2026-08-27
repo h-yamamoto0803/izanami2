@@ -14,6 +14,7 @@ public class TransitionTargetPageNameKeyword {
 	public static final String INDEX_SLASH = "/";
 	public static final String LOGOUT_CONTROLLER = "/logout";
 	public static final String RETURN_MENU = "/menu";
+
 	public static final String REDIRECT = "redirect:";
 	// artisan
 		// HTML
