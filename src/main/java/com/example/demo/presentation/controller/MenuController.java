@@ -3,6 +3,7 @@ package com.example.demo.presentation.controller;
 import static com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword.*;
 
 import java.util.Collection;
+import java.util.List;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -15,6 +16,7 @@ import com.example.demo.domain.service.post.PostService;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
 import com.example.demo.presentation.form.LoginUserForm;
+import com.example.demo.presentation.form.post.PostListForm;
 
 import lombok.RequiredArgsConstructor;
 
@@ -38,19 +40,21 @@ public class MenuController {
 				? null
 				: loginUserForm.getUserId();
 
+		List<PostListForm> postList = postService.searchPostByUserType(userId, tagNames);
+
 		// Serviceで投稿を取得
-		model.addAttribute("posts",postService.searchPostByUserType(userId,tagNames));
+		model.addAttribute("posts", postList);
 
 		// タグ一覧を取得
 		if (userId != null && loginUserForm.isArtisan()) {
 
 			// 職人に紐づいているタグだけ取得
-			model.addAttribute("tags",postService.getArtisanTagNames(userId));
-		}else{
+			model.addAttribute("tags", postService.getArtisanTagNames(userId));
+		} else {
 			// Guest / Customer は全タグ
-			model.addAttribute("tags",postService.getAllTags());
+			model.addAttribute("tags", postService.getAllTags());
 		}
-		
+
 		// 選択中のタグ
 		String selectedTag = tagNames == null || tagNames.isEmpty()
 				? null

@@ -12,24 +12,35 @@ public class PostListForm {
 	/** 投稿Id　*/
 	private Integer postId;
 
-    /** 投稿者種別（artisan / customer） */
-    private String userType;
+	/** 投稿者種別（artisan / customer） */
+	private String userType;
 
-    /** 投稿者名 */
-    private String userName;
+	/** 投稿者名 */
+	private String userName;
 
-    /** 投稿日時 */
-    private String postDate;
+	/** 投稿日時 */
+	private String postDate;
 
-    /** タイトル */
-    private String title;
+	/** タイトル */
+	private String title;
 
-    /** 本文 */
-    private String summary;
+	/** 本文 */
+	private String summary;
 
-    /** タグ */
-    private List<String> tags;
+	/** タグ */
+	private List<String> tags;
 
-    /** いいね数 */
-    private long favoriteCount;
+	/** いいね数 */
+	private long favoriteCount;
+
+	/**
+	 * いいねフラグ
+	 */
+	private boolean favorited;
+
+	/**
+	 * 検討フラグ
+	 */
+	private boolean candidated;
+
 }

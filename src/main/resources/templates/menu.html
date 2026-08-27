@@ -247,43 +247,63 @@
              いいね・アクション
         ========================= -->
 
-        <div class="post-actions">
+
+		<div class="post-actions">
+
+		  <!-- いいね数 -->
+
+		  <span class="favorite-count"
+		        th:text="'♥ ' + ${post.favoriteCount} + ' いいね'">
+
+		    ♥ 0 いいね
+
+		  </span>
 
 
-          <!-- いいね数 -->
+		  <!-- Guest -->
 
-          <span class="favorite-count"
-                th:text="'♥ ' + ${post.favoriteCount} + ' いいね'">
+		  <form th:if="${session.loginUser == null}"
+		        th:action="@{/customer/login}"
+		        method="get">
 
-            ♥ 0 いいね
+		    <button class="btn btn-outline btn-favorite"
+		            type="submit"
+		            th:text="'♥ いいね ' + ${post.favoriteCount}">
 
-          </span>
+		      ♥ いいね
 
+		    </button>
 
-          <!-- Guest / Customer -->
-
-          <a class="btn btn-outline btn-favorite"
-             th:if="${userType == 'guest' or userType == 'customer'}"
-             th:href="@{/customer/login}"
-             th:text="'♥ いいね ' + ${post.favoriteCount}">
-
-            ♥ いいね
-
-          </a>
+		  </form>
 
 
-          <!-- Artisan -->
+		  <!-- Customer -->
 
-          <button class="btn btn-outline btn-candidate"
-                  th:if="${userType == 'artisan'}"
-                  type="button">
+		  <button th:if="${session.loginUser != null and session.loginUser.userType == 1}"
+		          class="btn btn-outline btn-favorite favorite-button"
+		          th:classappend="${post.favorited} ? 'is-favorited' : ''"
+		          th:data-post-id="${post.postId}"
+		          type="button"
+		          th:text="'♥ いいね ' + ${post.favoriteCount}">
 
-            検討中
+		    ♥ いいね
 
-          </button>
+		  </button>
 
 
-        </div>
+		  <!-- Artisan -->
+
+		  <button th:if="${session.loginUser != null and session.loginUser.userType == 2}"
+		          class="btn btn-outline btn-candidate candidate-button"
+		          th:classappend="${post.candidated} ? 'is-candidated' : ''"
+		          th:data-post-id="${post.postId}"
+		          type="button">
+
+		    検討
+
+		  </button>
+
+		</div>
 
 
       </article>
@@ -294,6 +314,103 @@
   </div>
 
 </main>
+
+<Script>
+
+	// いいねボタン処理
+
+	const favoriteButtons = document.querySelectorAll(".favorite-button");
+
+	favoriteButtons.forEach((favoriteButton) => {
+
+		favoriteButton.addEventListener("click", async () => {
+
+			const formData = new FormData();
+
+			formData.append("postId", favoriteButton.dataset.postId);
+
+			const response = await fetch("/favorite", {
+
+				method: "POST",
+
+				body: formData
+
+			});
+
+			const result = await response.json();
+
+			if (result.favorited) {
+
+				favoriteButton.classList.add("is-favorited");
+
+			} else {
+
+				favoriteButton.classList.remove("is-favorited");
+
+			}
+
+			const postCard = favoriteButton.closest(".post-list-card");
+
+			postCard.querySelector(".favorite-count").textContent
+
+				= `♥ ${result.favoriteCount} いいね`;
+
+			favoriteButton.textContent
+
+				= `♥ いいね ${result.favoriteCount}`;
+
+		});
+
+	});
+
+
+	// 検討ボタン処理
+
+	const candidateButtons = document.querySelectorAll(".candidate-button");
+
+	candidateButtons.forEach((candidateButton) => {
+
+		candidateButton.addEventListener("click", async () => {
+
+			const formData = new FormData();
+
+			formData.append("postId", candidateButton.dataset.postId);
+
+			const response = await fetch("/candidate", {
+
+				method: "POST",
+
+				body: formData
+
+			});
+
+			const result = await response.json();
+
+			if (result.candidated) {
+
+				candidateButton.classList.add("is-candidated");
+
+			} else {
+
+				candidateButton.classList.remove("is-candidated");
+
+			}
+
+			const postCard = candidateButton.closest(".post-list-card");
+
+			postCard.querySelector(".candidate-count").textContent
+
+				= `${result.candidateCount} 検討`;
+
+			candidateButton.textContent
+
+				= `検討 ${result.candidateCount}`;
+
+		});
+
+	});
+
+</Script>
 
 </body>
 </html>
