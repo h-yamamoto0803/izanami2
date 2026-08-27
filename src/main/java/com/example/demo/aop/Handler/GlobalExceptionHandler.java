@@ -60,7 +60,7 @@ public class GlobalExceptionHandler {
 		// エラーログ出力
 		LOGGER.log(Level.SEVERE, SEVERE_ERROR_MESSAGE_ILLEGAL_TRANSITION, e);
 
-		return TransitionTargetPageNameKeyword.LOGIN_HTML;
+		return TransitionTargetPageNameKeyword.MENU_HTML;
 
 	}
 
@@ -81,7 +81,7 @@ public class GlobalExceptionHandler {
 
 		LOGGER.log(Level.SEVERE, SEVERE_ERROR_MESSAGE_ILLEGAL_TRANSITION, e);
 
-		return TransitionTargetPageNameKeyword.LOGIN_HTML;
+		return TransitionTargetPageNameKeyword.MENU_HTML;
 	}
 
 	/**
@@ -101,6 +101,6 @@ public class GlobalExceptionHandler {
 
 		LOGGER.log(Level.SEVERE, SEVERE_ERROR_MESSAGE_ILLEGAL_TRANSITION, e);
 
-		return TransitionTargetPageNameKeyword.LOGIN_HTML;
+		return TransitionTargetPageNameKeyword.MENU_HTML;
 	}
 }

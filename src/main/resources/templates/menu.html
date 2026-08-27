@@ -78,7 +78,9 @@
 
     </section>
 
-
+	<div th:if="${deleteMessage} != null">
+		<span th:text="${deleteMessage}"></span>
+	</div>
     <!-- =========================
          タグ絞り込み
     ========================= -->
@@ -208,7 +210,7 @@
         <!-- 投稿タイトル -->
 
 		<a class="post-title-link"
-		   th:href="@{/post/detail(postId=${post.postId})}"
+		   th:href="@{/postDetail?postId={postId}(postId=${post.postId})}"
 		   th:text="${post.title}">
 
 		    投稿タイトル

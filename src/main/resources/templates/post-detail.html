@@ -7,6 +7,7 @@
 	<title>投稿詳細 | Traemon</title>
 	<link rel="stylesheet" th:href="@{css/styles.css}">
 	<script th:src="@{/js/common.js}" defer></script>
+
 </head>
 
 <body>
@@ -19,14 +20,21 @@
 				<article class="card detail-card" th:object="${postDetailForm}">
 					<div class="post-top">
 						<div>
-							<div class="post-author"><span class="role-badge customer"><span class="role-dot"></span>
-									<div th:text="
-											*{userType == 'artisan'}
-												? '職人'
-												: 'ユーザー'
-											"></div></span><span class="post-user" th:text="*{userName}"></span></div>
+							<div class="post-author">
+								<div th:switch="${postDetailForm.userType}">
+									<span class="role-badge customer" th:case="1">
+										<span class="role-dot"></span>
+										ユーザー</span>
+									<span class="role-badge artisan" th:case="2">
+										<span class="role-dot"></span>
+										職人</span>
+								</div>
+								</span><span class="post-user" th:text="*{userName}"></span>
+							</div>
+
 							<div class="post-date" th:text="*{#dates.format(postTime, 'yyyy/MM/dd HH:mm')}">
 							</div>
+
 						</div>
 					</div>
 					<h1 class="detail-title" th:text="*{postTitle}"></h1>
@@ -36,17 +44,104 @@
 						</span>
 					</div>
 					<div class="post-actions">
+
+
+
 						<div class="favorite-count" th:text="|♥ *{favoriteCount} いいね|">
 						</div>
+						<div class="candidate-count" th:text="|♥ *{CandidateCount} 検討|">
+						</div>
 
-						<button class="btn btn-outline btn-favorite" type="button" th:text="|♥ いいね *{favoriteCount}|">
+
+						<form th:action="@{/customer/login}" method="get">
+							<button th:if="${session.loginUser == null}" class="btn btn-outline btn-favorite"
+								type="submit" th:text="|♥ いいね *{favoriteCount}|">
+							</button>
+						</form>
+						<button th:if="${session.loginUser != null and session.loginUser.userType == 1}"
+							id="favorite-button" class="btn btn-outline btn-favorite"
+							th:classappend="*{favorited} ? 'is-favorited' : ''" th:data-post-id="*{postId}"
+							type="button" th:text="|♥ いいね *{favoriteCount}|">
+						</button>
+						<button th:if="${session.loginUser != null and session.loginUser.userType == 2}"
+							id="candidate-button" class="btn btn-outline btn-candidate"
+							th:classappend="*{candidated} ? 'is-candidated' : ''" th:data-post-id="*{postId}"
+							type="button" th:text="|検討 *{candidateCount}|">
 						</button>
 					</div>
+
+
 				</article>
-				<div class="actions"><a class="btn btn-secondary" href="customer-menu.html">戻る</a></div>
+				<div class="actions">
+				    <a class="btn btn-secondary" th:href="@{/menu}">戻る</a>
+				</div>
 			</section>
 		</div>
 	</main>
+
+	<Script>
+		// いいねボタン処理
+		const favoriteButton = document.getElementById("favorite-button");
+
+		if (favoriteButton != null) {
+			favoriteButton.addEventListener("click", async () => {
+
+				const formData = new FormData();
+
+				formData.append("postId", favoriteButton.dataset.postId);
+
+				const response = await fetch("/favorite", {
+					method: "POST",
+					body: formData
+				});
+
+				const result = await response.json();
+
+				if (result.favorited) {
+					favoriteButton.classList.add("is-favorited");
+				} else {
+					favoriteButton.classList.remove("is-favorited");
+				}
+				document.querySelector(".favorite-count").textContent
+					= `♥ ${result.favoriteCount} いいね`;
+
+				favoriteButton.textContent
+					= `♥ いいね ${result.favoriteCount}`;
+			});
+		}
+
+		// 検討ボタン処理
+		const candidateButton = document.getElementById("candidate-button");
+
+		if (candidateButton != null) {
+			candidateButton.addEventListener("click", async () => {
+
+				const formData = new FormData();
+
+				formData.append("postId", candidateButton.dataset.postId);
+
+				const response = await fetch("/candidate", {
+					method: "POST",
+					body: formData
+				});
+
+				const result = await response.json();
+
+				if (result.candidated) {
+					candidateButton.classList.add("is-candidated");
+				} else {
+					candidateButton.classList.remove("is-candidated");
+				}
+
+				document.querySelector(".candidate-count").textContent
+					= `${result.candidateCount} 検討`;
+
+				candidateButton.textContent
+					= `検討 ${result.candidateCount}`;
+			});
+		}
+	</Script>
+
 </body>
 
 </html>

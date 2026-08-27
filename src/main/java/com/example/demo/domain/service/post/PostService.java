@@ -213,4 +213,10 @@ public class PostService {
 		return result;
 	}
 
+	public List<String> getTagNamesByPostId(Integer postId) {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
+	}
+
+
 }

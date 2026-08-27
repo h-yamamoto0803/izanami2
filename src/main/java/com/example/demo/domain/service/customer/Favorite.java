@@ -46,13 +46,13 @@ public class Favorite {
 		Optional<FavoriteEntity> favorited = repository.findByUserAndPost(userEntity, postEntity);
 		if (favorited.isPresent()) {
 			repository.delete(favorited.get());
-			response.setFavorited(true);
+			response.setFavorited(false);
 		} else {
 			FavoriteEntity favorite = new FavoriteEntity();
-			favorite.setUser(user.convertToUserEntity(user));
-			favorite.setPost(form.convertToPostEntity(form));
+			favorite.setUser(userEntity);
+			favorite.setPost(postEntity);
 			repository.save(favorite);
-			response.setFavorited(false);
+			response.setFavorited(true);
 		}
 
 		// 表示変更に必要な情報をDTOに記録

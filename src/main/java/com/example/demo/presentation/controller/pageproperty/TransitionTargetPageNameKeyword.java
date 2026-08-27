@@ -40,7 +40,7 @@ public class TransitionTargetPageNameKeyword {
 
 	// Post
 		// Controller
-	public final static String POST_DETAIL = "/post-detail";
+	public final static String POST_DETAIL = "/postDetail";
 	public final static String INSERT_POST = "/insertPost";
 	public final static String INSERT_POST_CONFIRM = "/insertPostConfirm";
 	public final static String DELETE_POST = "/deletePost";
@@ -55,15 +55,35 @@ public class TransitionTargetPageNameKeyword {
 
 	public static Set<String> getArtisanPageList() {
 		return Set.of(
+				INDEX_BLANK,
+				INDEX_SLASH,
+				RETURN_MENU,
+				REDIRECT,
+				LOGIN_ARTISAN_CONTROLLER
 		);
 	}
 	
 	public static Set<String> getCustomerPageList() {
 		return Set.of(
+				INDEX_BLANK,
+				INDEX_SLASH,
+				RETURN_MENU,
+				LOGOUT_CONTROLLER,
+				REDIRECT,
 				CUSTOMER_ACCOUNT,
 				CUSTOMER_ACCOUNT_EDIT,
 				CONFIRM_CUSTOMER_ACCOUNT_EDIT,
 				DO_EDIT_CUSTOMER_ACCOUNT
+				);
+	}
+	
+	public static Set<String> getGuestPageList(){
+		return Set.of(
+				INDEX_BLANK,
+				INDEX_SLASH,
+				RETURN_MENU,
+				LOGOUT_CONTROLLER,
+				REDIRECT
 				);
 	}
 }
