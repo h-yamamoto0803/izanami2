@@ -167,7 +167,7 @@ public class PostService {
 	 * @param posts 投稿Entityの一覧
 	 * @return PostListFormの一覧
 	 */
-	private List<PostListForm> convertToPostListForm(List<PostEntity> posts) {
+	public List<PostListForm> convertToPostListForm(List<PostEntity> posts) {
 
 		List<PostListForm> result = new java.util.ArrayList<>();
 

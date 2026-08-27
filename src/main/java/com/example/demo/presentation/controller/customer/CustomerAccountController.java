@@ -27,7 +27,6 @@ public class CustomerAccountController {
 	SearchCustomer searchCustomer;
 	UpdateCustomerAccount updateCustomerAccount;
 	
-
 	@Autowired
 	public CustomerAccountController(HttpSession httpsession, 
 			UpdateCustomerAccount updateCustomerAccount,
@@ -36,23 +35,10 @@ public class CustomerAccountController {
 		this.updateCustomerAccount = updateCustomerAccount;
 		this.postService = postService;
 		this.searchCustomer = searchCustomer;
-		
-
 	}
 
 	@RequestMapping(value = TransitionTargetPageNameKeyword.CUSTOMER_ACCOUNT, method = RequestMethod.GET)
 	public String customerAccount(Model model, HttpSession session) {
-
-		//後で消す
-		LoginUserForm loginUserForm = new LoginUserForm();
-		loginUserForm.setUserId(1);
-		loginUserForm.setEmail("kenta.sato@example.com");
-		loginUserForm.setUserType((byte)1);
-		session.setAttribute(
-				SessionKeyword.LOGIN_USER,
-				loginUserForm);
-		//ここまで
-
 		LoginUserForm loginUser = (LoginUserForm) session.getAttribute(SessionKeyword.LOGIN_USER);
 		Integer userId = loginUser.getUserId();
 		
@@ -63,10 +49,7 @@ public class CustomerAccountController {
 		model.addAttribute("userName", name);
 		model.addAttribute("email", mail);
 		
-		
 		List<PostEntity> posts = postService.findByUserId(userId);
-		System.out.println(posts);		
-		System.out.println(postService.convertToPostListForm(posts));
 		model.addAttribute("posts", postService.convertToPostListForm(posts));
 
 		return TransitionTargetPageNameKeyword.CUSTOMER_ACCOUNT_HTML;
