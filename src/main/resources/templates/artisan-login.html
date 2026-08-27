@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>職人用ログイン | Traemon</title>
   <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <script th:src="@{/js/common.js}" defer></script>
+
 </head>
 <body>
 
@@ -19,8 +21,6 @@
         職人アカウントでTraemonを利用します。
       </p>
 	  <p th:if="${errorMessage}" th:text="${errorMessage}"></p>
-	  <p th:if="${messageForm != null}"th:text="${messageForm.message}">
-	  </p>
       <form class="card form-card"
             th:action="@{/artisan/login}"
             th:object="${loginForm}"
@@ -31,7 +31,9 @@
           <input id="artisanEmail"
                  type="email"
                  th:field="*{email}"
-                 required>
+                 >
+          <p th:if="${#fields.hasErrors('email')}"
+             th:errors="*{email}"></p>
         </div>
 
         <div class="form-group">
@@ -39,7 +41,9 @@
           <input id="artisanPassword"
                  type="password"
                  th:field="*{password}"
-                 required>
+                 >
+          <p th:if="${#fields.hasErrors('password')}"
+             th:errors="*{password}"></p>
         </div>
 
         <div class="actions">

@@ -1,7 +1,6 @@
 package com.example.demo.presentation.form;
 
 
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
@@ -35,6 +34,12 @@ public class LoginUserForm {
 	 * 消費者:1, 職人:2
 	 * @return: 指定された種類のユーザーと一致すればtrue
 	 */
+
+/**
+ * ログイン画面で入力された情報を保持するFormです。
+ *
+ * Artisan・Customerの両方のログイン処理から使用します。
+ */
 
 
 	public boolean isArtisan() {

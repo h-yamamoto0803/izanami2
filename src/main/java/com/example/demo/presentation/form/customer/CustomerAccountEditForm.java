@@ -45,6 +45,7 @@ public static UserEntity convertTo(CustomerAccountEditForm customerAccountEditFo
     		 customerAccountEditForm.getPassword(),
     		 null,
     		 null,
+
     		 customerAccountEditForm.getIsDeleted()
     		 
     		 );

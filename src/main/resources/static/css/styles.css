@@ -121,6 +121,7 @@ a{text-decoration:none;color:inherit}
   border-radius:15px;
   box-shadow:var(--shadow);
   padding:8px;
+  z-index:1000;
 }
 .notification-panel.open{display:block}
 .notification-item{
@@ -368,7 +369,7 @@ main{padding:38px 0 70px}
 
 @media(max-width:800px){
   .header-inner{min-height:64px;gap:10px}
-  .header-right{gap:6px;overflow-x:auto;padding:6px 0}
+  .header-right{gap:6px;flex-wrap:wrap;overflow-x:visible;padding:6px 0}
   .role-badge{display:inline-flex}
   .header-post,.header-login,.account-btn,.icon-btn,.logout-btn{padding:8px 9px;font-size:11px;white-space:nowrap}
   .account-btn{max-width:170px;overflow:hidden;text-overflow:ellipsis}
@@ -478,6 +479,13 @@ main{padding:38px 0 70px}
   font-size:12px;
   font-weight:800;
 }
+
+.candidate-count{
+  color:var(--muted);
+  font-size:12px;
+  font-weight:800;
+}
+
 .favorite-count-large{
   padding:9px 12px;
   border:1px solid var(--line);
@@ -488,3 +496,68 @@ main{padding:38px 0 70px}
   .logo{font-size:24px;gap:8px}
   .logo::before{width:27px;height:27px;font-size:15px}
 }
+
+
+
+
+.btn-favorite{
+color: black;
+}
+
+.btn-favorite.is-favorited  {
+    color: white;
+    font-weight: bold;
+
+    background: linear-gradient(
+        90deg,
+        #FF0000,
+        #FF8000,
+        #FFFF00,
+        #00FF00,
+        #00FFFF,
+        #0000FF,
+        #8000FF,
+        #FF00FF,
+        #FF0000
+    );
+
+    background-size: 300% 100%;
+    animation: rainbowMove 3s linear infinite;
+}
+
+.btn-candidate{
+color: black;
+}
+
+.btn-candidate.is-candidated  {
+    color: white;
+    font-weight: bold;
+
+    background: linear-gradient(
+        90deg,
+        #FF0000,
+        #FF8000,
+        #FFFF00,
+        #00FF00,
+        #00FFFF,
+        #0000FF,
+        #8000FF,
+        #FF00FF,
+        #FF0000
+    );
+
+    background-size: 300% 100%;
+    animation: rainbowMove 3s linear infinite;
+}
+
+@keyframes rainbowMove {
+    from {
+        background-position: 0% 50%;
+    }
+
+    to {
+        background-position: 300% 50%;
+    }
+}
+
+

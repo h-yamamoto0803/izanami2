@@ -46,7 +46,8 @@ public class CustomerAccountController {
 		//後で消す
 		LoginUserForm loginUserForm = new LoginUserForm();
 		loginUserForm.setUserId(1);
-		loginUserForm.setEmail("kenta.sato@example.com");
+		loginUserForm.setUserName("山田太郎");
+		loginUserForm.setEmail("taro@example.com");
 		loginUserForm.setUserType((byte)1);
 		session.setAttribute(
 				SessionKeyword.LOGIN_USER,

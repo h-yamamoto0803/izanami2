@@ -26,6 +26,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class UserEntity {
 
     /** ユーザーID */
@@ -40,11 +41,7 @@ public class UserEntity {
      * 1：Customer
      * 2：Artisan
      */
-
-   
-
     @Column(name = "user_type", nullable = false)
-
     private Byte userType;
 
     /** ユーザー名 */

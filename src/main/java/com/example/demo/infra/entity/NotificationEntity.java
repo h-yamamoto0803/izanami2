@@ -1,6 +1,6 @@
 package com.example.demo.infra.entity;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,7 +15,6 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-// Candidate処理用に暫定的な追加
 @Entity
 @Table(name = "notifications")
 @Data
@@ -38,11 +37,11 @@ public class NotificationEntity {
 	private String message;
 
 	@Column(name = "created_at", nullable = false, insertable = false, updatable = false)
-	private LocalDateTime createdAt;
+	private Timestamp createdAt;
 
 	@Column(name = "updated_at", nullable = false, insertable = false, updatable = false)
-	private LocalDateTime updatedAt;
+	private Timestamp updatedAt;
 
 	@Column(name = "is_read", nullable = false)
-	private Byte isRead = 0;
+	private Boolean isRead = false;
 }

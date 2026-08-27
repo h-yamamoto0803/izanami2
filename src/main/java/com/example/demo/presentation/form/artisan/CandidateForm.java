@@ -23,6 +23,7 @@ public class CandidateForm {
 	 * @param form
 	 * @return PostEntity
 	 */
+
 	public PostEntity convertToPostEntity(CandidateForm form) {
 		PostEntity post = new PostEntity();
 

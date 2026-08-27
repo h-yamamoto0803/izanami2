@@ -1,5 +1,9 @@
 package com.example.demo.presentation.controller;
 
+import static com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword.*;
+
+import java.util.Collection;
+
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -20,52 +24,41 @@ public class MenuController {
 
 	private final PostService postService;
 
-	@GetMapping(TransitionTargetPageNameKeyword.RETURN_MENU)
+	@GetMapping({ INDEX_BLANK, INDEX_SLASH, MENU_HTML })
 	public String showMenu(
-
-			@RequestParam(required = false) String tag,
+			@RequestParam(required = false, name = "tag") Collection<String> tagNames,
 			Model model,
 			HttpSession session) {
 
-		model.addAttribute(
-				"posts",
-				postService.getPostListFromDatabase(tag));
+		// セッションからログインユーザー情報を取得
+		LoginUserForm loginUserForm = (LoginUserForm) session.getAttribute(SessionKeyword.LOGIN_USER);
 
-		model.addAttribute(
-				"tags",
-				postService.getAllTags());
+		// ユーザーIDを取得
+		Integer userId = loginUserForm == null
+				? null
+				: loginUserForm.getUserId();
 
+		// Serviceで投稿を取得
+		model.addAttribute("posts",postService.searchPostByUserType(userId,tagNames));
+
+		// タグ一覧を取得
+		if (userId != null && loginUserForm.isArtisan()) {
+
+			// 職人に紐づいているタグだけ取得
+			model.addAttribute("tags",postService.getArtisanTagNames(userId));
+		}else{
+			// Guest / Customer は全タグ
+			model.addAttribute("tags",postService.getAllTags());
+		}
 		
-		model.addAttribute("selectedTag", tag);
-		
-		LoginUserForm loginUserForm =
-                (LoginUserForm) session.getAttribute(
-                        SessionKeyword.LOGIN_USER
-                );
+		// 選択中のタグ
+		String selectedTag = tagNames == null || tagNames.isEmpty()
+				? null
+				: tagNames.iterator().next();
 
-        // 未ログイン
-        if (loginUserForm == null) {
-            model.addAttribute("userType", "guest");
+		model.addAttribute("selectedTag", selectedTag);
 
-            return TransitionTargetPageNameKeyword.MENU_HTML;
-        }
-
-        // Artisan
-        if (loginUserForm.isArtisan()) {
-            model.addAttribute("userType", "artisan");
-
-            return TransitionTargetPageNameKeyword.ARTISAN_MENU_HTML;
-        }
-
-        // Customer
-        if (loginUserForm.isCustomer()) {
-            model.addAttribute("userType", "customer");
-
-            return TransitionTargetPageNameKeyword.CUSTOMER_MENU_HTML;
-        }
-
-        // 想定外のユーザータイプ
-        return TransitionTargetPageNameKeyword.MENU_HTML;
-    }
+		// 共通メニュー画面へ
+		return TransitionTargetPageNameKeyword.MENU_HTML;
+	}
 }
-	

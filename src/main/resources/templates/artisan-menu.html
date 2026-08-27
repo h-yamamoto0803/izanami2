@@ -22,9 +22,12 @@
         職人向けのカテゴリを中心に、ユーザーからの需要を確認できます。
       </p>
     </section>
+	<div th:if="${deleteMessage} != null">
+	      <span th:text="${deleteMessage}"></span>
+	  </div>
 
     <form class="toolbar"
-          th:action="@{/menu}"
+          th:action="@{/artisan/menu}"
           method="get">
 
       <select name="tag" aria-label="専門タグで絞り込み">
@@ -45,7 +48,7 @@
       </button>
 
       <a class="btn btn-outline"
-         th:href="@{/menu}">
+         th:href="@{/artisan/menu}">
         クリア
       </a>
 
@@ -99,7 +102,7 @@
 	    </div>
 
 	    <a class="post-title-link"
-	       th:href="@{/artisan/post-detail}"
+	       th:href="@{/post-detail?postId={postId}(postId=${post.postId})}"
 	       th:text="${post.title}">
 	      投稿タイトル
 	    </a>
