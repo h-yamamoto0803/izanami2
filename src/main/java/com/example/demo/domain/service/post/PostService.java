@@ -48,17 +48,9 @@ public class PostService {
 	public List<PostListForm> searchPostByUserType(
 			Integer userId,
 			String selectedTag) {
-		 // Guestの場合は全投稿を検索
-	    if (userId == null) {
-	        return searchAllPosts(selectedTag);
-	    }
 		// ログインユーザーを取得
 		UserEntity user = userRepository.findById(userId)
 				.orElse(null);
-		 // ユーザーが存在しない場合は全投稿を検索
-	    if (user == null) {
-	        return searchAllPosts(selectedTag);
-	    }
 
 		// Artisanの場合は専門タグに関連する投稿を検索
 		if (user.getUserType() == 2) {
