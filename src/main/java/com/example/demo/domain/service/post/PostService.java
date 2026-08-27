@@ -10,6 +10,7 @@ import com.example.demo.infra.entity.PostTagEntity;
 import com.example.demo.infra.entity.TagEntity;
 import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.infra.repository.ArtisanTagRepository;
+import com.example.demo.infra.repository.CandidateRepository;
 import com.example.demo.infra.repository.FavoriteRepository;
 import com.example.demo.infra.repository.PostRepository;
 import com.example.demo.infra.repository.PostTagRepository;
@@ -28,6 +29,7 @@ public class PostService {
 	private final FavoriteRepository favoriteRepository;
 	private final ArtisanTagRepository artisanTagRepository;
 	private final UserRepository userRepository;
+	private final CandidateRepository candidateRepository;
 
 	/**
 	 * すべてのタグ名を取得する
@@ -47,16 +49,51 @@ public class PostService {
 	 * @return メニュー画面に表示する投稿一覧
 	 */
 	public List<PostListForm> searchPostByUserType(Integer userId, String selectedTag) {
-		// ログインユーザーを取得
-		UserEntity user = userRepository.findById(userId).orElse(null);
 
-		// Artisanの場合は専門タグに関連する投稿を検索
-		if (user.getUserType() == 2) {
-			return searchPostsByArtisanTags(userId, selectedTag);
+		List<PostListForm> postListForm;
+		// userIdがない場合はGuestとして全投稿を検索
+		if (userId == null) {
+			return searchAllPosts(selectedTag);
 		}
 
-		// Customerなど、それ以外の場合は全投稿を検索
-		return searchAllPosts(selectedTag);
+		// DBにセッション情報と一致するユーザーが存在しない状況は正常ではないのでnullではなくthrowとする
+		UserEntity user = userRepository.findById(userId).orElseThrow();
+
+		if (user.getUserType() == 2) { // Artisanの場合は専門タグに関連する投稿を検索
+			postListForm = searchPostsByArtisanTags(userId, selectedTag);
+		} else { // Customerなど、それ以外の場合は全投稿を検索
+			postListForm = searchAllPosts(selectedTag);
+		}
+
+		return flaggedCheck(postListForm, user);
+	}
+
+	/**
+	 * 
+	 * @param postListForm
+	 * @param user
+	 * @return フラグ適用後の投稿form
+	 */
+	private List<PostListForm> flaggedCheck(
+			List<PostListForm> postListForm,
+			UserEntity user) {
+
+		List<Integer> favoritePostIdList = favoriteRepository.findPostIdsByUser(user);
+
+		List<Integer> candidatePostIdList = candidateRepository.findPostIdsByUser(user);
+
+		for (PostListForm post : postListForm) {
+
+			// いいねフラグ判定
+			post.setFavorited(
+					favoritePostIdList.contains(post.getPostId()));
+
+			// 検討フラグ判定
+			post.setCandidated(
+					candidatePostIdList.contains(post.getPostId()));
+		}
+
+		return postListForm;
 	}
 
 	/**
@@ -212,7 +249,9 @@ public class PostService {
 					post.getPostTitle(),
 					post.getPostText(),
 					tags,
-					(int) favoriteRepository.countByPost(post));
+					(int) favoriteRepository.countByPost(post),
+					false,
+					false);
 
 			// 変換したFormを結果に追加
 			result.add(form);
