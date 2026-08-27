@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.example.demo.domain.service.customer.SearchCustomer;
 import com.example.demo.domain.service.customer.UpdateCustomerAccount;
 import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
@@ -20,17 +21,16 @@ import com.example.demo.presentation.form.customer.CustomerAccountEditForm;
 public class DoEditCustomerAccountController {
 	
 	
-	UpdateCustomerAccount updateCustomerAccountTest;
 	UpdateCustomerAccount updateCustomerAccount;
 	HttpSession httpSession;
+	SearchCustomer searchCustomer;
 	@Autowired
 	public DoEditCustomerAccountController(HttpSession httpsession,
-			UpdateCustomerAccount updateCustomerAccountTest,
-			UpdateCustomerAccount updateCustomerAccount) {
+			UpdateCustomerAccount updateCustomerAccount,
+			SearchCustomer searchCustomer) {
 		this.httpSession = httpsession;
-		this.updateCustomerAccountTest = updateCustomerAccountTest;
 		this.updateCustomerAccount = updateCustomerAccount;
-		
+		this.searchCustomer = searchCustomer;
 	}
 	
 	
@@ -43,18 +43,25 @@ public class DoEditCustomerAccountController {
 				(LoginUserForm)session.getAttribute(SessionKeyword.LOGIN_USER);
 		
 		CustomerAccountEditForm beforecustomerAccountEditForm 
-		= updateCustomerAccountTest.searchIdCustomer(loginUser.getUserId()); 
+		= searchCustomer.searchIdCustomer(loginUser.getUserId()); 
+		System.out.println(loginUser.getUserType());
+		customerAccountEditForm.setUserId(beforecustomerAccountEditForm.getUserId());
+		customerAccountEditForm.setUserType(beforecustomerAccountEditForm.getUserType()); 
+		
 		
 		UserEntity updateUserEntity = CustomerAccountEditForm.convertTo(customerAccountEditForm);
+
 		
+		System.out.println("entity"+updateUserEntity.getPassword());
 		updateCustomerAccount.updateCustomer(
 				beforecustomerAccountEditForm, 
 				updateUserEntity);
 		
 		System.out.println("アカウント編集登録処理完了");
 		System.out.println("");
-		return TransitionTargetPageNameKeyword.MENU_HTML;}
-		catch (Exception e) {
+		return TransitionTargetPageNameKeyword.MENU_HTML;
+		
+		}catch (Exception e) {
 	        // ログイン情報の破棄
 	        session.invalidate();
 
@@ -67,6 +74,3 @@ public class DoEditCustomerAccountController {
 		
 	}
 }
-
-
-

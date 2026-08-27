@@ -3,11 +3,8 @@ package com.example.demo.presentation.controller.pageproperty;
 import java.util.Set;
 
 public class TransitionTargetPageNameKeyword {
-	
-
 
 	// guest, utill
-		// HTML
 	public static final String MENU_HTML="menu";
 		// Controller
 	public static final String INDEX_BLANK = "";
@@ -36,7 +33,7 @@ public class TransitionTargetPageNameKeyword {
 	public static final String CUSTOMER_ACCOUNT_EDIT = "/customerAccountEdit";
 	public static final String CONFIRM_CUSTOMER_ACCOUNT_EDIT = "/confirmCustomerAccountEdit";
 	public static final String DO_EDIT_CUSTOMER_ACCOUNT = "/doEditCustomerAccount";
-
+	public static final String DELETE_CUSTOMER_ACCOUNT ="/DeleteCustomerAccount";
 
 	// Post
 		// Controller
@@ -83,7 +80,12 @@ public class TransitionTargetPageNameKeyword {
 				INDEX_SLASH,
 				RETURN_MENU,
 				LOGOUT_CONTROLLER,
-				REDIRECT
-				);
+				REDIRECT,
+				CUSTOMER_ACCOUNT,
+				CUSTOMER_ACCOUNT_EDIT,
+				CONFIRM_CUSTOMER_ACCOUNT_EDIT,
+				DO_EDIT_CUSTOMER_ACCOUNT,
+				DELETE_CUSTOMER_ACCOUNT
+		);
 	}
 }

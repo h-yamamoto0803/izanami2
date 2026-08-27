@@ -10,13 +10,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 /**
  * ユーザー情報更新画面のフォームクラスです。
  */
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomerAccountEditForm {
+private Integer userId;
+private Byte userType;
 @NotBlank
 private String userName;
 @NotBlank
@@ -28,21 +32,22 @@ private String password;
 @NotBlank
 private String passwordConfirm;
 
+private Byte isDeleted = 0;
+
+
 public static UserEntity convertTo(CustomerAccountEditForm customerAccountEditForm) {
      return new UserEntity(
-    		 null,
-    		 null,
+
+    		 customerAccountEditForm.getUserId(),
+    		 customerAccountEditForm.getUserType(),
     		 customerAccountEditForm.getUserName(),
     		 customerAccountEditForm.getEmail(),
     		 customerAccountEditForm.getPassword(),
     		 null,
     		 null,
-    		 null
+    		 customerAccountEditForm.getIsDeleted()
     		 );
 }
-
-
-
 
 /**
  * パスワードの仕様チェック
@@ -109,6 +114,7 @@ private static boolean isEitherBlank(String password, String passwordConfirm) {
     return password == null || password.isBlank() || passwordConfirm == null || passwordConfirm.isBlank();
 }
 }
+
 
 
 

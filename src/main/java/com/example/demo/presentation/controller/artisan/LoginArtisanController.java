@@ -36,9 +36,6 @@ public class LoginArtisanController {
 	public String showLoginArtisan(
 			@ModelAttribute(TransitionTargetPageNameKeyword.LOGIN_FORM) LoginUserForm loginUserForm) {
 
-		/*
-		 * Artisanログイン画面を表示します。
-		 */
 		return TransitionTargetPageNameKeyword.ARTISAN_LOGIN_HTML;
 	}
 
@@ -78,5 +75,4 @@ public class LoginArtisanController {
 
 		return TransitionTargetPageNameKeyword.ARTISAN_LOGIN_HTML;
 	}
-
 }
