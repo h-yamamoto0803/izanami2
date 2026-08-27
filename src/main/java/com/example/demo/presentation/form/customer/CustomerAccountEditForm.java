@@ -32,7 +32,7 @@ private String password;
 @NotBlank
 private String passwordConfirm;
 
-
+private Byte isDeleted = 0;
 
 
 public static UserEntity convertTo(CustomerAccountEditForm customerAccountEditForm) {
@@ -45,7 +45,7 @@ public static UserEntity convertTo(CustomerAccountEditForm customerAccountEditFo
     		 customerAccountEditForm.getPassword(),
     		 null,
     		 null,
-    		 null
+    		 customerAccountEditForm.getIsDeleted()
     		 
     		 );
 }
