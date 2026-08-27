@@ -29,6 +29,8 @@ public class DeleteCustomerAccount {
         
         //userIdでDBからsearchする
         //とったUserEntityから、FormにSetする
+        customerAccountEditForm.setUserId(userEntity.getUserId());
+        customerAccountEditForm.setUserType(userEntity.getUserType());
         customerAccountEditForm.setUserName(userEntity.getUserName());
         customerAccountEditForm.setEmail(userEntity.getEmail());
         customerAccountEditForm.setPassword(userEntity.getPassword());

@@ -19,6 +19,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomerAccountEditForm {
+private Integer userId;
+private Byte userType;
 @NotBlank
 private String userName;
 @NotBlank
@@ -30,11 +32,14 @@ private String password;
 @NotBlank
 private String passwordConfirm;
 
+
+
+
 public static UserEntity convertTo(CustomerAccountEditForm customerAccountEditForm) {
      return new UserEntity(
 
-    		 null,
-    		 null,
+    		 customerAccountEditForm.getUserId(),
+    		 customerAccountEditForm.getUserType(),
     		 customerAccountEditForm.getUserName(),
     		 customerAccountEditForm.getEmail(),
     		 customerAccountEditForm.getPassword(),
@@ -44,6 +49,11 @@ public static UserEntity convertTo(CustomerAccountEditForm customerAccountEditFo
     		 
     		 );
 }
+
+
+
+
+
 
 
 

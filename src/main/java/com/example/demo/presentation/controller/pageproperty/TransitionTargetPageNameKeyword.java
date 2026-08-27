@@ -4,10 +4,9 @@ import java.util.Set;
 
 public class TransitionTargetPageNameKeyword {
 
-	//共通のHTML
+//共通のHTML
 	
 	
-	public static final String DELETE_CUSTOMER_ACCOUNT ="/DeleteCustomerAccount";
 	
 	
 //消費者アカウント登録・削除・編集関連のHTML
@@ -19,10 +18,11 @@ public static final String CUSTOMER_ACCOUNT = "/customerAccount";
 public static final String CUSTOMER_ACCOUNT_EDIT = "/customerAccountEdit";
 public static final String CONFIRM_CUSTOMER_ACCOUNT_EDIT = "/confirmCustomerAccountEdit";
 public static final String DO_EDIT_CUSTOMER_ACCOUNT = "/doEditCustomerAccount";
-	
+public static final String DELETE_CUSTOMER_ACCOUNT ="/DeleteCustomerAccount";
+public final static String DELETE_POST = "/deletePost";
 	// guest, utill
 	
-		// HTML
+	// HTML
 	
 	public static final String MENU_HTML="menu";
 		// Controller
@@ -85,7 +85,8 @@ public static final String DO_EDIT_CUSTOMER_ACCOUNT = "/doEditCustomerAccount";
 			CUSTOMER_ACCOUNT,
 			CUSTOMER_ACCOUNT_EDIT,
 			CONFIRM_CUSTOMER_ACCOUNT_EDIT,
-			DO_EDIT_CUSTOMER_ACCOUNT
+			DO_EDIT_CUSTOMER_ACCOUNT,
+			DELETE_CUSTOMER_ACCOUNT
 
 		);
 	}

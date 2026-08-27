@@ -39,10 +39,14 @@ public class DeleteCustomerAccountController {
 			LoginUserForm loginUser =
                 (LoginUserForm)session.getAttribute(SessionKeyword.LOGIN_USER);
         CustomerAccountEditForm beforecustomerAccountEditForm 
-        = deleteCustomerAccount.searchIdCustomer(loginUser.getUserId()); 
+        = deleteCustomerAccount.searchIdCustomer(loginUser.getUserId());
+        System.out.println(beforecustomerAccountEditForm);
         
-        UserEntity deleteUserEntity = CustomerAccountEditForm.convertTo(customerAccountEditForm);
+        UserEntity deleteUserEntity = CustomerAccountEditForm.convertTo(beforecustomerAccountEditForm);
+        
         deleteUserEntity.setIsDeleted((byte)1);
+        System.out.println(deleteUserEntity.getEmail());
+        
         deleteCustomerAccount.deleteCustomer(
                 beforecustomerAccountEditForm, 
                 deleteUserEntity);

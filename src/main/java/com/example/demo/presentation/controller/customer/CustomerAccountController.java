@@ -24,6 +24,7 @@ public class CustomerAccountController {
 	HttpSession httpSession;
 	PostService postService;
 	UpdateCustomerAccount updateCustomerAccount;
+	
 
 	@Autowired
 	public CustomerAccountController(HttpSession httpsession, 
@@ -59,9 +60,8 @@ public class CustomerAccountController {
 		
 		
 		List<PostEntity> posts = postService.findByUserId(userId);
-		System.out.print(posts);
-		postService.convertToPostListForm(posts);
-		System.out.print(postService.convertToPostListForm(posts));
+		System.out.println(posts);		
+		System.out.println(postService.convertToPostListForm(posts));
 		model.addAttribute("posts", postService.convertToPostListForm(posts));
 
 		return TransitionTargetPageNameKeyword.CUSTOMER_ACCOUNT_HTML;
