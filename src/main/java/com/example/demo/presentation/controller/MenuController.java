@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.demo.domain.service.SearchPostByUserTypeService;
 import com.example.demo.domain.service.post.PostService;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
@@ -22,8 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class MenuController {
 
     private final PostService postService;
-    private final SearchPostByUserTypeService searchPostByUserType;
-
+  
     @GetMapping(TransitionTargetPageNameKeyword.RETURN_MENU)
     public String showMenu(
             @RequestParam(required = false, name = "tag")
@@ -45,7 +43,7 @@ public class MenuController {
         // Serviceで投稿を取得
         model.addAttribute(
                 "posts",
-                searchPostByUserType.searchPostByUserType(
+                postService.searchPostByUserType(
                         userId,
                         tagNames
                 ));
@@ -56,7 +54,7 @@ public class MenuController {
             // 職人に紐づいているタグだけ取得
             model.addAttribute(
                     "tags",
-                    searchPostByUserType.getArtisanTagNames(userId));
+                    postService.getArtisanTagNames(userId));
 
         } else {
 

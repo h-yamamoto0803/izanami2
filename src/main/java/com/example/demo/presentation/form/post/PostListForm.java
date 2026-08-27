@@ -28,7 +28,6 @@ public class PostListForm {
     /** 本文 */
     private String summary;
 
-
     /** タグ */
     private List<String> tags;
 
