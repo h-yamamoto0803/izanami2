@@ -53,7 +53,7 @@ public class LoginCustomerController {
      */
     @PostMapping(TransitionTargetPageNameKeyword.LOGIN_CUSTOMER_CONTROLLER)
     public String loginCustomer(
-    		@Validated @ModelAttribute(TransitionTargetPageNameKeyword.LOGIN_FORM) LoginUserForm loginUserForm,
+		@Validated @ModelAttribute(TransitionTargetPageNameKeyword.LOGIN_FORM) LoginUserForm loginUserForm,
     		BindingResult bindingResult,
             HttpSession session,
             Model model) {

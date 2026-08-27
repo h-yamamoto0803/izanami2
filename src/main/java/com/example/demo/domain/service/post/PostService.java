@@ -1,7 +1,7 @@
 package com.example.demo.domain.service.post;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -43,31 +43,20 @@ public class PostService {
 	 * ユーザー種別に応じて投稿を検索します。
 	 *
 	 * @param userId ログインユーザーのID
-	 * @param selectedTags 画面で選択されたタグ
+	 * @param selectedTag 画面で選択されたタグ
 	 * @return メニュー画面に表示する投稿一覧
 	 */
-	public List<PostListForm> searchPostByUserType(Integer userId, Collection<String> selectedTags) {
-
-		// userIdがない場合はGuestとして全投稿を検索
-		if (userId == null) {
-			return searchAllPosts(selectedTags);
-		}
-
+	public List<PostListForm> searchPostByUserType(Integer userId, String selectedTag) {
 		// ログインユーザーを取得
 		UserEntity user = userRepository.findById(userId).orElse(null);
 
-		// ユーザーが存在しない場合は全投稿を検索
-		if (user == null) {
-			return searchAllPosts(selectedTags);
-		}
-
 		// Artisanの場合は専門タグに関連する投稿を検索
 		if (user.getUserType() == 2) {
-			return searchPostsByArtisanTags(userId, selectedTags);
+			return searchPostsByArtisanTags(userId, selectedTag);
 		}
 
 		// Customerなど、それ以外の場合は全投稿を検索
-		return searchAllPosts(selectedTags);
+		return searchAllPosts(selectedTag);
 	}
 
 	/**
@@ -76,19 +65,20 @@ public class PostService {
 	 * タグが選択されていない場合は全投稿を取得し、
 	 * タグが選択されている場合は選択されたタグが付いている投稿を取得します。
 	 *
-	 * @param selectedTags 画面で選択されたタグ
+	 * @param selectedTag 画面で選択されたタグ
 	 * @return 投稿一覧
 	 */
-	private List<PostListForm> searchAllPosts(Collection<String> selectedTags) {
+	private List<PostListForm> searchAllPosts(String selectedTag) {
 
 		List<PostEntity> posts;
 
 		// タグが選択されていない場合は削除されていない投稿を全件取得
-		if (selectedTags == null || selectedTags.isEmpty()) {
+		if (selectedTag == null || selectedTag.isEmpty()) {
+
 			posts = postRepository.findAllByIsDeleted((byte) 0);
 		} else {
 			// 選択されたタグが付いている投稿を取得
-			posts = postRepository.findByAnyTagName(selectedTags);
+			posts = postRepository.findByAnyTagName(List.of(selectedTag));
 		}
 		// Entityを画面表示用Formに変換
 		return convertToPostListForm(posts);
@@ -107,7 +97,9 @@ public class PostService {
 	 * @param selectedTags 画面で選択されたタグ
 	 * @return 投稿一覧
 	 */
-	private List<PostListForm> searchPostsByArtisanTags(Integer userId, Collection<String> selectedTags) {
+	private List<PostListForm> searchPostsByArtisanTags(
+			Integer userId,
+			String selectedTag) {
 
 		// Artisanに設定されている専門タグを取得
 		List<TagEntity> tags = artisanTagRepository.findTagsByUserId(userId);
@@ -119,19 +111,36 @@ public class PostService {
 
 		// 検索に使用するタグ名
 		List<String> tagNames;
-		if (selectedTags == null || selectedTags.isEmpty()) {
+
+		if (selectedTag == null || selectedTag.isEmpty()) {
+
 			// タグ未選択の場合は、Artisanの専門タグをすべて使用
 			tagNames = tags.stream()
 					.map(TagEntity::getTagName)
 					.toList();
 		} else {
-			// タグ選択ありの場合は、選択されたタグを使用
-			tagNames = selectedTags.stream().toList();
-		}
 
+			// 選択されたタグがArtisanの専門タグに含まれているか確認
+			boolean isSpecialtyTag = false;
+
+			for (TagEntity tag : tags) {
+
+				if (tag.getTagName().equals(selectedTag)) {
+					isSpecialtyTag = true;
+					break;
+				}
+			}
+
+			// 専門タグに含まれていない場合は投稿を表示しない
+			if (!isSpecialtyTag) {
+				return List.of();
+			}
+
+			// 選択されたタグを検索に使用
+			tagNames = List.of(selectedTag);
+		}
 		// 指定されたタグが付いている投稿を取得
 		List<PostEntity> posts = postRepository.findByAnyTagName(tagNames);
-
 		// Entityを画面表示用Formに変換
 		return convertToPostListForm(posts);
 	}
@@ -208,18 +217,29 @@ public class PostService {
 			// 変換したFormを結果に追加
 			result.add(form);
 		}
-
 		// 変換した投稿一覧を返す
 		return result;
 	}
 
 	public List<String> getTagNamesByPostId(Integer postId) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+
+		List<PostTagEntity> postTags = postTagRepository.findByIdPostId(postId);
+
+		return postTags.stream()
+				// PostTagEntityからタグIDを取得
+				.map(postTag -> postTag.getId().getTagId())
+				// タグIDからタグを取得
+				.map(tagId -> tagRepository.findById(tagId))
+				// タグが存在するものだけに絞る
+				.filter(Optional::isPresent)
+				// OptionalからTagEntityを取り出す
+				.map(Optional::get)
+				// TagEntityからタグ名を取得
+				.map(TagEntity::getTagName)
+				.toList();
 	}
 
 	public List<PostEntity> findByUserId(Integer userId) {
-
 		return postRepository.findByUserUserId(userId);
 	}
 }

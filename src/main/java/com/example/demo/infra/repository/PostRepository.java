@@ -1,6 +1,5 @@
 package com.example.demo.infra.repository;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,7 +22,7 @@ extends JpaRepository<PostEntity, Integer> {
 	ORDER BY p.created_at DESC
 	""", nativeQuery = true)
 List<PostEntity> findByAnyTagName(
-	@Param("tagNames") Collection<String> tagNames);
+	@Param("tagNames") List<String> selectedTags);
 List<PostEntity> findAllByIsDeleted(
 	Byte isDeleted);
 List<PostEntity> findByUserUserId(Integer userId);
