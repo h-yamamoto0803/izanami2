@@ -4,11 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.infra.repository.UserRepository;
 import com.example.demo.presentation.form.customer.CustomerAccountEditForm;
-
+@Service
 public class SearchCustomer {
 UserRepository userRepository;
 	
@@ -25,6 +26,8 @@ public CustomerAccountEditForm searchIdCustomer(Integer userId) {
 		
 		//userIdでDBからsearchする
 		//とったUserEntityから、FormにSetする
+		customerAccountEditForm.setUserId(userEntity.getUserId());
+		customerAccountEditForm.setUserType(userEntity.getUserType());
 		customerAccountEditForm.setUserName(userEntity.getUserName());
 		customerAccountEditForm.setEmail(userEntity.getEmail());
 		customerAccountEditForm.setPassword(userEntity.getPassword());

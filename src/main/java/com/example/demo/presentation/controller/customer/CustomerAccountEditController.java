@@ -39,7 +39,7 @@ public String customerAccountEdit(Model model,
 		HttpSession session ) {
 		
 		try {
-		
+		System.out.println("koko");
 		//ここまで後で消す
 		LoginUserForm loginUser = (LoginUserForm)session.getAttribute(SessionKeyword.LOGIN_USER);
 		

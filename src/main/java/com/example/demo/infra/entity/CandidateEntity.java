@@ -13,22 +13,19 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-// フィールドと依存関係の追加、特にミスがない限り追加の予定は無し
 
+// 特にミスがない限り追加の予定は無し
 @Entity
-@Table(name = "favorites", uniqueConstraints = @UniqueConstraint(columnNames = { "user_id", "post_id" }))
+@Table(name = "candidates", uniqueConstraints = @UniqueConstraint(columnNames = { "user_id", "post_id" }))
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class FavoriteEntity {
-
+public class CandidateEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "favorite_id")
-	private Integer favoriteId;
+	@Column(name = "candidate_id")
+	private Integer candidateId;
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "user_id", nullable = false)
@@ -44,4 +41,3 @@ public class FavoriteEntity {
 	@Column(name = "updated_at", nullable = false, insertable = false, updatable = false)
 	private LocalDateTime updatedAt;
 }
-

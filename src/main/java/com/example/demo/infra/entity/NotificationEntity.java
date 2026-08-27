@@ -11,37 +11,38 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-// フィールドと依存関係の追加、特にミスがない限り追加の予定は無し
 
+// Candidate処理用に暫定的な追加
 @Entity
-@Table(name = "favorites", uniqueConstraints = @UniqueConstraint(columnNames = { "user_id", "post_id" }))
+@Table(name = "notifications")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class FavoriteEntity {
-
+public class NotificationEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "favorite_id")
-	private Integer favoriteId;
+	@Column(name = "notification_id")
+	private Integer notificationId;
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "user_id", nullable = false)
 	private UserEntity user;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "post_id", nullable = false)
-	private PostEntity post;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "candidate_id")
+	private CandidateEntity candidate;
+
+	@Column(name = "message", nullable = false, length = 255)
+	private String message;
 
 	@Column(name = "created_at", nullable = false, insertable = false, updatable = false)
 	private LocalDateTime createdAt;
 
 	@Column(name = "updated_at", nullable = false, insertable = false, updatable = false)
 	private LocalDateTime updatedAt;
-}
 
+	@Column(name = "is_read", nullable = false)
+	private Byte isRead = 0;
+}
