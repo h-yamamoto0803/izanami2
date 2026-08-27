@@ -44,17 +44,24 @@ public class DoEditCustomerAccountController {
 		
 		CustomerAccountEditForm beforecustomerAccountEditForm 
 		= searchCustomer.searchIdCustomer(loginUser.getUserId()); 
+		System.out.println(loginUser.getUserType());
+		customerAccountEditForm.setUserId(beforecustomerAccountEditForm.getUserId());
+		customerAccountEditForm.setUserType(beforecustomerAccountEditForm.getUserType()); 
+		
 		
 		UserEntity updateUserEntity = CustomerAccountEditForm.convertTo(customerAccountEditForm);
+
 		
+		System.out.println("entity"+updateUserEntity.getPassword());
 		updateCustomerAccount.updateCustomer(
 				beforecustomerAccountEditForm, 
 				updateUserEntity);
 		
 		System.out.println("アカウント編集登録処理完了");
 		System.out.println("");
-		return TransitionTargetPageNameKeyword.MENU_HTML;}
-		catch (Exception e) {
+		return TransitionTargetPageNameKeyword.MENU_HTML;
+		
+		}catch (Exception e) {
 	        // ログイン情報の破棄
 	        session.invalidate();
 
@@ -67,6 +74,3 @@ public class DoEditCustomerAccountController {
 		
 	}
 }
-
-
-
