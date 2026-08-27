@@ -26,4 +26,5 @@ List<PostEntity> findByAnyTagName(
 	@Param("tagNames") Collection<String> tagNames);
 List<PostEntity> findAllByIsDeleted(
 	Byte isDeleted);
+List<PostEntity> findByUserUserId(Integer userId);
 }

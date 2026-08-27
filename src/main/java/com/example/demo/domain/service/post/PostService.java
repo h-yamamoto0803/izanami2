@@ -218,5 +218,8 @@ public class PostService {
 		return null;
 	}
 
+	public List<PostEntity> findByUserId(Integer userId) {
 
+		return postRepository.findByUserUserId(userId);
+	}
 }

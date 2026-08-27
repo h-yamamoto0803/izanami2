@@ -27,12 +27,15 @@ public class ConfirmCustomerAccountEditController {
 	UpdateCustomerAccount updateCustomerAccount;
 	HttpSession httpSession;
 	SearchCustomer searchCustomer;
+	
+	
 
 	public ConfirmCustomerAccountEditController(UpdateCustomerAccount updateCustomerAccountTest,
 			HttpSession httpSession, SearchCustomer searchCustomer) {
 		this.updateCustomerAccount = updateCustomerAccountTest;
 		this.httpSession = httpSession;
 		this.searchCustomer = searchCustomer;
+		
 	}
 
 	@RequestMapping(value = TransitionTargetPageNameKeyword.CONFIRM_CUSTOMER_ACCOUNT_EDIT, method = RequestMethod.POST)
@@ -62,6 +65,9 @@ public class ConfirmCustomerAccountEditController {
 			//既に登録済みのメールアドレスを入力してはじかれたとき
 			final String DUPLICATION = "既に登録済みのメールアドレスです。";
 			LoginUserForm loginUser = (LoginUserForm) session.getAttribute(SessionKeyword.LOGIN_USER);
+			
+			System.out.println(loginUser.getEmail());
+			
 			String beforeUsermail = loginUser.getEmail();
 
 			if (!beforeUsermail.equals(customerAccountEditForm.getEmail())) {
