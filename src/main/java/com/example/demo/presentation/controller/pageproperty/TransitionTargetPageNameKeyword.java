@@ -14,25 +14,25 @@ public class TransitionTargetPageNameKeyword {
 	public static final String INDEX_SLASH = "/";
 	public static final String LOGOUT_CONTROLLER = "/logout";
 	public static final String RETURN_MENU = "/menu";
-	public final static String MENU="menu";
+
 	public static final String REDIRECT = "redirect:";
 	// artisan
 		// HTML
 	public static final String ARTISAN_LOGIN_HTML = "artisan-login";
-	public static final String ARTISAN_MENU_HTML = "artisan-menu";
+	
 
 		// Controller
 	public static final String LOGIN_ARTISAN_CONTROLLER = "/artisan/login";
-	public static final String POST_ARTISAN_CONTROLLER = "/artisan/menu";
+	
 
 	// customer
 		// HTML
 	public static final String CUSTOMER_LOGIN_HTML = "customer-login";
-	public static final String CUSTOMER_MENU_HTML = "customer-menu";
+	
 
 		// Controller
 	public static final String LOGIN_CUSTOMER_CONTROLLER = "/customer/login";
-	public static final String POST_CUSTOMER_CONTROLLER = "/customer/menu";
+	
 
 
 	// Post
@@ -54,7 +54,7 @@ public class TransitionTargetPageNameKeyword {
 
 	public static Set<String> getArtisanPageList() {
 		return Set.of(
-		POST_ARTISAN_CONTROLLER
+		
 			
 		);
 	}
@@ -62,7 +62,7 @@ public class TransitionTargetPageNameKeyword {
 
 	public static Set<String> getCustomerPageList() {
 		return Set.of(
-		POST_CUSTOMER_CONTROLLER
+		
 		);
 	}
 }
