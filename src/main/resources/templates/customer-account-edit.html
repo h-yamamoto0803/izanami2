@@ -11,32 +11,7 @@
 </head>
 
 <body>
-
-	<!--	<div th:replace="~{fragments/header :: header}">-->
-	<header class="site-header customer-header">
-		<div class="container header-inner">
-			<a class="logo" href="customer-menu.html">Traemon</a>
-			<div class="header-right">
-				<span class="role-badge customer"><span class="role-dot"></span>ユーザー</span>
-				<a class="header-post customer-post" href="post-create-customer.html">＋ 投稿する</a>
-				<div class="notification-wrap">
-					<button class="icon-btn" id="notificationButton" type="button" aria-label="通知">🔔</button>
-					<div class="notification-panel" id="notificationPanel">
-						<div class="notification-item">
-							<div>あなたの投稿に反応がありました。</div>
-							<small>2026/08/20 10:15</small>
-						</div>
-						<div class="notification-item">
-							<div>「玄関に置ける小さな花器が欲しい」に新しい反応があります。</div>
-							<small>2026/08/19 18:40</small>
-						</div>
-					</div>
-				</div>
-				<a class="account-btn" href="customer-account.html">伝統工芸が好き</a>
-				<a class="logout-btn" href="menu.html">ログアウト</a>
-			</div>
-		</div>
-	</header>
+	<div th:replace="~{fragments/header :: header}"></div>
 	</div>
 	<main>
 		<div class="container">
@@ -71,10 +46,9 @@
 					<div class="actions">
 						
 						<button class="btn btn-primary" type="submit">確認画面へ</button>
-						<button type="submit" th:formaction="@{/menu}" formmethod="get"
-							class="btn btn-secondary">戻る</button>
-					</div>
 				</form>
+						<button th:href="@{/menu}" class="btn btn-secondary">戻る</button>
+					</div>
 			</section>
 		</div>
 	</main>
