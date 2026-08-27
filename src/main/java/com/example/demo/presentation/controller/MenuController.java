@@ -1,7 +1,5 @@
 package com.example.demo.presentation.controller;
 
-import java.util.Collection;
-
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -21,11 +19,11 @@ import lombok.RequiredArgsConstructor;
 public class MenuController {
 
     private final PostService postService;
-  
+
     @GetMapping(TransitionTargetPageNameKeyword.RETURN_MENU)
     public String showMenu(
             @RequestParam(required = false, name = "tag")
-            Collection<String> tagNames,
+            String selectedTag,
             Model model,
             HttpSession session) {
 
@@ -35,43 +33,40 @@ public class MenuController {
                         SessionKeyword.LOGIN_USER
                 );
 
-        // ユーザーIDを取得
-        Integer userId = loginUserForm == null
-                ? null
-                : loginUserForm.getUserId();
+        Integer userId = null;
+
+     // ログインユーザーが存在する場合はユーザーIDを取得
+     if (loginUserForm != null) {
+         userId = loginUserForm.getUserId();
+     }
 
         // Serviceで投稿を取得
         model.addAttribute(
                 "posts",
                 postService.searchPostByUserType(
                         userId,
-                        tagNames
+                        selectedTag
                 ));
 
-     // タグ一覧を取得
+        // タグ一覧を取得
         if (userId != null && loginUserForm.isArtisan()) {
 
-            // 職人に紐づいているタグだけ取得
+            // Artisanに紐づいているタグだけ取得
             model.addAttribute(
                     "tags",
                     postService.getArtisanTagNames(userId));
 
         } else {
 
-            // Guest / Customer は全タグ
+            // Guest / Customerは全タグ
             model.addAttribute(
                     "tags",
                     postService.getAllTags());
         }
-        // 選択中のタグ
-        String selectedTag =
-                tagNames == null || tagNames.isEmpty()
-                        ? null
-                        : tagNames.iterator().next();
 
+        // 選択中のタグ
         model.addAttribute("selectedTag", selectedTag);
-        
-        
+
         // 共通メニュー画面へ
         return TransitionTargetPageNameKeyword.MENU_HTML;
     }

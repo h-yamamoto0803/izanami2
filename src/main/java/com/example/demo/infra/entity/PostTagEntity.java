@@ -6,6 +6,9 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -27,6 +30,18 @@ public class PostTagEntity {
     /** 複合主キー */
     @EmbeddedId
     private PostTagId id;
+
+    /** 投稿 */
+    @ManyToOne
+    @MapsId("postId")
+    @JoinColumn(name = "post_id")
+    private PostEntity post;
+
+    /** タグ */
+    @ManyToOne
+    @MapsId("tagId")
+    @JoinColumn(name = "tag_id")
+    private TagEntity tag;
 
     /**
      * post_tagsの複合主キーを表すクラスです。
