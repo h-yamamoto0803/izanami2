@@ -19,14 +19,12 @@ public class TransitionTargetPageNameKeyword {
 	// artisan
 		// HTML
 	public static final String ARTISAN_LOGIN_HTML = "artisan-login";
-	public static final String ARTISAN_MENU_HTML = "artisan-menu";
 		// Controller
 	public static final String LOGIN_ARTISAN_CONTROLLER = "/artisan/login";
 
 	// customer
 		// HTML
 	public static final String CUSTOMER_LOGIN_HTML = "customer-login";
-	public static final String CUSTOMER_MENU_HTML = "customer-menu";
 		//消費者アカウント登録・削除・編集関連のHTML
 	public static final String CUSTOMER_ACCOUNT_HTML = "customer-account";
 	public static final String CUSTOMER_ACCOUNT_EDIT_HTML = "customer-account-edit";
@@ -38,6 +36,7 @@ public class TransitionTargetPageNameKeyword {
 	public static final String CUSTOMER_ACCOUNT_EDIT = "/customerAccountEdit";
 	public static final String CONFIRM_CUSTOMER_ACCOUNT_EDIT = "/confirmCustomerAccountEdit";
 	public static final String DO_EDIT_CUSTOMER_ACCOUNT = "/doEditCustomerAccount";
+
 
 	// Post
 		// Controller

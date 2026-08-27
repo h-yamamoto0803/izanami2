@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.domain.service.LoginService;
+import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
 import com.example.demo.presentation.form.LoginUserForm;
 
@@ -66,13 +67,9 @@ public class LoginCustomerController {
     	 if (user != null
     	            && user == 1
     	            && loginUserForm.isCustomer()) {
-
-            // ログインユーザーの情報をセッションに保存
-    		 session.setAttribute("userId", loginUserForm.getUserId());
-         	session.setAttribute("userType", loginUserForm.getUserType());
-         	session.setAttribute("userName", loginUserForm.getUserName());
+    		// ログインユーザーの情報をセッションに保存
+             session.setAttribute(SessionKeyword.LOGIN_USER,loginUserForm);
              
-
              return TransitionTargetPageNameKeyword.REDIRECT 
             		 + TransitionTargetPageNameKeyword.RETURN_MENU;
         }

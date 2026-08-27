@@ -10,4 +10,5 @@ import com.example.demo.infra.entity.PostTagEntity.PostTagId;
 public interface PostTagRepository extends JpaRepository<PostTagEntity, PostTagId> {
 
 	List<PostTagEntity> findByIdPostId(Integer postId);
+	List<PostTagEntity> findByIdTagId(Integer tagId);
 }
