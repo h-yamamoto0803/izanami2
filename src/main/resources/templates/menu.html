@@ -257,9 +257,9 @@
 		  <!-- いいね数 -->
 
 		  <span class="favorite-count"
-		        th:text="'♥ ' + ${post.favoriteCount} + ' いいね'">
+		        th:text="'いいね:' + ${post.favoriteCount} ">
 
-		    ♥ 0 いいね
+		    いいね:
 
 		  </span>
 
@@ -395,7 +395,7 @@
 
 			postCard.querySelector(".favorite-count").textContent
 
-				= `♥ ${result.favoriteCount} いいね`;
+				= `いいね:${result.favoriteCount}`;
 
 			favoriteButton.textContent
 
