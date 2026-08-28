@@ -24,7 +24,6 @@ import com.example.demo.infra.entity.UserEntity;
  */
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
-
     /**
      * メールアドレスを条件にユーザーを検索します。
      *

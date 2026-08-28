@@ -257,7 +257,6 @@ public class PostService {
 	}
 
 	public List<String> getTagNamesByPostId(Integer postId) {
-
 		List<PostTagEntity> postTags = postTagRepository.findByIdPostId(postId);
 
 		return postTags.stream()
@@ -273,8 +272,9 @@ public class PostService {
 				.map(TagEntity::getTagName)
 				.toList();
 	}
-
-	public List<PostEntity> findByUserId(Integer userId) {
+	
+	public List<PostEntity> findByUserId(Integer userId){
+		
 		return postRepository.findByUserUserId(userId);
 	}
 }

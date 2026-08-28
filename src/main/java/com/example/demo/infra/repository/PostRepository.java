@@ -8,8 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.example.demo.infra.entity.PostEntity;
 
-public interface PostRepository
-extends JpaRepository<PostEntity, Integer> {
+public interface PostRepository extends JpaRepository<PostEntity, Integer> {
 @Query(value = """
 	SELECT DISTINCT p.*
 	FROM posts p
