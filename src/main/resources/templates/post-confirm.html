@@ -45,7 +45,7 @@
 							<button class="btn btn-primary" type="submit">投稿確定</button>
 						</form>
 						<!-- もどる: 入力中の値を持って入力画面へ -->
-						<form th:action="@{/insertPost-ret}" method="post" th:object="${insertPostForm}">
+						<form th:action="@{/insertPostRet}" method="post" th:object="${insertPostForm}">
 							<input type="hidden" th:field="*{postTitle}">
 							<input type="hidden" th:field="*{postText}">
 							<input th:each="tag : *{tags}" type="hidden" name="tags" th:value="${tag}">
