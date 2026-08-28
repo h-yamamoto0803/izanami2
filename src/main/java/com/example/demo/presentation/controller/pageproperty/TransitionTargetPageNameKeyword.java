@@ -30,6 +30,9 @@ public class TransitionTargetPageNameKeyword {
 	// Controller
 	public static final String LOGIN_CUSTOMER_CONTROLLER = "/customer/login";
 	//消費者アカウント登録・削除・編集関連のController
+	public static final String INSERT_CUSTOMER = "/insertCustomer";
+	public static final String INSERT_CUSTOMER_INPUT = "/insertCustomerInput";
+	public static final String INSERT_CUSTOMER_CONFIRM = "/insertCustomerConfirm";
 	public static final String CUSTOMER_ACCOUNT = "/customerAccount";
 	public static final String CUSTOMER_ACCOUNT_EDIT = "/customerAccountEdit";
 	public static final String CONFIRM_CUSTOMER_ACCOUNT_EDIT = "/confirmCustomerAccountEdit";
@@ -43,7 +46,7 @@ public class TransitionTargetPageNameKeyword {
 	public final static String INSERT_POST_RET = "/insertPostRet";
 	public final static String INSERT_POST_CONFIRM = "/insertPostConfirm";
 	public final static String DELETE_POST = "/deletePost";
-	public final static String POST = "/post";
+	public final static String DO_INSERT_POST = "/post";
 	public final static String FAVORITE = "/favorite";
 	public final static String CANDIDATE = "/candidate";
 	// HTML
@@ -62,8 +65,18 @@ public class TransitionTargetPageNameKeyword {
 				INDEX_SLASH,
 				MENU,
 				REDIRECT,
-				LOGIN_ARTISAN_CONTROLLER,
-				CANDIDATE);
+				REDIRECT_MENU,
+				
+				POST_DETAIL,
+				INSERT_POST,
+				INSERT_POST_RET,
+				INSERT_POST_CONFIRM,
+				DO_INSERT_POST,
+				DELETE_POST,
+				
+				CANDIDATE,
+				LOGOUT_CONTROLLER
+				);
 	}
 
 	public static Set<String> getCustomerPageList() {
@@ -71,34 +84,45 @@ public class TransitionTargetPageNameKeyword {
 				INDEX_BLANK,
 				INDEX_SLASH,
 				MENU,
-				LOGOUT_CONTROLLER,
 				REDIRECT,
-				CUSTOMER_ACCOUNT,
-				CUSTOMER_ACCOUNT_EDIT,
-				CONFIRM_CUSTOMER_ACCOUNT_EDIT,
-				DO_EDIT_CUSTOMER_ACCOUNT,
-				FAVORITE
-				);
-	}
-
-	public static Set<String> getGuestPageList() {
-		return Set.of(
-				CUSTOMER_LOGIN_HTML,
-
+				REDIRECT_MENU,
+				
+				LOGOUT_CONTROLLER,
+				
 				CUSTOMER_ACCOUNT,
 				CUSTOMER_ACCOUNT_EDIT,
 				CONFIRM_CUSTOMER_ACCOUNT_EDIT,
 				DO_EDIT_CUSTOMER_ACCOUNT,
 				DELETE_CUSTOMER_ACCOUNT,
+				
+				INSERT_CUSTOMER,
+				INSERT_CUSTOMER_INPUT,
+				INSERT_CUSTOMER_CONFIRM,
+				
+				POST_DETAIL,
+				INSERT_POST,
+				INSERT_POST_RET,
+				INSERT_POST_CONFIRM,
+				DO_INSERT_POST,
+				DELETE_POST,
+
+				FAVORITE,
+				LOGOUT_CONTROLLER
+				);
+	}
+
+	public static Set<String> getGuestPageList() {
+		return Set.of(
 				INDEX_BLANK,
 				INDEX_SLASH,
 				MENU,
-				LOGOUT_CONTROLLER,
 				REDIRECT,
-				CUSTOMER_ACCOUNT,
-				CUSTOMER_ACCOUNT_EDIT,
-				CONFIRM_CUSTOMER_ACCOUNT_EDIT,
-				DO_EDIT_CUSTOMER_ACCOUNT,
-				DELETE_CUSTOMER_ACCOUNT);
+				REDIRECT_MENU,
+				
+				POST_DETAIL,
+				
+				LOGIN_CUSTOMER_CONTROLLER,
+				LOGIN_ARTISAN_CONTROLLER
+				);
 	}
 }

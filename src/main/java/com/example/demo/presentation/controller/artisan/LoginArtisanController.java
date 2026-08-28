@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.demo.aop.aspect.PermissionCheck;
 import com.example.demo.domain.service.LoginService;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.form.LoginUserForm;
@@ -34,6 +35,7 @@ public class LoginArtisanController {
 	 * @param loginUserForm Artisanログイン画面で使用するフォーム
 	 * @return Artisanログイン画面
 	 */
+	@PermissionCheck
 	@GetMapping(LOGIN_ARTISAN_CONTROLLER)
 	public String showLoginArtisan(
 			@ModelAttribute LoginUserForm loginUserForm) {
@@ -48,6 +50,7 @@ public class LoginArtisanController {
 	 * @param session ログイン情報を保持するセッション
 	 * @return Artisanメニュー画面
 	 */
+	@PermissionCheck
 	@PostMapping(LOGIN_ARTISAN_CONTROLLER)
 	public String loginArtisan(
 			@Validated @ModelAttribute(LOGIN_FORM) LoginUserForm loginUserForm,

@@ -4,7 +4,6 @@ import static com.example.demo.presentation.controller.pageproperty.TransitionTa
 
 import jakarta.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +19,6 @@ public class FavoriteController {
 
 	Favorite favorite;
 
-	@Autowired
 	FavoriteController(Favorite favorite) {
 		this.favorite = favorite;
 	}

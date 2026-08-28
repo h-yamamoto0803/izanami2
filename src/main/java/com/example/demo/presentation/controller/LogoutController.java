@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.demo.aop.aspect.PermissionCheck;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
 
 /**
@@ -15,12 +16,13 @@ import com.example.demo.presentation.controller.pageproperty.TransitionTargetPag
  */
 @Controller
 public class LogoutController {
-
+	
+	@PermissionCheck
 	@PostMapping(TransitionTargetPageNameKeyword.LOGOUT_CONTROLLER)
 	public String logout(HttpSession session) {
 
 	    session.invalidate();
 
-	    return "redirect:" + TransitionTargetPageNameKeyword.MENU;
+	    return TransitionTargetPageNameKeyword.REDIRECT_MENU;
 	}
 }

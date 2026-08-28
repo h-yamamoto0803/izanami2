@@ -1,5 +1,7 @@
 package com.example.demo.presentation.controller.customer;
 
+import static com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.aop.aspect.PermissionCheck;
 import com.example.demo.domain.service.customer.RegisterCustomer;
 import com.example.demo.domain.service.customer.SearchUser;
 import com.example.demo.infra.entity.UserEntity;
@@ -47,8 +50,9 @@ public class InsertCustomerController {
 		return new InsertCustomerForm();
 	}
 
+	@PermissionCheck
 	@ResponseBody
-	@PostMapping("/insertCustomer")
+	@PostMapping(INSERT_CUSTOMER)
 	public Boolean insertCustomer(@Valid @ModelAttribute InsertCustomerForm insertCustomerForm,
 			BindingResult bindingResult,
 			Model model) {
@@ -98,8 +102,6 @@ public class InsertCustomerController {
 
 			// エラーログ出力
 			LOGGER.log(Level.SEVERE, SEVERE_ERROR_MESSAGE, e);
-			// エラー画面遷移未実装
-			//return TransitionTargetPageNameKeyword.ERROR_HTML;
 			return false;
 		}
 	}

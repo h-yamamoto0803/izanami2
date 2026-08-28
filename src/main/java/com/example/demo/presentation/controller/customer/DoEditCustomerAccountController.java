@@ -1,5 +1,6 @@
 package com.example.demo.presentation.controller.customer;
 
+import static com.example.demo.presentation.controller.pageproperty.PageReturnAttributeKeyword.*;
 import static com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword.*;
 
 import jakarta.servlet.http.HttpSession;
@@ -9,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.demo.aop.aspect.PermissionCheck;
 import com.example.demo.domain.service.customer.SearchCustomer;
 import com.example.demo.domain.service.customer.UpdateCustomerAccount;
 import com.example.demo.infra.entity.UserEntity;
@@ -30,7 +32,8 @@ public class DoEditCustomerAccountController {
 		this.updateCustomerAccount = updateCustomerAccount;
 		this.searchCustomer = searchCustomer;
 	}
-
+	
+	@PermissionCheck
 	@PostMapping(DO_EDIT_CUSTOMER_ACCOUNT)
 	public String doEditCustomerAccount(Model model,
 			@ModelAttribute CustomerAccountEditForm customerAccountEditForm,
@@ -38,19 +41,16 @@ public class DoEditCustomerAccountController {
 		try {
 			LoginUserForm loginUser = (LoginUserForm) session.getAttribute(SessionKeyword.LOGIN_USER);
 
-			CustomerAccountEditForm beforecustomerAccountEditForm = searchCustomer
-					.searchIdCustomer(loginUser.getUserId());
+			CustomerAccountEditForm beforecustomerAccountEditForm = searchCustomer.searchIdCustomer(loginUser.getUserId());
 			customerAccountEditForm.setUserId(beforecustomerAccountEditForm.getUserId());
 			customerAccountEditForm.setUserType(beforecustomerAccountEditForm.getUserType());
 
 			UserEntity updateUserEntity = CustomerAccountEditForm.convertTo(customerAccountEditForm);
-			updateCustomerAccount.updateCustomer(
-					beforecustomerAccountEditForm,
-					updateUserEntity);
+			updateCustomerAccount.updateCustomer(beforecustomerAccountEditForm,updateUserEntity);
 			
 			loginUser.setUserName(updateUserEntity.getUserName());
 			session.setAttribute(SessionKeyword.LOGIN_USER, loginUser);
-			return REDIRECT + MENU;
+			return REDIRECT_MENU;
 
 		} catch (Exception e) {
 			// ログイン情報の破棄
@@ -58,8 +58,8 @@ public class DoEditCustomerAccountController {
 
 			e.printStackTrace();
 
-			model.addAttribute("msg", "予期せぬエラーが発生しました。");
-			return REDIRECT + MENU;
+			model.addAttribute(MESSAGE_ERROR, "予期せぬエラーが発生しました。");
+			return REDIRECT_MENU;
 		}
 	}
 }

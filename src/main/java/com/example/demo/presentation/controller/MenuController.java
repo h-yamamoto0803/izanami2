@@ -1,5 +1,6 @@
 package com.example.demo.presentation.controller;
 
+import static com.example.demo.presentation.controller.pageproperty.PageReturnAttributeKeyword.*;
 import static com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword.*;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.aop.aspect.PermissionCheck;
 import com.example.demo.domain.service.post.PostService;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
@@ -24,7 +26,8 @@ import lombok.RequiredArgsConstructor;
 public class MenuController {
 
     private final PostService postService;
-
+    
+    @PermissionCheck
 	@GetMapping({ INDEX_BLANK, INDEX_SLASH, MENU_HTML })
 	public String showMenu(
 			@RequestParam(required = false, name = "tag") String selectedTag,
@@ -44,18 +47,18 @@ public class MenuController {
 		List<PostListForm> postList = postService.searchPostByUserType(userId, selectedTag);
 
 		// Serviceで投稿を取得
-		model.addAttribute("posts", postList);
+		model.addAttribute(POSTS, postList);
 
 		// タグ一覧を取得
 		if (userId != null && loginUserForm.isArtisan()) {
 
 			// 職人に紐づいているタグだけ取得
-			model.addAttribute("tags", postService.getArtisanTagNames(userId));
+			model.addAttribute(TAGS, postService.getArtisanTagNames(userId));
 		} else {
 			// Guest / Customer は全タグ
-			model.addAttribute("tags", postService.getAllTags());
+			model.addAttribute(TAGS,postService.getAllTags());
 		}
-		model.addAttribute("selectedTag", selectedTag);
+		model.addAttribute(SELECTED_TAGS, selectedTag);
 
 		// 共通メニュー画面へ
 		return TransitionTargetPageNameKeyword.MENU_HTML;

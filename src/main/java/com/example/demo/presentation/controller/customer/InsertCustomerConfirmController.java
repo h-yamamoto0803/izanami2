@@ -1,15 +1,17 @@
 package com.example.demo.presentation.controller.customer;
 
+import static com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword.*;
+
 import java.util.List;
 
 import jakarta.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.demo.aop.aspect.PermissionCheck;
 import com.example.demo.domain.service.customer.RegisterCustomer;
 import com.example.demo.domain.service.customer.SearchUser;
 import com.example.demo.infra.entity.UserEntity;
@@ -28,7 +30,6 @@ public class InsertCustomerConfirmController {
 	RegisterCustomer register;
 	SearchUser searchUser;
 
-	@Autowired
 	public InsertCustomerConfirmController(HttpSession httpSession,
 			RegisterCustomer register,
 			SearchUser searchUser) {
@@ -43,7 +44,8 @@ public class InsertCustomerConfirmController {
 	}
 
 	// 登録情報チェック
-	@PostMapping("/insertCustomerConfirm")
+	@PermissionCheck
+	@PostMapping(INSERT_CUSTOMER_CONFIRM)
 	public String insertCustomerConfirm(InsertCustomerForm insertCustomerForm, Model model) {
 		List<String> error = insertCustomerForm.validateParameter();
 
