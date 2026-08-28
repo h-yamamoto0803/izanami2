@@ -1,5 +1,8 @@
 package com.example.demo.presentation.controller.artisan;
 
+import static com.example.demo.presentation.controller.pageproperty.PageReturnAttributeKeyword.*;
+import static com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword.*;
+
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -12,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.domain.service.LoginService;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
-import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
 import com.example.demo.presentation.form.LoginUserForm;
 
 import lombok.RequiredArgsConstructor;
@@ -32,11 +34,11 @@ public class LoginArtisanController {
 	 * @param loginUserForm Artisanログイン画面で使用するフォーム
 	 * @return Artisanログイン画面
 	 */
-	@GetMapping(TransitionTargetPageNameKeyword.LOGIN_ARTISAN_CONTROLLER)
+	@GetMapping(LOGIN_ARTISAN_CONTROLLER)
 	public String showLoginArtisan(
-			@ModelAttribute(TransitionTargetPageNameKeyword.LOGIN_FORM) LoginUserForm loginUserForm) {
+			@ModelAttribute LoginUserForm loginUserForm) {
 
-		return TransitionTargetPageNameKeyword.ARTISAN_LOGIN_HTML;
+		return ARTISAN_LOGIN_HTML;
 	}
 
 	/**
@@ -46,15 +48,15 @@ public class LoginArtisanController {
 	 * @param session ログイン情報を保持するセッション
 	 * @return Artisanメニュー画面
 	 */
-	@PostMapping(TransitionTargetPageNameKeyword.LOGIN_ARTISAN_CONTROLLER)
+	@PostMapping(LOGIN_ARTISAN_CONTROLLER)
 	public String loginArtisan(
-			@Validated @ModelAttribute(TransitionTargetPageNameKeyword.LOGIN_FORM) LoginUserForm loginUserForm,
+			@Validated @ModelAttribute(LOGIN_FORM) LoginUserForm loginUserForm,
 			BindingResult bindingResult,
 			HttpSession session,
 			Model model) {
 
 		if (bindingResult.hasErrors()) {
-			return TransitionTargetPageNameKeyword.ARTISAN_LOGIN_HTML;
+			return ARTISAN_LOGIN_HTML;
 		}
 
 		Integer user = loginService.doLogin(loginUserForm);
@@ -65,14 +67,11 @@ public class LoginArtisanController {
 			// ログインユーザーの情報をセッションに保存
             session.setAttribute(SessionKeyword.LOGIN_USER,loginUserForm);
 
-			return TransitionTargetPageNameKeyword.REDIRECT
-					+ TransitionTargetPageNameKeyword.MENU;
+			return REDIRECT_MENU;
 		}
 
-		model.addAttribute(
-				"errorMessage",
-				"メールアドレスまたはパスワードが正しくありません。");
+		model.addAttribute(MESSAGE_ERROR,"メールアドレスまたはパスワードが正しくありません。");
 
-		return TransitionTargetPageNameKeyword.ARTISAN_LOGIN_HTML;
+		return ARTISAN_LOGIN_HTML;
 	}
 }

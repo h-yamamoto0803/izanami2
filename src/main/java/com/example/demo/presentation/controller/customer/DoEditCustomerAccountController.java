@@ -47,6 +47,9 @@ public class DoEditCustomerAccountController {
 			updateCustomerAccount.updateCustomer(
 					beforecustomerAccountEditForm,
 					updateUserEntity);
+			
+			loginUser.setUserName(updateUserEntity.getUserName());
+			session.setAttribute(SessionKeyword.LOGIN_USER, loginUser);
 			return REDIRECT + MENU;
 
 		} catch (Exception e) {

@@ -39,7 +39,9 @@
     <!-- =========================
          ヒーロー
     ========================= -->
-
+	<div style="color: red;" th:if="${messageError} != null">
+			<span th:text="${messageError}"></span>
+		</div>
     <!-- Guest -->
     <section class="hero"
              th:if="${userType == 'guest'}">

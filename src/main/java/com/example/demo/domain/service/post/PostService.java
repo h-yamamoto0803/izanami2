@@ -277,4 +277,8 @@ public class PostService {
 		
 		return postRepository.findByUserUserId(userId);
 	}
+public List<PostEntity> findByUserIdAndIsDeleted(Integer userId,byte IsDeleted){
+		
+		return postRepository.findByUserUserIdAndIsDeleted(userId,IsDeleted);
+	}
 }

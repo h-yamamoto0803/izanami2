@@ -45,14 +45,14 @@
 
 							<div class="post-author">
 
-								 Customer 
-								<span class="role-badge customer" th:if="${post.userType == 'customer'}">
+								 <!-- Customer -->
+								<span class="role-badge customer" th:if="${post.userType == '1'}">
 									<span class="role-dot"></span>
 									ユーザー
 								</span>
 
-								 Artisan 
-								<span class="role-badge artisan" th:if="${post.userType == 'artisan'}">
+								<!-- Artisan --> 
+								<span class="role-badge artisan" th:if="${post.userType == '2'}">
 									<span class="role-dot"></span>
 									職人
 								</span>
@@ -70,23 +70,23 @@
 						</div>
 					</div>
 
-					 投稿タイトル 
+					<!--投稿タイトル -->
 					<a class="post-title-link" href="#" th:text="${post.title}">
 						投稿タイトル
 					</a>
 
-					 投稿本文 
+					 <!-- 投稿本文 --> 
 					<p class="post-summary" th:text="${post.summary}">
 						投稿本文
 					</p>
 
-					 ジャンル・タグ 
+					<!--ジャンル・タグ -->
 					<span class="tag" th:each="tag : ${post.tags}" th:text="'#' + ${tag}">
 						#タグ
 					</span>
 
 
-					 いいね 
+					<!-- いいね -->
 					<div class="post-actions">
 
 						<span class="favorite-count" th:text="'♥ ' + ${post.favoriteCount} + ' いいね'">

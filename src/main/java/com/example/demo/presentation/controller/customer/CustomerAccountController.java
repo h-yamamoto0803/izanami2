@@ -46,7 +46,8 @@ public class CustomerAccountController {
 		model.addAttribute("userName", name);
 		model.addAttribute("email", mail);
 		
-		List<PostEntity> posts = postService.findByUserId(userId);
+		List<PostEntity> posts = postService.findByUserIdAndIsDeleted(userId,(byte)0);
+		
 		model.addAttribute("posts", postService.convertToPostListForm(posts));
 
 		return TransitionTargetPageNameKeyword.CUSTOMER_ACCOUNT_HTML;

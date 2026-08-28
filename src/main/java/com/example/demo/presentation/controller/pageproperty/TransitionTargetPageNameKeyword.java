@@ -44,6 +44,8 @@ public class TransitionTargetPageNameKeyword {
 	public final static String INSERT_POST_CONFIRM = "/insertPostConfirm";
 	public final static String DELETE_POST = "/deletePost";
 	public final static String POST = "/post";
+	public final static String FAVORITE = "/favorite";
+	public final static String CANDIDATE = "/candidate";
 	// HTML
 	public final static String POST_DETAIL_HTML = "post-detail";
 	public final static String POST_CREATE_HTML = "post-create";
@@ -60,7 +62,8 @@ public class TransitionTargetPageNameKeyword {
 				INDEX_SLASH,
 				MENU,
 				REDIRECT,
-				LOGIN_ARTISAN_CONTROLLER);
+				LOGIN_ARTISAN_CONTROLLER,
+				CANDIDATE);
 	}
 
 	public static Set<String> getCustomerPageList() {
@@ -73,7 +76,9 @@ public class TransitionTargetPageNameKeyword {
 				CUSTOMER_ACCOUNT,
 				CUSTOMER_ACCOUNT_EDIT,
 				CONFIRM_CUSTOMER_ACCOUNT_EDIT,
-				DO_EDIT_CUSTOMER_ACCOUNT);
+				DO_EDIT_CUSTOMER_ACCOUNT,
+				FAVORITE
+				);
 	}
 
 	public static Set<String> getGuestPageList() {

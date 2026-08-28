@@ -1,5 +1,7 @@
 package com.example.demo.presentation.controller.artisan;
 
+import static com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword.*;
+
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +31,7 @@ public class CandidateController {
 	 * @param session
 	 * @return 対象投稿のID、 追加処理だったか否か、変更後の検討数を持つDTO
 	 */
-	@PostMapping("/candidate")
+	@PostMapping(CANDIDATE)
 	public CandidateResponseDto candidate(
 			CandidateForm form,
 			HttpSession session) {
