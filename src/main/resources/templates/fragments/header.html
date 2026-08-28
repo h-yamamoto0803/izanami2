@@ -91,7 +91,7 @@
 						<div class="notification-panel" id="notificationPanel">
 
 							<a class="notification-item" th:each="notification : ${notificationFormList}"
-								th:href="@{/post-detail?postId={postId}(postId=${notification.postId})}">
+								th:href="@{/postDetail?postId={postId}(postId=${notification.postId})}">
 
 								<span class="unread-mark" th:if="${!notification.isRead}">
 									●
@@ -118,8 +118,8 @@
 					<!-- アカウント -->
 					<a class="account-btn" th:href="
 	                         ${userType == 'artisan'}
-	                             ? @{/artisan/account}
-	                             : @{/customerAccountEdit}" th:text="${session.loginUser.userName}">
+	                             ? @{/customerAccount}
+	                             : @{/customerAccount}" th:text="${session.loginUser.userName}">
 					</a>
 
 					<!-- ログアウト -->

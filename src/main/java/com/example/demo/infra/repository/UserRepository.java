@@ -24,7 +24,6 @@ import com.example.demo.infra.entity.UserEntity;
  */
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
-
     /**
      * メールアドレスを条件にユーザーを検索します。
      *
@@ -79,7 +78,5 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
      * IN(:???) -> Java側で使いたい値???を代入できる Javaの＠Param("???")が対応している
      */
 	List<PostEntity> findByAnyTagName(@Param("tagNames") Collection<String> tagNames);
-
-	Optional<UserEntity> findById(Integer userId);
 }
 

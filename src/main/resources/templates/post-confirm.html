@@ -23,10 +23,6 @@
 				<div class="card form-card" th:object="${insertPostForm}">
 					<dl class="confirm-list">
 						<div class="confirm-row">
-							<dt>名前</dt>
-							<dd th:thxt="${session.userForm.userName}"></dd>
-						</div>
-						<div class="confirm-row">
 							<dt>タイトル</dt>
 							<dd th:text="*{postTitle}"></dd>
 						</div>
