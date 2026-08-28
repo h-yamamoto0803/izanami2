@@ -1,7 +1,5 @@
 package com.example.demo.domain.service.post;
 
-import jakarta.transaction.Transactional;
-
 import org.springframework.stereotype.Service;
 
 import com.example.demo.infra.entity.PostEntity;
@@ -13,13 +11,15 @@ import com.example.demo.infra.repository.TagRepository;
 import com.example.demo.infra.repository.UserRepository;
 import com.example.demo.presentation.form.post.InsertPostForm;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
-@Transactional
+@RequiredArgsConstructor
 public class InsertPost {
-	PostRepository postRepository;
-	UserRepository userRepository;
-	TagRepository tagRepository;
-	PostTagRepository postTagRepository;
+	private final PostRepository postRepository;
+	private final UserRepository userRepository;
+	private final TagRepository tagRepository;
+	private final PostTagRepository postTagRepository;
 	
 	/**
 	 * @param insertPostForm
@@ -51,7 +51,7 @@ public class InsertPost {
                 tagEntity = tagRepository.save(tagEntity);
             }
 
-//			PostTagEntity保存
+            //PostTagEntity保存
             PostTagEntity postTagEntity = new PostTagEntity();
             postTagEntity.setPost(postEntity);
             postTagEntity.setTag(tagEntity);

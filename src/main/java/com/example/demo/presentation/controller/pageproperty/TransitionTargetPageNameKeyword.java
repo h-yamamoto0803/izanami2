@@ -12,6 +12,7 @@ public class TransitionTargetPageNameKeyword {
 	public static final String LOGOUT_CONTROLLER = "/logout";
 	public static final String MENU = "/menu";
 	public static final String REDIRECT = "redirect:";
+	public static final String REDIRECT_MENU = "redirect:/menu";
 
 	// artisan
 	// HTML
