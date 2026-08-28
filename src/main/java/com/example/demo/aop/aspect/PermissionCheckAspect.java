@@ -36,7 +36,7 @@ public class PermissionCheckAspect {
 		LoginUserForm loginUserForm = (LoginUserForm) request.getSession().getAttribute(SessionKeyword.LOGIN_USER);
 
 		// ログインユーザが取得できない場合、または権限がない場合はエラー画面に遷移
-		if (loginUserForm == null || !hasRequiredPermission(request.getRequestURI(), loginUserForm)) {
+		if (!hasRequiredPermission(request.getRequestURI(), loginUserForm)) {
 			throw new InsufficientPermissionException("ユーザータイプが不正です");
 		}
 
