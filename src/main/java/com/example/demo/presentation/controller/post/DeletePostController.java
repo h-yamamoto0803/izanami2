@@ -31,6 +31,6 @@ public class DeletePostController {
         redirect.addFlashAttribute("deleteMessage", deleteMessage);
 
         return TransitionTargetPageNameKeyword.REDIRECT
-       		 +TransitionTargetPageNameKeyword.RETURN_MENU;
+       		 +TransitionTargetPageNameKeyword.MENU;
     }
 }

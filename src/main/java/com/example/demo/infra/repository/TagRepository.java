@@ -4,9 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.demo.infra.entity.TagEntity;
 
-/**
- * tagsテーブルへのアクセスを担当するRepositoryです。
- */
-public interface TagRepository extends JpaRepository<TagEntity, Integer> {
+public interface TagRepository extends JpaRepository<TagEntity, Integer>{
+	
+	TagEntity findByTagName(String tagName);
 
 }

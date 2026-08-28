@@ -10,6 +10,11 @@
 </head>
 
 <body>
+	<!-- =========================
+	     共通ヘッダー
+	========================= -->
+
+	<div th:replace="~{fragments/header :: header}"></div>
 	<main>
 		<div class="container">
 			<section>
@@ -19,7 +24,7 @@
 					<dl class="confirm-list">
 						<div class="confirm-row">
 							<dt>名前</dt>
-							<dd>伝統工芸が好き</dd>
+							<dd th:thxt="${session.userForm.userName}"></dd>
 						</div>
 						<div class="confirm-row">
 							<dt>タイトル</dt>
@@ -34,16 +39,23 @@
 							<dd class="tag" th:each="tag : *{tags}" th:text="|#${tag}|"></dd>
 						</div>
 					</dl>
-					<div class="actions">
-						<form th:action="@{/insertPost}" method="post" th:object="${insertPostForm}">
 
+					<div class="actions">
+						<!-- もどる: 入力中の値を持って入力画面へ -->
+						<form th:action="@{/insertPost-ret}" method="post" th:object="${insertPostForm}">
 							<input type="hidden" th:field="*{postTitle}">
 							<input type="hidden" th:field="*{postText}">
-
 							<input th:each="tag : *{tags}" type="hidden" name="tags" th:value="${tag}">
-
-							<button type="submit">戻る</button>
-						</form><a class="btn btn-primary" href="menu.html">投稿確定</a>
+							<button class="btn btn-secondary" type="submit">戻る</button>
+						</form>
+						
+						<!-- 登録実行: 全項目を次のリクエストへ引き継ぐ -->
+						<form th:action="@{/post}" method="post" th:object="${insertPostForm}">
+							<input type="hidden" th:field="*{postTitle}">
+							<input type="hidden" th:field="*{postText}">
+							<input th:each="tag : *{tags}" type="hidden" name="tags" th:value="${tag}">
+							<button class="btn btn-primary" type="submit">投稿確定</button>
+						</form>
 					</div>
 				</div>
 			</section>

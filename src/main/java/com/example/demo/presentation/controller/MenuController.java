@@ -26,7 +26,7 @@ public class MenuController {
     private final PostService postService;
 
 	@GetMapping({ INDEX_BLANK, INDEX_SLASH, MENU_HTML })
-	public String showMenu2(
+	public String showMenu(
 			@RequestParam(required = false, name = "tag") String selectedTag,
 			Model model,
 			HttpSession session) {

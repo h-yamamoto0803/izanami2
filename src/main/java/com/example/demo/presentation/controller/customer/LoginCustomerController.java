@@ -71,7 +71,7 @@ public class LoginCustomerController {
              session.setAttribute(SessionKeyword.LOGIN_USER,loginUserForm);
              
              return TransitionTargetPageNameKeyword.REDIRECT 
-            		 + TransitionTargetPageNameKeyword.RETURN_MENU;
+            		 + TransitionTargetPageNameKeyword.MENU;
         }
 
         model.addAttribute(

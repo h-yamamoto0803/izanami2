@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,7 +34,6 @@ public class InsertCustomerController {
 	RegisterCustomer register;
 	SearchUser searchUser;
 
-	@Autowired
 	public InsertCustomerController(HttpSession httpSession,
 			RegisterCustomer register,
 			SearchUser searchUser) {
@@ -77,10 +75,10 @@ public class InsertCustomerController {
 			}
 
 			// メールアドレス重複チェック
-			List<UserEntity> userList = searchUser.searchUser(insertCustomerForm.getEmail());
+			UserEntity otherUser = searchUser.searchUser(insertCustomerForm.getEmail());
 
 			// 検索結果があるか
-			if (!userList.isEmpty()) {
+			if (otherUser != null) {
 				// 検索した結果0件ではない場合
 				// 重複を許さないため、false
 				return false;

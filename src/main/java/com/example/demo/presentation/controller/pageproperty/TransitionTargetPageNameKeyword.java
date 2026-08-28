@@ -10,7 +10,7 @@ public class TransitionTargetPageNameKeyword {
 	public static final String INDEX_BLANK = "";
 	public static final String INDEX_SLASH = "/";
 	public static final String LOGOUT_CONTROLLER = "/logout";
-	public static final String RETURN_MENU = "/menu";
+	public static final String MENU = "/menu";
 	public static final String REDIRECT = "redirect:";
 
 	// artisan
@@ -39,6 +39,7 @@ public class TransitionTargetPageNameKeyword {
 		// Controller
 	public final static String POST_DETAIL = "/postDetail";
 	public final static String INSERT_POST = "/insertPost";
+	public final static String INSERT_POST_RET = "/insertPostRet";
 	public final static String INSERT_POST_CONFIRM = "/insertPostConfirm";
 	public final static String DELETE_POST = "/deletePost";
 	public final static String POST = "/post";
@@ -56,7 +57,7 @@ public class TransitionTargetPageNameKeyword {
 		return Set.of(
 				INDEX_BLANK,
 				INDEX_SLASH,
-				RETURN_MENU,
+				MENU,
 				REDIRECT,
 				LOGIN_ARTISAN_CONTROLLER
 		);
@@ -66,7 +67,7 @@ public class TransitionTargetPageNameKeyword {
 		return Set.of(
 				INDEX_BLANK,
 				INDEX_SLASH,
-				RETURN_MENU,
+				MENU,
 				LOGOUT_CONTROLLER,
 				REDIRECT,
 				CUSTOMER_ACCOUNT,
@@ -80,7 +81,7 @@ public class TransitionTargetPageNameKeyword {
 		return Set.of(
 				INDEX_BLANK,
 				INDEX_SLASH,
-				RETURN_MENU,
+				MENU,
 				LOGOUT_CONTROLLER,
 				REDIRECT,
 				CUSTOMER_ACCOUNT,

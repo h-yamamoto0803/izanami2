@@ -42,5 +42,4 @@ public class PostListForm {
 	 * 検討フラグ
 	 */
 	private boolean candidated;
-
 }

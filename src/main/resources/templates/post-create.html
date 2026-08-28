@@ -10,6 +10,12 @@
 </head>
 
 <body>
+	<!-- =========================
+	     共通ヘッダー
+	========================= -->
+
+	<div th:replace="~{fragments/header :: header}"></div>
+	
 	<main>
 		<div class="container">
 			<section>
@@ -17,10 +23,7 @@
 				<p class="page-subtitle">タイトル・投稿内容・カテゴリタグを入力してください。</p>
 				<form class="card form-card" th:action="@{/insertPostConfirm}" method="post"
 					th:object="${insertPostForm}">
-					<div class="form-group"><label for="postAuthor-customer">名前</label><input id="postAuthor-customer"
-							type="text" readonly value="伝統工芸が好き">
-						<div class="form-hint">静的モックのサンプル表示です。</div>
-					</div>
+				
 					<div class="form-group"><label for="postTitle-customer">タイトル</label><input id="postTitle-customer"
 							th:field="*{postTitle}" type="text" required></div>
 					<div class="form-group"><label for="postText-customer">投稿内容</label><textarea id="postText-customer"
@@ -28,9 +31,8 @@
 					<div class="form-group"><label for="tag-customer">カテゴリタグ</label>
 						<div class="form-group">
 
-							<label for="tagInput">カテゴリタグ</label>
 
-							<input id="tagInput" type="text" placeholder="タグを入力してEnter">
+							<input id="tagInput" th:field="*{tags}" type="text" placeholder="タグを入力してEnter">
 
 							<div id="tagList"></div>
 
