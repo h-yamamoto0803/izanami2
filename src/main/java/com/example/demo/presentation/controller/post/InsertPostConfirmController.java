@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.domain.service.post.InsertPost;
+import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
+import com.example.demo.presentation.form.LoginUserForm;
 import com.example.demo.presentation.form.post.InsertPostForm;
 
 import lombok.RequiredArgsConstructor;
@@ -34,10 +36,14 @@ public class InsertPostConfirmController {
 	 * 
 	 */
 	@PostMapping(TransitionTargetPageNameKeyword.POST)
-	public String post(@ModelAttribute InsertPostForm insertPostForm) {
+	public String post(@ModelAttribute InsertPostForm insertPostForm,
+			HttpSession session) {
 		
 //		セッションからユーザーIDを取得
-		Integer userId = (Integer) httpSession.getAttribute("userId");
+		LoginUserForm loginUserForm = (LoginUserForm)session.getAttribute(SessionKeyword.LOGIN_USER);
+    	Integer userId = loginUserForm.getUserId();
+//		表示用にユーザーネーム取得
+    	loginUserForm.getUserName();
 //		サービスの呼び出し
 		insertPost.insertPost(insertPostForm, userId);
 		
