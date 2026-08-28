@@ -75,8 +75,7 @@ public class PostService {
 	 * @return フラグ適用後の投稿form
 	 */
 	private List<PostListForm> flaggedCheck(
-			List<PostListForm> postListForm,
-			UserEntity user) {
+			List<PostListForm> postListForm,UserEntity user) {
 
 		List<Integer> favoritePostIdList = favoriteRepository.findPostIdsByUser(user);
 
@@ -85,17 +84,14 @@ public class PostService {
 		for (PostListForm post : postListForm) {
 
 			// いいねフラグ判定
-			post.setFavorited(
-					favoritePostIdList.contains(post.getPostId()));
+			post.setFavorited(favoritePostIdList.contains(post.getPostId()));
 
 			// 検討フラグ判定
-			post.setCandidated(
-					candidatePostIdList.contains(post.getPostId()));
+			post.setCandidated(candidatePostIdList.contains(post.getPostId()));
 		}
 
 		return postListForm;
 	}
-
 	/**
 	 * 全投稿を検索します。
 	 *
