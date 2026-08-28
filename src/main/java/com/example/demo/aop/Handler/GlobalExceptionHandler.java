@@ -110,7 +110,7 @@ public class GlobalExceptionHandler {
 	public String AllException(Model model, Exception e, HttpSession session) {
 
 		session.invalidate();
-		model.addAttribute("error", SEVERE_ERROR_MESSAGE_BAD_REQUEST);
+		model.addAttribute(MESSAGE_ERROR, SEVERE_ERROR_MESSAGE_BAD_REQUEST);
 		model.addAttribute(LOGIN_USER_FORM, new LoginUserForm());
 
 		e.printStackTrace();
