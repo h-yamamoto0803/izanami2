@@ -37,6 +37,13 @@
 					</dl>
 
 					<div class="actions">
+						<!-- 登録実行: 全項目を次のリクエストへ引き継ぐ -->
+						<form th:action="@{/post}" method="post" th:object="${insertPostForm}">
+							<input type="hidden" th:field="*{postTitle}">
+							<input type="hidden" th:field="*{postText}">
+							<input th:each="tag : *{tags}" type="hidden" name="tags" th:value="${tag}">
+							<button class="btn btn-primary" type="submit">投稿確定</button>
+						</form>
 						<!-- もどる: 入力中の値を持って入力画面へ -->
 						<form th:action="@{/insertPost-ret}" method="post" th:object="${insertPostForm}">
 							<input type="hidden" th:field="*{postTitle}">
@@ -45,13 +52,6 @@
 							<button class="btn btn-secondary" type="submit">戻る</button>
 						</form>
 						
-						<!-- 登録実行: 全項目を次のリクエストへ引き継ぐ -->
-						<form th:action="@{/post}" method="post" th:object="${insertPostForm}">
-							<input type="hidden" th:field="*{postTitle}">
-							<input type="hidden" th:field="*{postText}">
-							<input th:each="tag : *{tags}" type="hidden" name="tags" th:value="${tag}">
-							<button class="btn btn-primary" type="submit">投稿確定</button>
-						</form>
 					</div>
 				</div>
 			</section>
