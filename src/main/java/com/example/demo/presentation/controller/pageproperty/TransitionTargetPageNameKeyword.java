@@ -117,6 +117,7 @@ public class TransitionTargetPageNameKeyword {
 				REDIRECT,
 				REDIRECT_MENU,
 				
+				INSERT_POST,
 				POST_DETAIL,
 				
 				LOGIN_CUSTOMER_CONTROLLER,

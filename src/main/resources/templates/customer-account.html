@@ -102,7 +102,9 @@
 					</div>
 
 					<!--投稿タイトル -->
-					<a class="post-title-link" href="#" th:text="${post.title}">
+					<a class="post-title-link" 
+						th:href="@{/postDetail?postId={postId}(postId=${post.postId})}"
+						th:text="${post.title}">
 						投稿タイトル
 					</a>
 
