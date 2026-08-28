@@ -1,5 +1,8 @@
 package com.example.demo.presentation.controller.post;
 
+import static com.example.demo.presentation.controller.pageproperty.SessionKeyword.*;
+import static com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword.*;
+
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -8,8 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
-import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
 import com.example.demo.presentation.form.LoginUserForm;
 import com.example.demo.presentation.form.post.InsertPostForm;
 
@@ -22,21 +23,19 @@ public class InsertPostController {
 	/*
 	 * 投稿作成画面表示
 	 */
-	@GetMapping(TransitionTargetPageNameKeyword.INSERT_POST)
+	@GetMapping(INSERT_POST)
 	public String insertPost(@ModelAttribute InsertPostForm insertPostForm,
 			RedirectAttributes redirect,
 			HttpSession session) {
 
 		// ログインしたユーザーか判定
-		LoginUserForm loginUserForm = (LoginUserForm)session.getAttribute(SessionKeyword.LOGIN_USER);
-    	Integer userId = loginUserForm.getUserId();
-		if (userId == null) {
+		LoginUserForm loginUserForm = (LoginUserForm)session.getAttribute(LOGIN_USER);
+		if (loginUserForm == null) {
 			redirect.addFlashAttribute("insertPostMessage", "投稿するにはログインしてください。");
-			return TransitionTargetPageNameKeyword.REDIRECT
-					+ TransitionTargetPageNameKeyword.MENU;
+			return REDIRECT_MENU;
 		}
 
-		return TransitionTargetPageNameKeyword.POST_CREATE_HTML;
+		return POST_CREATE_HTML;
 	}
 
 	/*
@@ -44,8 +43,8 @@ public class InsertPostController {
 	 * POSTされた入力中の値がformに入ったまま
 	 * @return 投稿作成画面
 	 */
-	@PostMapping(TransitionTargetPageNameKeyword.INSERT_POST_RET)
+	@PostMapping(INSERT_POST_RET)
 	public String insertPostRet(InsertPostForm insertPostForm) {
-		return TransitionTargetPageNameKeyword.POST_CREATE_HTML;
+		return POST_CREATE_HTML;
 	}
 }
