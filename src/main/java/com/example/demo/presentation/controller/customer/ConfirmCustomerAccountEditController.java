@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.demo.aop.aspect.PermissionCheck;
 import com.example.demo.domain.service.customer.SearchCustomer;
 import com.example.demo.domain.service.customer.UpdateCustomerAccount;
 import com.example.demo.infra.entity.UserEntity;
@@ -34,11 +35,10 @@ public class ConfirmCustomerAccountEditController {
 		this.updateCustomerAccount = updateCustomerAccountTest;
 		this.httpSession = httpSession;
 		this.searchCustomer = searchCustomer;
-
 	}
 
+	@PermissionCheck
 	@PostMapping(CONFIRM_CUSTOMER_ACCOUNT_EDIT)
-
 	public String confirmCustomerAccountEdit(@Valid CustomerAccountEditForm customerAccountEditForm,
 			BindingResult bindingResult, Model model, HttpSession session) {
 

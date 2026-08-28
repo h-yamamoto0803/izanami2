@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.aop.aspect.PermissionCheck;
 import com.example.demo.domain.service.artisan.Candidate;
 import com.example.demo.dto.CandidateResponseDto;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
@@ -31,6 +32,7 @@ public class CandidateController {
 	 * @param session
 	 * @return 対象投稿のID、 追加処理だったか否か、変更後の検討数を持つDTO
 	 */
+	@PermissionCheck
 	@PostMapping(CANDIDATE)
 	public CandidateResponseDto candidate(
 			CandidateForm form,

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.demo.aop.aspect.PermissionCheck;
 import com.example.demo.domain.service.post.InsertPost;
 import com.example.demo.presentation.form.LoginUserForm;
 import com.example.demo.presentation.form.post.InsertPostForm;
@@ -24,6 +25,7 @@ public class InsertPostConfirmController {
 	 * 投稿確認画面表示
 	 * @return 投稿確認画面
 	 */
+	@PermissionCheck
 	@PostMapping(INSERT_POST_CONFIRM)
 	public String confirmPost(@ModelAttribute InsertPostForm insertPostForm) {
 		return POST_CONFIRM_HTML;
@@ -34,7 +36,8 @@ public class InsertPostConfirmController {
 	 * @return メニュー画面
 	 * 
 	 */
-	@PostMapping(POST)
+	@PermissionCheck
+	@PostMapping(DO_INSERT_POST)
 	public String post(@ModelAttribute InsertPostForm insertPostForm) {
 		
 //		セッションからユーザーIDを取得
