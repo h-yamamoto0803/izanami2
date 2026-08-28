@@ -8,30 +8,7 @@
   <script src="js/common.js" defer></script>
 </head>
 <body>
-<header class="site-header artisan-header">
-  <div class="container header-inner">
-    <a class="logo" href="artisan-menu.html">Traemon</a>
-    <div class="header-right">
-      <span class="role-badge artisan"><span class="role-dot"></span>職人</span>
-      <a class="header-post artisan-post" href="post-create-artisan.html">＋ 投稿する</a>
-      <div class="notification-wrap">
-        <button class="icon-btn" id="notificationButton" type="button" aria-label="通知">🔔</button>
-        <div class="notification-panel" id="notificationPanel">
-          <div class="notification-item">
-            <div>あなたの投稿に反応がありました。</div>
-            <small>2026/08/20 10:15</small>
-          </div>
-          <div class="notification-item">
-            <div>「玄関に置ける小さな花器が欲しい」に新しい反応があります。</div>
-            <small>2026/08/19 18:40</small>
-          </div>
-        </div>
-      </div>
-      <a class="account-btn" href="artisan-account.html">山田工房</a>
-      <a class="logout-btn" href="menu.html">ログアウト</a>
-    </div>
-  </div>
-</header>
+<div th:replace="~{fragments/header :: header}"></div>
 <main><div class="container">
   <section class="card account-head artisan-tile"><h1 class="page-title">職人アカウントページ</h1><p>自分が投稿した内容の一覧を確認できます。</p><p class="account-name">名前：山田工房</p><p class="account-email">メールアドレス：artisan@example.com</p></section>
   <div class="section-title"><h2>自分の投稿</h2></div><div class="timeline"><article class="card post-card post-list-card">
