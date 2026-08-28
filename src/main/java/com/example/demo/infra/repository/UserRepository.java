@@ -1,6 +1,5 @@
 package com.example.demo.infra.repository;
 
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -81,10 +80,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
      */
 	List<PostEntity> findByAnyTagName(@Param("tagNames") Collection<String> tagNames);
 
-	
 	Optional<UserEntity> findById(Integer userId);
-	
-	
-	
 }
 
