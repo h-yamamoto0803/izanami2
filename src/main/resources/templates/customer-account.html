@@ -10,29 +10,60 @@
 	<script th:src="@{/js/common.js}" defer></script>
 </head>
 
-<body>
+<body th:with="
+    loginUser=${session.loginUser},
+    userType=${
+        loginUser == null
+            ? 'guest'
+            : (loginUser.artisan
+                ? 'artisan'
+                : 'customer')
+    }
+">
 	<div th:replace="~{fragments/header :: header}"></div>
 	
 
 	<main>
 		<div class="container">
-			<section class="card account-head customer-tile">
-				<h1 class="page-title">ユーザーアカウントページ</h1>
-				<p>自分が投稿した内容の一覧とアカウント情報を確認できます。</p>
-				<div class="form-group">
-					<label for="userName">名前</label>
-					<span th:text="${userName}"></span>
-				</div>
-				<div class="form-group">
-					<label for="email">メールアドレス</label>
-					<span th:text="${email}"></span>
-				</div>
+			
+				<section class="card account-head customer-tile"
+							th:if="${userType == 'customer'}">
+								<h1 class="page-title">ユーザーアカウントページ</h1>
+								<p>自分が投稿した内容の一覧とアカウント情報を確認できます。</p>
+								<div class="form-group">
+									<label for="userName">名前</label>
+									<span th:text="${userName}"></span>
+								</div>
+								<div class="form-group">
+									<label for="email">メールアドレス</label>
+									<span th:text="${email}"></span>
+								</div>
 
-				<div class="account-actions">
-					<a class="btn btn-primary" th:href="@{/customerAccountEdit}">アカウント編集</a>
-					<a class="btn btn-primary" th:href="@{/DeleteCustomerAccount}">削除</a>
-				</div>
-			</section>
+								<div class="account-actions">
+									<a class="btn btn-primary" th:href="@{/customerAccountEdit}">アカウント編集</a>
+									<a class="btn btn-primary" th:href="@{/DeleteCustomerAccount}">削除</a>
+								</div>
+							</section>
+							
+							<section class="card account-head artisan-tile"
+										th:if="${userType == 'artisan'}">
+											<h1 class="page-title">ユーザーアカウントページ</h1>
+											<p>自分が投稿した内容の一覧とアカウント情報を確認できます。</p>
+											<div class="form-group">
+												<label for="userName">名前</label>
+												<span th:text="${userName}"></span>
+											</div>
+											<div class="form-group">
+												<label for="email">メールアドレス</label>
+												<span th:text="${email}"></span>
+											</div>
+
+											<div class="account-actions">
+												<a class="btn btn-primary" th:href="@{/customerAccountEdit}">アカウント編集</a>
+												<a class="btn btn-primary" th:href="@{/DeleteCustomerAccount}">削除</a>
+											</div>
+										</section>
+			
 			<div class="section-title">
 				<h2>自分の投稿</h2>
 			</div>
