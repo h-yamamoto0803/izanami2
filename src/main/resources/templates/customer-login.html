@@ -23,7 +23,7 @@
 				<p class="page-subtitle">
 					ユーザーアカウントでTraemonを利用します。
 				</p>
-
+				<p th:if="${messageError}" th:text="${messageError}"></p>
 				<form class="card form-card" th:action="@{/customer/login}" th:object="${loginForm}" method="post">
 					<p th:if="${errorMessage}" th:text="${errorMessage}"></p>
 					<div class="form-group">
