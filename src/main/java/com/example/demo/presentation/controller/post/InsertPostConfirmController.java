@@ -1,5 +1,7 @@
 package com.example.demo.presentation.controller.post;
 
+import static com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword.*;
+
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -7,8 +9,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.domain.service.post.InsertPost;
-import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
-import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
 import com.example.demo.presentation.form.LoginUserForm;
 import com.example.demo.presentation.form.post.InsertPostForm;
 
@@ -20,14 +20,13 @@ public class InsertPostConfirmController {
 	
 	private final InsertPost insertPost;
 	private final HttpSession httpSession;
-	
 	/*
 	 * 投稿確認画面表示
 	 * @return 投稿確認画面
 	 */
-	@PostMapping(TransitionTargetPageNameKeyword.INSERT_POST_CONFIRM)
+	@PostMapping(INSERT_POST_CONFIRM)
 	public String confirmPost(@ModelAttribute InsertPostForm insertPostForm) {
-		return TransitionTargetPageNameKeyword.POST_CONFIRM_HTML;
+		return POST_CONFIRM_HTML;
 	}
 	
 	/*
@@ -35,20 +34,17 @@ public class InsertPostConfirmController {
 	 * @return メニュー画面
 	 * 
 	 */
-	@PostMapping(TransitionTargetPageNameKeyword.POST)
-	public String post(@ModelAttribute InsertPostForm insertPostForm,
-			HttpSession session) {
+	@PostMapping(POST)
+	public String post(@ModelAttribute InsertPostForm insertPostForm) {
 		
 //		セッションからユーザーIDを取得
-		LoginUserForm loginUserForm = (LoginUserForm)session.getAttribute(SessionKeyword.LOGIN_USER);
-    	Integer userId = loginUserForm.getUserId();
-//		表示用にユーザーネーム取得
-    	loginUserForm.getUserName();
+		
+		LoginUserForm loginUserForm =  (LoginUserForm)httpSession.getAttribute("loginUser");
+		Integer userId = loginUserForm.getUserId();
 //		サービスの呼び出し
 		insertPost.insertPost(insertPostForm, userId);
 		
-		return TransitionTargetPageNameKeyword.REDIRECT
-       		 +TransitionTargetPageNameKeyword.MENU;
+		return REDIRECT_MENU;
 }
 	
 }

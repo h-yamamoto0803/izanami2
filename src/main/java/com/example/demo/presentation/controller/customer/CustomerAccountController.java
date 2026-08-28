@@ -4,11 +4,9 @@ import java.util.List;
 
 import jakarta.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.demo.domain.service.customer.SearchCustomer;
 import com.example.demo.domain.service.customer.UpdateCustomerAccount;
@@ -27,7 +25,6 @@ public class CustomerAccountController {
 	SearchCustomer searchCustomer;
 	UpdateCustomerAccount updateCustomerAccount;
 	
-	@Autowired
 	public CustomerAccountController(HttpSession httpsession, 
 			UpdateCustomerAccount updateCustomerAccount,
 			PostService postService,SearchCustomer searchCustomer) {
@@ -37,7 +34,7 @@ public class CustomerAccountController {
 		this.searchCustomer = searchCustomer;
 	}
 
-	@RequestMapping(value = TransitionTargetPageNameKeyword.CUSTOMER_ACCOUNT, method = RequestMethod.GET)
+	@GetMapping(TransitionTargetPageNameKeyword.CUSTOMER_ACCOUNT)
 	public String customerAccount(Model model, HttpSession session) {
 		LoginUserForm loginUser = (LoginUserForm) session.getAttribute(SessionKeyword.LOGIN_USER);
 		Integer userId = loginUser.getUserId();
