@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.domain.service.customer.RegisterCustomer;
 import com.example.demo.presentation.controller.pageproperty.PageReturnAttributeKeyword;
@@ -39,6 +40,11 @@ public class InsertCustomerInputController {
 
 	@GetMapping("/insertCustomerInput")
 	public String insertInput(InsertCustomerForm insertCustomerForm, Model model) {
+		model.addAttribute(PageReturnAttributeKeyword.INSERT_CUSTOMER_FORM, insertCustomerForm);
+		return TransitionTargetPageNameKeyword.INSERT_CUSTOMER_INPUT_HTML;
+	}
+	@PostMapping("/insertCustomerInput")
+	public String returnInsertInput(InsertCustomerForm insertCustomerForm, Model model) {
 		model.addAttribute(PageReturnAttributeKeyword.INSERT_CUSTOMER_FORM, insertCustomerForm);
 		return TransitionTargetPageNameKeyword.INSERT_CUSTOMER_INPUT_HTML;
 	}
