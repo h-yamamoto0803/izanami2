@@ -42,7 +42,7 @@ public class InsertPostConfirmController {
 		insertPost.insertPost(insertPostForm, userId);
 		
 		return TransitionTargetPageNameKeyword.REDIRECT
-       		 +TransitionTargetPageNameKeyword.RETURN_MENU;
+       		 +TransitionTargetPageNameKeyword.MENU;
 }
 	
 }

@@ -39,13 +39,4 @@ public class InsertPostController {
     public String insertPostRet(InsertPostForm insertPostForm) {
         return TransitionTargetPageNameKeyword.POST_CREATE_HTML;
     }
-	
-	/*
-	 * 戻るボタン
-	 * メニュー画面表示
-	 */
-	@GetMapping(TransitionTargetPageNameKeyword.RETURN_MENU)
-	public String returnMenu() {
-		return TransitionTargetPageNameKeyword.MENU_HTML;
-	}
 }
