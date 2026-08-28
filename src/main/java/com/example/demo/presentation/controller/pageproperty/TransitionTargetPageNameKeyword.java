@@ -46,6 +46,8 @@ public class TransitionTargetPageNameKeyword {
 	public final static String POST_DETAIL_HTML = "post-detail";
 	public final static String POST_CREATE_HTML = "post-create";
 	public final static String POST_CONFIRM_HTML = "post-confirm";
+	public final static String INSERT_CUSTOMER_INPUT_HTML = "customer-register";
+	public static final String INSERT_CUSTOMER_CONFIRM_HTML = "customer-register-confirm";
 
 	// Form
 	public final static String LOGIN_FORM = "loginForm";
