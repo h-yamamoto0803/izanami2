@@ -21,7 +21,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class TagEntity {
 
-
+  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tag_id")
@@ -30,11 +30,11 @@ public class TagEntity {
     @Column(name = "tag_name", nullable = false, unique = true, length = 50)
     private String tagName;
 
-
+    
     @Column(name = "created_at", nullable = false, insertable = false, updatable = false)
     private LocalDateTime createdAt;
 
-
+  
     @Column(name = "updated_at", nullable = false, insertable = false, updatable = false)
     private LocalDateTime updatedAt;
 }

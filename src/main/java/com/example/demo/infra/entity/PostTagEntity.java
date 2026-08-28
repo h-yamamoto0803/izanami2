@@ -1,43 +1,65 @@
 package com.example.demo.infra.entity;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+/**
+ * post_tagsテーブルのデータをJavaオブジェクトとして扱うためのEntityです。
+ *
+ * post_tagsは「post_id」と「tag_id」の複合主キーを持つため、
+ * 複合キー用のクラスを使用します。
+ */
 @Entity
 @Table(name = "post_tags")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class PostTagEntity {
-	
-	 @EmbeddedId
-	    private PostTagId id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    /** 複合主キー */
+    @EmbeddedId
+    private PostTagId id;
+
+    /** 投稿 */
+    @ManyToOne
     @MapsId("postId")
-    @JoinColumn(name = "post_id", nullable = false)
+    @JoinColumn(name = "post_id")
     private PostEntity post;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    /** タグ */
+    @ManyToOne
     @MapsId("tagId")
-    @JoinColumn(name = "tag_id", nullable = false)
+    @JoinColumn(name = "tag_id")
     private TagEntity tag;
 
-    @Column(name = "created_at", nullable = false, insertable = false, updatable = false)
-    private LocalDateTime createdAt;
+    /**
+     * post_tagsの複合主キーを表すクラスです。
+     */
+    @Embeddable
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class PostTagId implements Serializable {
 
-    @Column(name = "updated_at", nullable = false, insertable = false, updatable = false)
-    private LocalDateTime updatedAt;
+        private static final long serialVersionUID = 1L;
+
+        /** 投稿ID */
+        @Column(name = "post_id")
+        private Integer postId;
+
+        /** タグID */
+        @Column(name = "tag_id")
+        private Integer tagId;
+    }
 }

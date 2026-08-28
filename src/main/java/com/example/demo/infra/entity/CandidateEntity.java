@@ -16,7 +16,6 @@ import jakarta.persistence.UniqueConstraint;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-// 特にミスがない限り追加の予定は無し
 @Entity
 @Table(name = "candidates", uniqueConstraints = @UniqueConstraint(columnNames = { "user_id", "post_id" }))
 @Data

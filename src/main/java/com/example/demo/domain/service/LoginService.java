@@ -8,6 +8,8 @@ import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.infra.repository.UserRepository;
 import com.example.demo.presentation.form.LoginUserForm;
 
+import lombok.RequiredArgsConstructor;
+
 /**
  * ログインに関する演算処理を担当するServiceです。
  *
@@ -20,28 +22,37 @@ import com.example.demo.presentation.form.LoginUserForm;
  * といった業務上の判定を担当します。
  */
 @Service
+@RequiredArgsConstructor
+
 public class LoginService {
 	private final UserRepository userRepository;
-	 public LoginService(UserRepository userRepository) {
-	        this.userRepository = userRepository;
-	    }
-	public Integer doLogin(LoginUserForm form, Integer userType) {
+	
+	    
+	public Integer doLogin(LoginUserForm loginUserForm) {
 	    Optional<UserEntity> optionalUser =
-	            userRepository.findByEmail(form.getEmail());
+	            userRepository.findByEmail(loginUserForm.getEmail());
 	    if (optionalUser.isEmpty()) {
 	        return 0;
 	    }
 
 	    UserEntity user = optionalUser.get();
 
-		if (form.getEmail().equals(user.getEmail())
-		        && form.getPassword().equals(user.getPassword())
-		        && userType.equals(user.getUserType())) {
+	    if (user.getIsDeleted() != null && user.getIsDeleted() == 1) {
+            return 0;
+        }
+	    if (!loginUserForm.getEmail().equals(user.getEmail())
+	            || !loginUserForm.getPassword().equals(user.getPassword())) {
+	        return 0;
+	    
+		}
+		loginUserForm.setUserId(user.getUserId());
+		loginUserForm.setUserType(user.getUserType());
+		loginUserForm.setUserName(user.getUserName());
+      
+			return 1;
+		}
 
-		    return 1;
-		}
-		
-			return 0;
-		}
+
 	}
+	
     

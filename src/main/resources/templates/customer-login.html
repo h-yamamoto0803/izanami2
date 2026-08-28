@@ -6,38 +6,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>ユーザー用ログイン | Traemon</title>
 	<link rel="stylesheet" th:href="@{/css/styles.css}">
+	<script th:src="@{/js/common.js}" defer></script>
+
 </head>
 
 <body>
 
-	<header class="site-header guest-header">
-		<div class="container header-inner">
-
-			<a class="logo" th:href="@{/menu}">
-				Traemon
-			</a>
-
-			<div class="header-right">
-
-				<span class="role-badge guest">
-					<span class="role-dot"></span>ゲスト
-				</span>
-
-				<a class="header-post guest-post" th:href="@{/posts/create}">
-					＋ 投稿する
-				</a>
-
-				<a class="header-login artisan-login" th:href="@{/artisan/login}">
-					職人用ログイン
-				</a>
-
-				<a class="header-login customer-login" th:href="@{/customer/login}">
-					ユーザー用ログイン
-				</a>
-
-			</div>
-		</div>
-	</header>
+	<div th:replace="~{fragments/header :: header}"></div>
 
 	<main>
 		<div class="container">
@@ -49,16 +24,18 @@
 					ユーザーアカウントでTraemonを利用します。
 				</p>
 
-				<form class="card form-card" th:action="@{/customer/login}" method="post">
+				<form class="card form-card" th:action="@{/customer/login}" th:object="${loginForm}" method="post">
 					<p th:if="${errorMessage}" th:text="${errorMessage}"></p>
 					<div class="form-group">
 						<label for="customerEmail">メールアドレス</label>
-						<input id="customerEmail" type="email" name="email" required>
+						<input id="customerEmail" type="email" th:field="*{email}">
+						<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
 					</div>
 
 					<div class="form-group">
 						<label for="customerPassword">パスワード</label>
-						<input id="customerPassword" type="password" name="password" required>
+						<input id="customerPassword" type="password" th:field="*{password}">
+						<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
 					</div>
 
 					<div class="actions">
