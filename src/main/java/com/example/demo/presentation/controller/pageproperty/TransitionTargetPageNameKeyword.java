@@ -39,6 +39,7 @@ public class TransitionTargetPageNameKeyword {
 		// Controller
 	public final static String POST_DETAIL = "/postDetail";
 	public final static String INSERT_POST = "/insertPost";
+	public final static String INSERT_POST_RET = "/insertPostRet";
 	public final static String INSERT_POST_CONFIRM = "/insertPostConfirm";
 	public final static String DELETE_POST = "/deletePost";
 	public final static String POST = "/post";

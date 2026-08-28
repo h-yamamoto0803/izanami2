@@ -247,7 +247,6 @@
              いいね・アクション
         ========================= -->
 
-
 		<div class="post-actions">
 
 		  <!-- いいね数 -->
@@ -277,7 +276,6 @@
 		  </form>
 
 
-		  <!-- Customer -->
 
 		  <button th:if="${session.loginUser != null and session.loginUser.userType == 1}"
 		          class="btn btn-outline btn-favorite favorite-button"
@@ -304,6 +302,44 @@
 		  </button>
 
 		</div>
+        <div class="post-actions">
+
+
+          <!-- いいね数 -->
+
+          <span class="favorite-count"
+                th:text="'♥ ' + ${post.favoriteCount} + ' いいね'">
+
+            ♥ 0 いいね
+
+          </span>
+
+
+          <!-- Guest / Customer -->
+
+          <a class="btn btn-outline btn-favorite"
+             th:if="${userType == 'guest' or userType == 'customer'}"
+             th:href="@{/customer/login}"
+             th:text="'♥ いいね ' + ${post.favoriteCount}">
+
+            ♥ いいね
+
+          </a>
+
+
+          <!-- Artisan -->
+
+          <button class="btn btn-outline btn-candidate"
+                  th:if="${userType == 'artisan'}"
+                  type="button">
+
+            検討中
+
+          </button>
+
+
+        </div>
+>>>>>>> feature/createPost
 
 
       </article>

@@ -1,7 +1,5 @@
 package com.example.demo.domain.service.customer;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 
 import com.example.demo.infra.entity.UserEntity;
@@ -16,7 +14,7 @@ public class SearchUser {
 		this.repository = repository;
 	}
 
-	public List<UserEntity> searchUser(String email) {
-		return repository.findByEmail(email);
+	public UserEntity searchUser(String email) {
+		return repository.findByEmail(email).orElse(null);
 	}
 }

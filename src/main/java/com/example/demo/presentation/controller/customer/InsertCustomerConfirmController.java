@@ -62,10 +62,10 @@ public class InsertCustomerConfirmController {
 		//　メールアドレス重複チェック
 		final String DUPLICATION = "既に登録済みのメールアドレスです。";
 
-		List<UserEntity> userList = searchUser.searchUser(insertCustomerForm.getEmail());
+		UserEntity otherUser = searchUser.searchUser(insertCustomerForm.getEmail());
 
 		// 検索結果があるか
-		if (!userList.isEmpty()) {
+		if (otherUser != null) {
 			// 検索した結果0件ではない場合
 			// 重複を許さないため、エラー処理
 			model.addAttribute(PageReturnAttributeKeyword.MESSAGE_ERROR,
