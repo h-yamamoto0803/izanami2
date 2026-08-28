@@ -50,7 +50,7 @@ public class DoEditCustomerAccountController {
 			
 			loginUser.setUserName(updateUserEntity.getUserName());
 			session.setAttribute(SessionKeyword.LOGIN_USER, loginUser);
-			return REDIRECT + MENU;
+			return REDIRECT + CUSTOMER_ACCOUNT;
 
 		} catch (Exception e) {
 			// ログイン情報の破棄
@@ -59,7 +59,7 @@ public class DoEditCustomerAccountController {
 			e.printStackTrace();
 
 			model.addAttribute("msg", "予期せぬエラーが発生しました。");
-			return REDIRECT + MENU;
+			return REDIRECT + CUSTOMER_ACCOUNT;
 		}
 	}
 }

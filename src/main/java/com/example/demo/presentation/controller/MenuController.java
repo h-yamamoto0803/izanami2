@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MenuController {
 
-    private final PostService postService;
+	private final PostService postService;
 
 	@GetMapping({ INDEX_BLANK, INDEX_SLASH, MENU_HTML })
 	public String showMenu(
@@ -34,12 +34,12 @@ public class MenuController {
 		// セッションからログインユーザー情報を取得
 		LoginUserForm loginUserForm = (LoginUserForm) session.getAttribute(SessionKeyword.LOGIN_USER);
 
-        Integer userId = null;
+		Integer userId = null;
 
-	     // ログインユーザーが存在する場合はユーザーIDを取得
-	     if (loginUserForm != null) {
-	         userId = loginUserForm.getUserId();
-	     }
+		// ログインユーザーが存在する場合はユーザーIDを取得
+		if (loginUserForm != null) {
+			userId = loginUserForm.getUserId();
+		}
 
 		List<PostListForm> postList = postService.searchPostByUserType(userId, selectedTag);
 
@@ -56,6 +56,9 @@ public class MenuController {
 			model.addAttribute("tags", postService.getAllTags());
 		}
 		model.addAttribute("selectedTag", selectedTag);
+
+		LoginUserForm loginUserFormInput = new LoginUserForm();
+		model.addAttribute(TransitionTargetPageNameKeyword.LOGIN_FORM, loginUserFormInput);
 
 		// 共通メニュー画面へ
 		return TransitionTargetPageNameKeyword.MENU_HTML;
