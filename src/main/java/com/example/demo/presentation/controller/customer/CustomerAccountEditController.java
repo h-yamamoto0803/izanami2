@@ -39,18 +39,15 @@ public String customerAccountEdit(Model model,
 		HttpSession session ) {
 		
 		try {
-		System.out.println("koko");
-		//ここまで後で消す
+
 		LoginUserForm loginUser = (LoginUserForm)session.getAttribute(SessionKeyword.LOGIN_USER);
 		
 		Integer userId =loginUser.getUserId();
 		
-		System.out.println("userId"+userId+"を取得");
 		
 		customerAccountEditForm = searchCustomer.searchIdCustomer(userId);
 		
 		model.addAttribute("customerAccountEditForm",customerAccountEditForm );
-	System.out.println("アカウント編集に行く");
 	
 	return TransitionTargetPageNameKeyword.CUSTOMER_ACCOUNT_EDIT_HTML;
 		}catch (Exception e) {
@@ -61,7 +58,6 @@ public String customerAccountEdit(Model model,
 
 	        model.addAttribute("msg","予期せぬエラーが発生しました。" );
 //	        // エラー画面遷移
-	    	System.out.println("予期せぬエラー");
 	        return TransitionTargetPageNameKeyword.MENU_HTML;
 	
 }

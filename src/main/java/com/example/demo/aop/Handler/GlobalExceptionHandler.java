@@ -7,10 +7,13 @@ import java.util.logging.Logger;
 
 import jakarta.servlet.http.HttpSession;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import com.example.demo.exception.InsufficientPermissionException;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
@@ -82,6 +85,19 @@ public class GlobalExceptionHandler {
 		LOGGER.log(Level.SEVERE, SEVERE_ERROR_MESSAGE_ILLEGAL_TRANSITION, e);
 
 		return TransitionTargetPageNameKeyword.MENU_HTML;
+	}
+
+	/**
+	 * 静的リソースが見つからない場合の例外処理、ログ出力のみを行い、セッション破棄などはしない
+	 * @param e
+	 * @return 無し
+	 */
+	@ExceptionHandler(NoResourceFoundException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public void handleNoResourceFoundException(NoResourceFoundException e) {
+
+		LOGGER.log(Level.WARNING, "静的リソースが見つかりません。", e);
+
 	}
 
 	/**

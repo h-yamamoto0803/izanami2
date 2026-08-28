@@ -34,16 +34,12 @@ public class DeleteCustomerAccountController {
 		try {
 			LoginUserForm loginUser = (LoginUserForm) session.getAttribute(SessionKeyword.LOGIN_USER);
 			CustomerAccountEditForm beforecustomerAccountEditForm = deleteCustomerAccount.searchIdCustomer(loginUser.getUserId());
-			System.out.println(beforecustomerAccountEditForm);
-
 			UserEntity deleteUserEntity = CustomerAccountEditForm.convertTo(beforecustomerAccountEditForm);
 
 			deleteUserEntity.setIsDeleted((byte) 1);
-			System.out.println(deleteUserEntity.getEmail());
 
 			deleteCustomerAccount.deleteCustomer(beforecustomerAccountEditForm,deleteUserEntity);
 
-			System.out.println("アカウント削除処理完了");
 			httpSession.invalidate();
 
 			return REDIRECT + MENU;
@@ -54,7 +50,6 @@ public class DeleteCustomerAccountController {
 
 			e.printStackTrace();
 			model.addAttribute("msg", "予期せぬエラーが発生しました。");
-			System.out.println("予期せぬエラー");
 			return REDIRECT + MENU;
 		}
 	}
