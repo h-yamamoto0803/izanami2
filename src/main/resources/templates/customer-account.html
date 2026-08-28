@@ -122,8 +122,8 @@
 					<!-- いいね -->
 					<div class="post-actions">
 
-						<span class="favorite-count" th:text="'♥ ' + ${post.favoriteCount} + ' いいね'">
-							♥ 0 いいね
+						<span class="favorite-count" th:text="'いいね:' + ${post.favoriteCount} ">
+							いいね:0
 						</span>
 
 						<a class="btn btn-primary" th:href="@{/deletePost?postId={postId}(postId=${post.postId})}"
