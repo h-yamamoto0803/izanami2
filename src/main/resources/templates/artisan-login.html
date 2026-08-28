@@ -20,7 +20,7 @@
       <p class="page-subtitle">
         職人アカウントでTraemonを利用します。
       </p>
-	  <p th:if="${errorMessage}" th:text="${errorMessage}"></p>
+	  <p th:if="${messageError}" th:text="${messageError}"></p>
       <form class="card form-card"
             th:action="@{/artisan/login}"
             th:object="${loginForm}"
@@ -30,8 +30,7 @@
           <label for="artisanEmail">メールアドレス</label>
           <input id="artisanEmail"
                  type="email"
-                 th:field="*{email}"
-                 >
+                 th:field="*{email}">
 
           <p th:if="${#fields.hasErrors('email')}"
              th:errors="*{email}"></p>

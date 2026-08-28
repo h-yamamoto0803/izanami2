@@ -36,7 +36,7 @@ public class LoginArtisanController {
 	 */
 	@GetMapping(LOGIN_ARTISAN_CONTROLLER)
 	public String showLoginArtisan(
-			@ModelAttribute LoginUserForm loginUserForm) {
+			@ModelAttribute(LOGIN_FORM) LoginUserForm loginUserForm) {
 
 		return ARTISAN_LOGIN_HTML;
 	}
