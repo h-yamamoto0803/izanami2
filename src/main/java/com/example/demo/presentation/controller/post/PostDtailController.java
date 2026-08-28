@@ -15,6 +15,7 @@ import com.example.demo.domain.service.post.SearchPostDetail;
 import com.example.demo.infra.entity.PostEntity;
 import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
+import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
 import com.example.demo.presentation.form.LoginUserForm;
 import com.example.demo.presentation.form.post.PostDetailForm;
 
@@ -48,6 +49,8 @@ public class PostDtailController {
 					postEntity);
 
 		}
+		LoginUserForm loginUserForm = new LoginUserForm();
+		model.addAttribute(TransitionTargetPageNameKeyword.LOGIN_FORM, loginUserForm);
 
 		model.addAttribute(POST_DETAIL_FORM, postDetailForm);
 

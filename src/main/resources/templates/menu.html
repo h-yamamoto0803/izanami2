@@ -266,20 +266,14 @@
 
 		  <!-- Guest -->
 
-		  <form th:if="${session.loginUser == null}"
-		        th:action="@{/customer/login}"
-		        method="get">
-
-		    <button class="btn btn-outline btn-favorite"
-		            type="submit"
-		            th:text="'♥ いいね ' + ${post.favoriteCount}">
-
+		  <button th:if="${session.loginUser == null}"
+		          class="btn btn-outline btn-favorite guest-favorite-button"
+		          type="button"
+				  th:text="'♥ いいね ' + ${post.favoriteCount}">
 		      ♥ いいね
-
-		    </button>
-
-		  </form>
-
+		  </button>
+		  
+		  <!-- Customer -->
 
 
 		  <button th:if="${session.loginUser != null and session.loginUser.userType == 1}"
@@ -315,10 +309,55 @@
 
 
   </div>
+  
+  <div id="loginModal" hidden>
+    <form class="card form-card login-popup"
+          th:action="@{/customer/login}"
+          th:object="${loginForm}"
+          method="post">
+
+      <p>ログインして好きな投稿にいいねしよう！</p>
+
+      <div class="form-group">
+        <label for="customerEmail">メールアドレス</label>
+        <input id="customerEmail" type="email" th:field="*{email}">
+        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+      </div>
+
+      <div class="form-group">
+        <label for="customerPassword">パスワード</label>
+        <input id="customerPassword" type="password" th:field="*{password}">
+        <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" type="submit">ログイン</button>
+        <a class="btn btn-outline" th:href="@{/insertCustomerInput}">新規登録</a>
+      </div>
+
+    </form>
+  </div>
 
 </main>
 
 <Script>
+	
+	const guestFavoriteButtons = document.querySelectorAll(".guest-favorite-button");
+	const loginModal = document.getElementById("loginModal");
+
+	// いいねボタンでログインフォーム表示
+	guestFavoriteButtons.forEach((button) => {
+	  button.addEventListener("click", () => {
+	    loginModal.hidden = false;
+	  });
+	});
+	
+	// ログインフォームの外側をクリックすると非表示に戻る
+	loginModal.addEventListener("click", (e) => {
+	  if (e.target === loginModal) {
+	    loginModal.hidden = true;
+	  }
+	});
 
 	// いいねボタン処理
 

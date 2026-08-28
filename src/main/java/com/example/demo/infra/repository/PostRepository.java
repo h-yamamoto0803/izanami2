@@ -25,4 +25,6 @@ List<PostEntity> findByAnyTagName(
 List<PostEntity> findAllByIsDeleted(
 	Byte isDeleted);
 List<PostEntity> findByUserUserId(Integer userId);
+
+List<PostEntity> findByUserUserIdAndIsDeleted(Integer userId,Byte isDeleted);
 }

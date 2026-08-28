@@ -7,17 +7,9 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-<header class="site-header guest-header">
-  <div class="container header-inner">
-    <a class="logo" href="menu.html">Traemon</a>
-    <div class="header-right">
-      <span class="role-badge guest"><span class="role-dot"></span>ゲスト</span>
-      <a class="header-post guest-post" href="post-create-guest.html">＋ 投稿する</a>
-      <a class="header-login artisan-login" href="artisan-login.html">職人用ログイン</a>
-      <a class="header-login customer-login" href="customer-login.html">ユーザー用ログイン</a>
-    </div>
-  </div>
-</header>
+	
+<div th:replace="~{fragments/header :: header}"></div>
+
 <main><div class="container"><section>
   <h1 class="page-title">ユーザーアカウント登録確認</h1>
   <div class="card form-card">
