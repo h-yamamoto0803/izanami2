@@ -40,19 +40,13 @@ public class DoEditCustomerAccountController {
 
 			CustomerAccountEditForm beforecustomerAccountEditForm = searchCustomer
 					.searchIdCustomer(loginUser.getUserId());
-			System.out.println(loginUser.getUserType());
 			customerAccountEditForm.setUserId(beforecustomerAccountEditForm.getUserId());
 			customerAccountEditForm.setUserType(beforecustomerAccountEditForm.getUserType());
 
 			UserEntity updateUserEntity = CustomerAccountEditForm.convertTo(customerAccountEditForm);
-
-			System.out.println("entity" + updateUserEntity.getPassword());
 			updateCustomerAccount.updateCustomer(
 					beforecustomerAccountEditForm,
 					updateUserEntity);
-
-			System.out.println("アカウント編集登録処理完了");
-			System.out.println("");
 			return REDIRECT + MENU;
 
 		} catch (Exception e) {
@@ -62,8 +56,6 @@ public class DoEditCustomerAccountController {
 			e.printStackTrace();
 
 			model.addAttribute("msg", "予期せぬエラーが発生しました。");
-			//	        // エラー画面遷移
-			System.out.println("予期せぬエラー");
 			return REDIRECT + MENU;
 		}
 	}

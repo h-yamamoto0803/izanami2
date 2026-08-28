@@ -39,8 +39,7 @@ public String customerAccountEdit(Model model,
 		HttpSession session ) {
 		
 		try {
-		System.out.println("koko");
-		//ここまで後で消す
+
 		LoginUserForm loginUser = (LoginUserForm)session.getAttribute(SessionKeyword.LOGIN_USER);
 		
 		Integer userId =loginUser.getUserId();
@@ -50,7 +49,6 @@ public String customerAccountEdit(Model model,
 		customerAccountEditForm = searchCustomer.searchIdCustomer(userId);
 		
 		model.addAttribute("customerAccountEditForm",customerAccountEditForm );
-	System.out.println("アカウント編集に行く");
 	
 	return TransitionTargetPageNameKeyword.CUSTOMER_ACCOUNT_EDIT_HTML;
 		}catch (Exception e) {
