@@ -33,7 +33,7 @@ public class CustomerAccountEditController {
 	}
 
 	@PermissionCheck
-	@GetMapping(TransitionTargetPageNameKeyword.CUSTOMER_ACCOUNT_EDIT)
+	@GetMapping(TransitionTargetPageNameKeyword.ACCOUNT_EDIT)
 	public String customerAccountEdit(Model model,
 			@ModelAttribute CustomerAccountEditForm customerAccountEditForm,
 			HttpSession session) {
@@ -48,7 +48,7 @@ public class CustomerAccountEditController {
 
 			model.addAttribute(PageReturnAttributeKeyword.CUSTOMER_ACCOUNT_EDIT_FORM, customerAccountEditForm);
 
-			return TransitionTargetPageNameKeyword.CUSTOMER_ACCOUNT_EDIT_HTML;
+			return TransitionTargetPageNameKeyword.ACCOUNT_EDIT_HTML;
 		} catch (Exception e) {
 			// ログイン情報の破棄
 			session.invalidate();

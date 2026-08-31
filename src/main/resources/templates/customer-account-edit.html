@@ -18,8 +18,10 @@
 			<section>
 				<h1 class="page-title">ユーザーアカウント編集</h1>
 				<p class="page-subtitle">変更したい情報を入力してください。</p>
+
 				<form class="card form-card" th:action="@{/confirmCustomerAccountEdit}"
 					th:object="${CustomerAccountEditForm}" method="post">
+
 					<div class="form-group">
 						<label for="userName">名前</label>
 						<input id="userName" type="text" required maxlength="40" th:field="*{userName}" name="userName">
@@ -50,7 +52,7 @@
 					<div class="actions">
 						
 						<button class="btn btn-primary" type="submit">確認画面へ</button>
-						<a th:href="@{/customerAccount}" class="btn btn-secondary">戻る</a>
+						<a th:href="@{/account}" class="btn btn-secondary">戻る</a>
 					</div>
 				</form>
 			</section>

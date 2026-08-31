@@ -38,14 +38,14 @@ public class ConfirmCustomerAccountEditController {
 	}
 
 	@PermissionCheck
-	@PostMapping(CONFIRM_CUSTOMER_ACCOUNT_EDIT)
+	@PostMapping(CONFIRM_ACCOUNT_EDIT)
 	public String confirmCustomerAccountEdit(@Valid CustomerAccountEditForm customerAccountEditForm,
 			BindingResult bindingResult, Model model, HttpSession session) {
 
 		try {
 			//Formのバリデーションではじかれたとき
 			if (bindingResult.hasErrors()) {
-				return CUSTOMER_ACCOUNT_EDIT_HTML;
+				return ACCOUNT_EDIT_HTML;
 			}
 
 			//パスワードが確認用と違くてはじかれたとき
@@ -57,7 +57,7 @@ public class ConfirmCustomerAccountEditController {
 			if (passwordError.equals(ERROR)) {
 				model.addAttribute("CustomerAccountEditForm", customerAccountEditForm);
 				model.addAttribute(MESSAGE_ERROR, ERROR);
-				return CUSTOMER_ACCOUNT_EDIT_HTML;
+				return ACCOUNT_EDIT_HTML;
 			}
 
 			//既に登録済みのメールアドレスを入力してはじかれたとき
@@ -72,17 +72,17 @@ public class ConfirmCustomerAccountEditController {
 				if (!userListBymail.isEmpty()) {
 					model.addAttribute(CUSTOMER_ACCOUNT_EDIT_FORM, customerAccountEditForm);
 					model.addAttribute(MESSAGE_ERROR, DUPLICATION);
-					return CUSTOMER_ACCOUNT_EDIT_HTML;
+					return ACCOUNT_EDIT_HTML;
 				}
 
 				// 登録確認画面に遷移
 				model.addAttribute(CUSTOMER_ACCOUNT_EDIT_FORM, customerAccountEditForm);
-				return CUSTOMER_ACCOUNT_EDIT_CONFIRM_HTML;
+				return ACCOUNT_EDIT_CONFIRM_HTML;
 			}
 
 			// 登録確認画面に遷移
 			model.addAttribute(CUSTOMER_ACCOUNT_EDIT_FORM, customerAccountEditForm);
-			return CUSTOMER_ACCOUNT_EDIT_CONFIRM_HTML;
+			return ACCOUNT_EDIT_CONFIRM_HTML;
 
 		} catch (Exception e) {
 			// ログイン情報の破棄
