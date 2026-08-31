@@ -33,6 +33,6 @@ public class DeletePostController {
         String deleteMessage = deletePost.deletePost(postId, userId);
         redirect.addFlashAttribute(PageReturnAttributeKeyword.DELETE_MESSAGE, deleteMessage);
 
-        return TransitionTargetPageNameKeyword.REDIRECT_MENU;
+        return "redirect:/account";
     }
 }
