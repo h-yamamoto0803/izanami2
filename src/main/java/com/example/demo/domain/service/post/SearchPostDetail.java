@@ -21,8 +21,7 @@ public class SearchPostDetail {
 	private final CandidateRepository candidateRepository;
 
 	/**
-	 * postIdからPostDetailFormを取得するメソッド
-	 * postIdからPostEntityを取得し、convertFrom()メソッドでPostDetailFormに変換している
+	 * postIdからPostEntityを取得するメソッド
 	 * @param postId
 	 * @return PostDetailForm
 	 */
