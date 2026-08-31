@@ -37,7 +37,7 @@ public class CustomerAccountController {
 	}
 
 	@PermissionCheck
-	@GetMapping(TransitionTargetPageNameKeyword.CUSTOMER_ACCOUNT)
+	@GetMapping(TransitionTargetPageNameKeyword.ACCOUNT)
 	public String customerAccount(Model model, HttpSession session) {
 		LoginUserForm loginUser = (LoginUserForm) session.getAttribute(SessionKeyword.LOGIN_USER);
 		Integer userId = loginUser.getUserId();
@@ -52,6 +52,6 @@ public class CustomerAccountController {
 		List<PostEntity> posts = postService.findByUserIdAndIsDeleted(userId, (byte) 0);
 		model.addAttribute(PageReturnAttributeKeyword.POSTS, postService.convertToPostListForm(posts));
 
-		return TransitionTargetPageNameKeyword.CUSTOMER_ACCOUNT_HTML;
+		return TransitionTargetPageNameKeyword.ACCOUNT_HTML;
 	}
 }

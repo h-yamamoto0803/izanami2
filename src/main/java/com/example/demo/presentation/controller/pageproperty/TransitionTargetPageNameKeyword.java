@@ -13,7 +13,21 @@ public class TransitionTargetPageNameKeyword {
 	public static final String MENU = "/menu";
 	public static final String REDIRECT = "redirect:";
 	public static final String REDIRECT_MENU = "redirect:/menu";
+	public static final String INSERT_CUSTOMER = "/insertCustomer";
+	public static final String INSERT_CUSTOMER_INPUT = "/insertCustomerInput";
+	public static final String INSERT_CUSTOMER_CONFIRM = "/insertCustomerConfirm";
 
+	//アカウント登録・削除・編集関連のHTML
+	public static final String ACCOUNT_HTML = "customer-account";
+	public static final String ACCOUNT_EDIT_HTML = "customer-account-edit";
+	public static final String ACCOUNT_EDIT_CONFIRM_HTML = "customer-account-edit-confirm";
+	
+	//消費者アカウント登録・削除・編集関連のController
+	public static final String ACCOUNT = "/account";
+	public static final String ACCOUNT_EDIT = "/accountEdit";
+	public static final String CONFIRM_ACCOUNT_EDIT = "/confirmAccountEdit";
+	public static final String DO_EDIT_ACCOUNT = "/doEditCustomerAccount";
+	public static final String DELETE_ACCOUNT = "/deleteAccount";
 	// artisan
 	// HTML
 	public static final String ARTISAN_LOGIN_HTML = "artisan-login";
@@ -23,21 +37,8 @@ public class TransitionTargetPageNameKeyword {
 	// customer
 	// HTML
 	public static final String CUSTOMER_LOGIN_HTML = "customer-login";
-	//消費者アカウント登録・削除・編集関連のHTML
-	public static final String CUSTOMER_ACCOUNT_HTML = "customer-account";
-	public static final String CUSTOMER_ACCOUNT_EDIT_HTML = "customer-account-edit";
-	public static final String CUSTOMER_ACCOUNT_EDIT_CONFIRM_HTML = "customer-account-edit-confirm";
 	// Controller
 	public static final String LOGIN_CUSTOMER_CONTROLLER = "/customer/login";
-	//消費者アカウント登録・削除・編集関連のController
-	public static final String INSERT_CUSTOMER = "/insertCustomer";
-	public static final String INSERT_CUSTOMER_INPUT = "/insertCustomerInput";
-	public static final String INSERT_CUSTOMER_CONFIRM = "/insertCustomerConfirm";
-	public static final String CUSTOMER_ACCOUNT = "/customerAccount";
-	public static final String CUSTOMER_ACCOUNT_EDIT = "/customerAccountEdit";
-	public static final String CONFIRM_CUSTOMER_ACCOUNT_EDIT = "/confirmCustomerAccountEdit";
-	public static final String DO_EDIT_CUSTOMER_ACCOUNT = "/doEditCustomerAccount";
-	public static final String DELETE_CUSTOMER_ACCOUNT = "/DeleteCustomerAccount";
 
 	// Post
 	// Controller
@@ -67,11 +68,11 @@ public class TransitionTargetPageNameKeyword {
 				REDIRECT,
 				REDIRECT_MENU,
 				
-				CUSTOMER_ACCOUNT,
-				CUSTOMER_ACCOUNT_EDIT,
-				CONFIRM_CUSTOMER_ACCOUNT_EDIT,
-				DO_EDIT_CUSTOMER_ACCOUNT,
-				DELETE_CUSTOMER_ACCOUNT,
+				ACCOUNT,
+				ACCOUNT_EDIT,
+				CONFIRM_ACCOUNT_EDIT,
+				DO_EDIT_ACCOUNT,
+				DELETE_ACCOUNT,
 				
 				POST_DETAIL,
 				INSERT_POST,
@@ -94,11 +95,11 @@ public class TransitionTargetPageNameKeyword {
 				REDIRECT,
 				REDIRECT_MENU,
 				
-				CUSTOMER_ACCOUNT,
-				CUSTOMER_ACCOUNT_EDIT,
-				CONFIRM_CUSTOMER_ACCOUNT_EDIT,
-				DO_EDIT_CUSTOMER_ACCOUNT,
-				DELETE_CUSTOMER_ACCOUNT,
+				ACCOUNT,
+				ACCOUNT_EDIT,
+				CONFIRM_ACCOUNT_EDIT,
+				DO_EDIT_ACCOUNT,
+				DELETE_ACCOUNT,
 				
 				INSERT_CUSTOMER,
 				INSERT_CUSTOMER_INPUT,

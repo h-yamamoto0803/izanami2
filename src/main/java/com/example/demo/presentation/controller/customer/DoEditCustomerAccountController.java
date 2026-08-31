@@ -34,7 +34,7 @@ public class DoEditCustomerAccountController {
 	}
 	
 	@PermissionCheck
-	@PostMapping(DO_EDIT_CUSTOMER_ACCOUNT)
+	@PostMapping(DO_EDIT_ACCOUNT)
 	public String doEditCustomerAccount(Model model,
 			@ModelAttribute CustomerAccountEditForm customerAccountEditForm,
 			HttpSession session) {

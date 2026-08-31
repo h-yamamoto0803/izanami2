@@ -29,7 +29,7 @@ public class DeleteCustomerAccountController {
 	}
 	
 	@PermissionCheck
-	@GetMapping(DELETE_CUSTOMER_ACCOUNT)
+	@GetMapping(DELETE_ACCOUNT)
 	public String deleteCustomerAccount(Model model,
 			@ModelAttribute CustomerAccountEditForm customerAccountEditForm,
 			HttpSession session) {

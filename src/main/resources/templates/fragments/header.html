@@ -118,8 +118,8 @@
 					<!-- アカウント -->
 					<a class="account-btn" th:href="
 	                         ${userType == 'artisan'}
-	                             ? @{/customerAccount}
-	                             : @{/customerAccount}" th:text="${session.loginUser.userName}">
+	                             ? @{/account}
+	                             : @{/account}" th:text="${session.loginUser.userName}">
 					</a>
 
 					<!-- ログアウト -->
