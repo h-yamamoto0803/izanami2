@@ -97,9 +97,7 @@ public class InsertCustomerController {
 		} catch (Exception e) {
 			// セッション情報の破棄
 			httpSession.invalidate();
-
 			e.printStackTrace();
-
 			// エラーログ出力
 			LOGGER.log(Level.SEVERE, SEVERE_ERROR_MESSAGE, e);
 			return false;
@@ -117,33 +115,31 @@ public class InsertCustomerController {
 		List<String> error = new ArrayList<>();
 
 		// null or 空文字判定
-		if (isNullOrBlank(userName)) {
+		if (isNullOrBlank(userName)){
 			// エラー内容を追加
 			error.add(USER_NAME_NULL_BLANK);
 		}
 
 		// null or 空文字判定
-		if (isNullOrBlank(email)) {
+		if (isNullOrBlank(email)){
 			// エラー内容を追加
 			error.add(MAIL_ADDRESS_NULL_BLANK);
 		}
 
 		// null or 空文字判定
-		if (isNullOrBlank(password)) {
+		if (isNullOrBlank(password)){
 			// エラー内容を追加
 			error.add(PASSWORD_NULL_BLANK);
 		}
 
 		return error;
-
 	}
 
-	private static boolean isNullOrBlank(String str) {
+	private static boolean isNullOrBlank(String str){
 		if (null == str) {
 			return true;
 		}
 
 		return str.isBlank();
 	}
-
 }

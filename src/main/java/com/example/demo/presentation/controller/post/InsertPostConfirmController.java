@@ -27,7 +27,7 @@ public class InsertPostConfirmController {
 	 */
 	@PermissionCheck
 	@PostMapping(INSERT_POST_CONFIRM)
-	public String confirmPost(@ModelAttribute InsertPostForm insertPostForm) {
+	public String confirmPost(@ModelAttribute InsertPostForm insertPostForm){
 		return POST_CONFIRM_HTML;
 	}
 	
@@ -38,16 +38,15 @@ public class InsertPostConfirmController {
 	 */
 	@PermissionCheck
 	@PostMapping(DO_INSERT_POST)
-	public String post(@ModelAttribute InsertPostForm insertPostForm) {
+	public String post(@ModelAttribute InsertPostForm insertPostForm){
 		
-//		セッションからユーザーIDを取得
+		//セッションからユーザーIDを取得
 		
 		LoginUserForm loginUserForm =  (LoginUserForm)httpSession.getAttribute("loginUser");
 		Integer userId = loginUserForm.getUserId();
-//		サービスの呼び出し
+		//サービスの呼び出し
 		insertPost.insertPost(insertPostForm, userId);
 		
 		return REDIRECT_MENU;
-}
-	
+	}
 }

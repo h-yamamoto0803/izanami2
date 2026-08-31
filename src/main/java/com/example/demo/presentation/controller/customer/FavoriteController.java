@@ -34,13 +34,9 @@ public class FavoriteController {
 	@PostMapping(FAVORITE)
 	public FavoriteResponseDto favorite(
 			FavoriteForm form,
-			HttpSession session) {
+			HttpSession session){
 		LoginUserForm loginUserForm = (LoginUserForm) session.getAttribute(SessionKeyword.LOGIN_USER);
-
 		FavoriteResponseDto response = favorite.switchFavorite(loginUserForm, form);
-
 		return response;
-
 	}
-
 }

@@ -29,7 +29,8 @@ public class CustomerAccountController {
 
 	public CustomerAccountController(HttpSession httpsession,
 			UpdateCustomerAccount updateCustomerAccount,
-			PostService postService, SearchCustomer searchCustomer) {
+			PostService postService,
+			SearchCustomer searchCustomer){
 		this.httpSession = httpsession;
 		this.updateCustomerAccount = updateCustomerAccount;
 		this.postService = postService;

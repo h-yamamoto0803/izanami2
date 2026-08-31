@@ -26,7 +26,7 @@ public class DeletePostController {
     @GetMapping(TransitionTargetPageNameKeyword.DELETE_POST)
     public String deletePost(@RequestParam Integer postId, 
     		RedirectAttributes redirect,
-    		HttpSession session) {
+    		HttpSession session){
     	
     	LoginUserForm loginUserForm = (LoginUserForm)session.getAttribute(SessionKeyword.LOGIN_USER);
     	Integer userId = loginUserForm.getUserId();

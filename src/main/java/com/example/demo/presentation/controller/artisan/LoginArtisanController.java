@@ -37,8 +37,7 @@ public class LoginArtisanController {
 	 */
 	@PermissionCheck
 	@GetMapping(LOGIN_ARTISAN_CONTROLLER)
-	public String showLoginArtisan(
-			@ModelAttribute(LOGIN_FORM) LoginUserForm loginUserForm) {
+	public String showLoginArtisan(@ModelAttribute(LOGIN_FORM) LoginUserForm loginUserForm){
 
 		return ARTISAN_LOGIN_HTML;
 	}
@@ -56,25 +55,22 @@ public class LoginArtisanController {
 			@Validated @ModelAttribute(LOGIN_FORM) LoginUserForm loginUserForm,
 			BindingResult bindingResult,
 			HttpSession session,
-			Model model) {
+			Model model){
 
-		if (bindingResult.hasErrors()) {
+		if (bindingResult.hasErrors()){
 			return ARTISAN_LOGIN_HTML;
 		}
 
 		Integer user = loginService.doLogin(loginUserForm);
-
 		if (user != null
 				&& user == 1
-				&& loginUserForm.isArtisan()) {
+				&& loginUserForm.isArtisan()){
 			// ログインユーザーの情報をセッションに保存
             session.setAttribute(SessionKeyword.LOGIN_USER,loginUserForm);
-
 			return REDIRECT_MENU;
 		}
 
 		model.addAttribute(MESSAGE_ERROR,"メールアドレスまたはパスワードが正しくありません。");
-
 		return ARTISAN_LOGIN_HTML;
 	}
 }

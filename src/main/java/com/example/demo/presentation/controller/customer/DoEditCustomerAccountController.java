@@ -27,7 +27,7 @@ public class DoEditCustomerAccountController {
 
 	public DoEditCustomerAccountController(HttpSession httpsession,
 			UpdateCustomerAccount updateCustomerAccount,
-			SearchCustomer searchCustomer) {
+			SearchCustomer searchCustomer){
 		this.httpSession = httpsession;
 		this.updateCustomerAccount = updateCustomerAccount;
 		this.searchCustomer = searchCustomer;
@@ -51,13 +51,11 @@ public class DoEditCustomerAccountController {
 			loginUser.setUserName(updateUserEntity.getUserName());
 			session.setAttribute(SessionKeyword.LOGIN_USER, loginUser);
 			return REDIRECT_MENU;
-
 		} catch (Exception e) {
+			
 			// ログイン情報の破棄
 			session.invalidate();
-
 			e.printStackTrace();
-
 			model.addAttribute(MESSAGE_ERROR, "予期せぬエラーが発生しました。");
 			return REDIRECT_MENU;
 		}

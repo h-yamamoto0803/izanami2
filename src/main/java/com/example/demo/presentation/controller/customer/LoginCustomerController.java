@@ -38,10 +38,8 @@ public class LoginCustomerController {
      */
 	@PermissionCheck
     @GetMapping(TransitionTargetPageNameKeyword.LOGIN_CUSTOMER_CONTROLLER)
-    public String showLoginCustomer(
-            @ModelAttribute(TransitionTargetPageNameKeyword.LOGIN_FORM) LoginUserForm loginUserForm) {
+    public String showLoginCustomer(@ModelAttribute(TransitionTargetPageNameKeyword.LOGIN_FORM) LoginUserForm loginUserForm){
 
-    	
         /*
          * Customerログイン画面を表示します。
          */
@@ -56,12 +54,11 @@ public class LoginCustomerController {
      */
 	@PermissionCheck
     @PostMapping(TransitionTargetPageNameKeyword.LOGIN_CUSTOMER_CONTROLLER)
-    public String loginCustomer(
-		@Validated @ModelAttribute(TransitionTargetPageNameKeyword.LOGIN_FORM) LoginUserForm loginUserForm,
+    public String loginCustomer(@Validated @ModelAttribute(TransitionTargetPageNameKeyword.LOGIN_FORM) LoginUserForm loginUserForm,
     		BindingResult bindingResult,
             HttpSession session,
-            Model model) {
-    	if (bindingResult.hasErrors()) {
+            Model model){
+    	if (bindingResult.hasErrors()){
             return TransitionTargetPageNameKeyword.CUSTOMER_LOGIN_HTML;
         }
 
@@ -72,12 +69,10 @@ public class LoginCustomerController {
     	            && loginUserForm.isCustomer()) {
     		// ログインユーザーの情報をセッションに保存
              session.setAttribute(SessionKeyword.LOGIN_USER,loginUserForm);
-             
              return TransitionTargetPageNameKeyword.REDIRECT_MENU;
         }
 
         model.addAttribute(PageReturnAttributeKeyword.MESSAGE_ERROR,"メールアドレスまたはパスワードが正しくありません。");
-
         return TransitionTargetPageNameKeyword.CUSTOMER_LOGIN_HTML;
     }
 }

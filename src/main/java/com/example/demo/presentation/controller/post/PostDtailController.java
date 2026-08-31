@@ -30,28 +30,27 @@ public class PostDtailController {
 	/*--- 投稿詳細画面表示リクエスト ---*/
 	@PermissionCheck
 	@GetMapping(POST_DETAIL)
-	public String postDtailController(
-			Model model,
+	public String postDtailController(Model model,
 			@RequestParam Integer postId,
-			HttpSession session) {
+			HttpSession session){
 		LoginUserForm loginUser = (LoginUserForm) session.getAttribute(SessionKeyword.LOGIN_USER);
-
 		PostEntity postEntity = searchPostDetail.getPostDetail(postId);
-
 		UserEntity userEntity = null;
 		PostDetailForm postDetailForm = searchPostDetail.convertFrom(postEntity);
+		
 		if (loginUser != null) {
 			userEntity = loginUser.convertToUserEntity(loginUser);
 			// いいね・検討フラグ情報を追加
 			postDetailForm = searchPostDetail.alreadyFlag(
-					postDetailForm,
-					userEntity,
-					postEntity);
-
+				postDetailForm,
+				userEntity,
+				postEntity
+			);
 		}
+		
 		LoginUserForm loginUserForm = new LoginUserForm();
+		
 		model.addAttribute(TransitionTargetPageNameKeyword.LOGIN_FORM, loginUserForm);
-
 		model.addAttribute(POST_DETAIL_FORM, postDetailForm);
 
 		return POST_DETAIL_HTML;

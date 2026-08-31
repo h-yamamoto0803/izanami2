@@ -40,21 +40,16 @@ public class DeleteCustomerAccountController {
 			UserEntity deleteUserEntity = CustomerAccountEditForm.convertTo(beforecustomerAccountEditForm);
 
 			deleteUserEntity.setIsDeleted((byte) 1);
-
 			deleteCustomerAccount.deleteCustomer(beforecustomerAccountEditForm,deleteUserEntity);
-
 			httpSession.invalidate();
-
 			return REDIRECT_MENU;
 
 		} catch (Exception e) {
 			// ログイン情報の破棄
 			httpSession.invalidate();
-
 			e.printStackTrace();
 			model.addAttribute(PageReturnAttributeKeyword.MESSAGE_ERROR, "予期せぬエラーが発生しました。");
 			return REDIRECT_MENU;
 		}
 	}
-
 }

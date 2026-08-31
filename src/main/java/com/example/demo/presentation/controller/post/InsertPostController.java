@@ -37,7 +37,6 @@ public class InsertPostController {
 			redirect.addFlashAttribute(INSERT_POST_MESSAGE, "投稿するにはログインしてください。");
 			return REDIRECT_MENU;
 		}
-
 		return POST_CREATE_HTML;
 	}
 
@@ -48,7 +47,7 @@ public class InsertPostController {
 	 */
 	@PermissionCheck
 	@PostMapping(INSERT_POST_RET)
-	public String insertPostRet(InsertPostForm insertPostForm) {
+	public String insertPostRet(InsertPostForm insertPostForm){
 		return POST_CREATE_HTML;
 	}
 }
