@@ -67,6 +67,10 @@
 			<div class="section-title">
 				<h2>自分の投稿</h2>
 			</div>
+			
+			<div  th:if="${deleteMessage} != null">
+					<span style="color: red;" th:text="${deleteMessage}"></span>
+				</div>
 			<div class="timeline">
 
 				<article class="card post-card post-list-card" th:each="post : ${posts}">
