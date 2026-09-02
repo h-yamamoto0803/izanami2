@@ -11,6 +11,9 @@
 <div th:replace="~{fragments/header :: header}"></div>
 <main><div class="container">
   <section class="card account-head artisan-tile"><h1 class="page-title">職人アカウントページ</h1><p>自分が投稿した内容の一覧を確認できます。</p><p class="account-name">名前：山田工房</p><p class="account-email">メールアドレス：artisan@example.com</p></section>
+	<div  th:if="${deleteMessage} != null">
+		<span style="color: red;" th:text="${deleteMessage}"></span>
+	</div>
   <div class="section-title"><h2>自分の投稿</h2></div><div class="timeline"><article class="card post-card post-list-card">
   <div class="post-top">
     <div>

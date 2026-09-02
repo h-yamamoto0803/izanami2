@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.aop.aspect.PermissionCheck;
 import com.example.demo.domain.service.customer.DeleteCustomerAccount;
@@ -32,6 +33,7 @@ public class DeleteCustomerAccountController {
 	@GetMapping(DELETE_ACCOUNT)
 	public String deleteCustomerAccount(Model model,
 			@ModelAttribute CustomerAccountEditForm customerAccountEditForm,
+    		RedirectAttributes redirect,
 			HttpSession session) {
 
 		try {
@@ -41,7 +43,10 @@ public class DeleteCustomerAccountController {
 
 			deleteUserEntity.setIsDeleted((byte) 1);
 			deleteCustomerAccount.deleteCustomer(beforecustomerAccountEditForm,deleteUserEntity);
+			String deleteMessage = "ユーザーの削除が完了しました";
 			httpSession.invalidate();
+	        redirect.addFlashAttribute(PageReturnAttributeKeyword.DELETE_MESSAGE, deleteMessage);
+
 			return REDIRECT_MENU;
 
 		} catch (Exception e) {

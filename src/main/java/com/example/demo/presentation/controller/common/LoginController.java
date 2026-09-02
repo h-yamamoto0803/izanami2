@@ -1,6 +1,6 @@
-package com.example.demo.presentation.controller.artisan;
-
+package com.example.demo.presentation.controller.common;
 import static com.example.demo.presentation.controller.pageproperty.PageReturnAttributeKeyword.*;
+import static com.example.demo.presentation.controller.pageproperty.SessionKeyword.*;
 import static com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword.*;
 
 import jakarta.servlet.http.HttpSession;
@@ -15,17 +15,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.aop.aspect.PermissionCheck;
 import com.example.demo.domain.service.LoginService;
-import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.form.LoginUserForm;
 
 import lombok.RequiredArgsConstructor;
 
-/**
- * Artisan（職人）のログインに関する画面遷移を担当するControllerです。
- */
 @RequiredArgsConstructor
 @Controller
-public class LoginArtisanController {
+public class LoginController {
 
 	private final LoginService loginService;
 
@@ -66,11 +62,56 @@ public class LoginArtisanController {
 				&& user == 1
 				&& loginUserForm.isArtisan()){
 			// ログインユーザーの情報をセッションに保存
-            session.setAttribute(SessionKeyword.LOGIN_USER,loginUserForm);
+            session.setAttribute(LOGIN_USER,loginUserForm);
 			return REDIRECT_MENU;
 		}
 
 		model.addAttribute(MESSAGE_ERROR,"メールアドレスまたはパスワードが正しくありません。");
 		return ARTISAN_LOGIN_HTML;
 	}
+	/**
+     * Customerログイン画面を表示します。
+     *
+     * @param loginUserForm Customerログイン画面で使用するフォーム
+     * @return Customerログイン画面
+     */
+	@PermissionCheck
+    @GetMapping(LOGIN_CUSTOMER_CONTROLLER)
+    public String showLoginCustomer(@ModelAttribute(LOGIN_FORM) LoginUserForm loginUserForm){
+
+        /*
+         * Customerログイン画面を表示します。
+         */
+        return CUSTOMER_LOGIN_HTML;
+    }
+
+    /**
+     * Customerログイン画面からログイン処理を実行します。
+     *
+     * @param loginUserForm Customerログイン画面から送信された入力値
+     * @return Customerメニュー画面
+     */
+	@PermissionCheck
+    @PostMapping(LOGIN_CUSTOMER_CONTROLLER)
+    public String loginCustomer(@Validated @ModelAttribute(LOGIN_FORM) LoginUserForm loginUserForm,
+    		BindingResult bindingResult,
+            HttpSession session,
+            Model model){
+    	if (bindingResult.hasErrors()){
+            return CUSTOMER_LOGIN_HTML;
+        }
+
+    	Integer user = loginService.doLogin(loginUserForm);
+    	
+    	 if (user != null
+    	            && user == 1
+    	            && loginUserForm.isCustomer()) {
+    		// ログインユーザーの情報をセッションに保存
+             session.setAttribute(LOGIN_USER,loginUserForm);
+             return REDIRECT_MENU;
+        }
+
+        model.addAttribute(MESSAGE_ERROR,"メールアドレスまたはパスワードが正しくありません。");
+        return CUSTOMER_LOGIN_HTML;
+    }
 }
