@@ -1,4 +1,4 @@
-package com.example.demo.presentation.controller;
+package com.example.demo.presentation.controller.common;
 
 import static com.example.demo.presentation.controller.pageproperty.PageReturnAttributeKeyword.*;
 import static com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword.*;
