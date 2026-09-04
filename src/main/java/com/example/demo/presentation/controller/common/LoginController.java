@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.aop.aspect.PermissionCheck;
-import com.example.demo.domain.service.LoginService;
-import com.example.demo.presentation.form.LoginUserForm;
+import com.example.demo.domain.service.common.LoginService;
+import com.example.demo.presentation.form.common.LoginUserForm;
 
 import lombok.RequiredArgsConstructor;
 

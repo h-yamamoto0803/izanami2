@@ -16,7 +16,7 @@ import com.example.demo.aop.aspect.PermissionCheck;
 import com.example.demo.domain.service.post.PostService;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
-import com.example.demo.presentation.form.LoginUserForm;
+import com.example.demo.presentation.form.common.LoginUserForm;
 import com.example.demo.presentation.form.post.PostListForm;
 
 import lombok.RequiredArgsConstructor;

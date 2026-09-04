@@ -1,4 +1,4 @@
-package com.example.demo.presentation.form;
+package com.example.demo.presentation.form.common;
 
 import java.sql.Timestamp;
 

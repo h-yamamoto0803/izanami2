@@ -13,13 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.aop.aspect.PermissionCheck;
-import com.example.demo.presentation.form.LoginUserForm;
+import com.example.demo.presentation.form.common.LoginUserForm;
 import com.example.demo.presentation.form.post.InsertPostForm;
 
-import lombok.RequiredArgsConstructor;
-
 @Controller
-@RequiredArgsConstructor
+
 public class InsertPostController {
 
 	/*

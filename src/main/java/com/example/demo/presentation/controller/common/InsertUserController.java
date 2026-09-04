@@ -1,4 +1,4 @@
-package com.example.demo.presentation.controller.customer;
+package com.example.demo.presentation.controller.common;
 
 import static com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword.*;
 
@@ -18,27 +18,27 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.aop.aspect.PermissionCheck;
-import com.example.demo.domain.service.customer.RegisterCustomer;
-import com.example.demo.domain.service.customer.SearchUser;
+import com.example.demo.domain.service.common.RegisterUser;
+import com.example.demo.domain.service.common.SearchUser;
 import com.example.demo.infra.entity.UserEntity;
-import com.example.demo.presentation.form.customer.InsertCustomerForm;
+import com.example.demo.presentation.form.common.InsertUserForm;
 
 /*
  * 登録処理用コントローラ
  * 遷移はbooleanを返してJS側で処理
  */
 @Controller
-public class InsertCustomerController {
-	private final static Logger LOGGER = Logger.getLogger(InsertCustomerController.class.getName());
+public class InsertUserController {
+	private final static Logger LOGGER = Logger.getLogger(InsertUserController.class.getName());
 	// エラーメッセージ用の定数フィールド
 	private final static String SEVERE_ERROR_MESSAGE = "エラーが発生しました！";
 
 	HttpSession httpSession;
-	RegisterCustomer register;
+	RegisterUser register;
 	SearchUser searchUser;
 
-	public InsertCustomerController(HttpSession httpSession,
-			RegisterCustomer register,
+	public InsertUserController(HttpSession httpSession,
+			RegisterUser register,
 			SearchUser searchUser) {
 		this.httpSession = httpSession;
 		this.register = register;
@@ -46,23 +46,23 @@ public class InsertCustomerController {
 	}
 
 	@ModelAttribute
-	public InsertCustomerForm insertCustomerForm() {
-		return new InsertCustomerForm();
+	public InsertUserForm insertUserForm() {
+		return new InsertUserForm();
 	}
 
 	@PermissionCheck
 	@ResponseBody
 	@PostMapping(INSERT_CUSTOMER)
-	public Boolean insertCustomer(@Valid @ModelAttribute InsertCustomerForm insertCustomerForm,
+	public Boolean insertUser(@Valid @ModelAttribute InsertUserForm insertUserForm,
 			BindingResult bindingResult,
 			Model model) {
 
 		// 登録情報のバリデーションチェック
 		try {
 			List<String> error = validateParameter(
-					insertCustomerForm.getUserName(),
-					insertCustomerForm.getEmail(),
-					insertCustomerForm.getPassword());
+					insertUserForm.getUserName(),
+					insertUserForm.getEmail(),
+					insertUserForm.getPassword());
 
 			// エラーが1件以上有る場合
 			if (!error.isEmpty()) {
@@ -79,7 +79,7 @@ public class InsertCustomerController {
 			}
 
 			// メールアドレス重複チェック
-			UserEntity otherUser = searchUser.searchUser(insertCustomerForm.getEmail());
+			UserEntity otherUser = searchUser.searchUserByEmail(insertUserForm.getEmail());
 
 			// 検索結果があるか
 			if (otherUser != null) {
@@ -89,9 +89,9 @@ public class InsertCustomerController {
 			}
 
 			// Entityに変換し登録処理呼び出し
-			UserEntity user = InsertCustomerForm.convertTo(insertCustomerForm);
+			UserEntity user = InsertUserForm.convertTo(insertUserForm);
 			user.setUserType((byte) 1);
-			register.registerCustomer(user);
+			register.registerUser(user);
 			// 登録結果画面に遷移
 			return true;
 		} catch (Exception e) {

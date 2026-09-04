@@ -17,8 +17,8 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import com.example.demo.exception.InsufficientPermissionException;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
-import com.example.demo.presentation.form.LoginUserForm;
-import com.example.demo.presentation.form.MessageForm;
+import com.example.demo.presentation.form.common.LoginUserForm;
+import com.example.demo.presentation.form.common.MessageForm;
 
 /*
  * ほぼEMからの流用、エラーの記録方法についてはEMそのままなので、必要に応じて変更したほうがいいかも

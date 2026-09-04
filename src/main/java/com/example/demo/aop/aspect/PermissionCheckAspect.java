@@ -5,13 +5,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.exception.InsufficientPermissionException;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
-import com.example.demo.presentation.form.LoginUserForm;
+import com.example.demo.presentation.form.common.LoginUserForm;
 
 //AOPの処理を行うクラスと設定、Springが管理できるように設定
 @Aspect
@@ -20,7 +19,7 @@ public class PermissionCheckAspect {
 
 	HttpServletRequest request;
 
-	@Autowired
+	
 	public PermissionCheckAspect(HttpServletRequest request) {
 		this.request = request;
 	}
@@ -34,7 +33,8 @@ public class PermissionCheckAspect {
 	public void checkPermission() {
 		// ログインユーザの取得
 		LoginUserForm loginUserForm = (LoginUserForm) request.getSession().getAttribute(SessionKeyword.LOGIN_USER);
-
+		
+	  
 		// ログインユーザが取得できない場合、または権限がない場合はエラー画面に遷移
 		if (!hasRequiredPermission(request.getRequestURI(), loginUserForm)) {
 			throw new InsufficientPermissionException("ユーザータイプが不正です");

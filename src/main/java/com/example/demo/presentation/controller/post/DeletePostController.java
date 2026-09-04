@@ -12,7 +12,7 @@ import com.example.demo.domain.service.post.DeletePost;
 import com.example.demo.presentation.controller.pageproperty.PageReturnAttributeKeyword;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
-import com.example.demo.presentation.form.LoginUserForm;
+import com.example.demo.presentation.form.common.LoginUserForm;
 
 import lombok.RequiredArgsConstructor;
 

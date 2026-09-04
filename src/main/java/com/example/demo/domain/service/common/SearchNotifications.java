@@ -1,4 +1,4 @@
-package com.example.demo.domain.service;
+package com.example.demo.domain.service.common;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import com.example.demo.infra.entity.NotificationEntity;
 import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.infra.repository.NotificationsRepository;
 import com.example.demo.infra.repository.UserRepository;
-import com.example.demo.presentation.form.NotificationsForm;
+import com.example.demo.presentation.form.common.NotificationsForm;
 
 import lombok.RequiredArgsConstructor;
 

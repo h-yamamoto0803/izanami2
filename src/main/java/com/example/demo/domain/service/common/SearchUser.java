@@ -1,4 +1,4 @@
-package com.example.demo.domain.service.customer;
+package com.example.demo.domain.service.common;
 
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ public class SearchUser {
 		this.repository = repository;
 	}
 
-	public UserEntity searchUser(String email) {
-		return repository.findByEmail(email).orElse(null);
+	public UserEntity searchUserByEmail(String email) {
+	    return repository.findByEmail(email).orElse(null);
 	}
 }

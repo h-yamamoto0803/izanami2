@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.aop.aspect.PermissionCheck;
 import com.example.demo.domain.service.post.InsertPost;
-import com.example.demo.presentation.form.LoginUserForm;
+import com.example.demo.presentation.form.common.LoginUserForm;
 import com.example.demo.presentation.form.post.InsertPostForm;
 
 import lombok.RequiredArgsConstructor;

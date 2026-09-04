@@ -8,10 +8,10 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import com.example.demo.domain.service.SearchNotifications;
+import com.example.demo.domain.service.common.SearchNotifications;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
-import com.example.demo.presentation.form.LoginUserForm;
-import com.example.demo.presentation.form.NotificationsForm;
+import com.example.demo.presentation.form.common.LoginUserForm;
+import com.example.demo.presentation.form.common.NotificationsForm;
 
 import lombok.RequiredArgsConstructor;
 

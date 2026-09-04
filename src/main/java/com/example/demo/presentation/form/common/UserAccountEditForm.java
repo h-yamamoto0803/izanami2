@@ -1,4 +1,4 @@
-package com.example.demo.presentation.form.customer;
+package com.example.demo.presentation.form.common;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CustomerAccountEditForm {
+public class UserAccountEditForm {
 private Integer userId;
 private Byte userType;
 @NotBlank
@@ -35,17 +35,17 @@ private String passwordConfirm;
 private Byte isDeleted = 0;
 
 
-public static UserEntity convertTo(CustomerAccountEditForm customerAccountEditForm) {
+public static UserEntity convertTo(UserAccountEditForm userAccountEditForm) {
      return new UserEntity(
 
-    		 customerAccountEditForm.getUserId(),
-    		 customerAccountEditForm.getUserType(),
-    		 customerAccountEditForm.getUserName(),
-    		 customerAccountEditForm.getEmail(),
-    		 customerAccountEditForm.getPassword(),
+    		 userAccountEditForm.getUserId(),
+    		 userAccountEditForm.getUserType(),
+    		 userAccountEditForm.getUserName(),
+    		 userAccountEditForm.getEmail(),
+    		 userAccountEditForm.getPassword(),
     		 null,
     		 null,
-    		 customerAccountEditForm.getIsDeleted()
+    		 userAccountEditForm.getIsDeleted()
     		 );
 }
 

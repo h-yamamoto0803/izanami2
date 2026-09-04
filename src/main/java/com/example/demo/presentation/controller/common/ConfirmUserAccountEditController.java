@@ -1,48 +1,35 @@
-package com.example.demo.presentation.controller.customer;
+package com.example.demo.presentation.controller.common;
 
 import static com.example.demo.presentation.controller.pageproperty.PageReturnAttributeKeyword.*;
 import static com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword.*;
 
-import java.util.List;
-
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.aop.aspect.PermissionCheck;
-import com.example.demo.domain.service.customer.SearchCustomer;
-import com.example.demo.domain.service.customer.UpdateCustomerAccount;
+import com.example.demo.domain.service.common.SearchUser;
 import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
-import com.example.demo.presentation.form.LoginUserForm;
-import com.example.demo.presentation.form.customer.CustomerAccountEditForm;
+import com.example.demo.presentation.form.common.LoginUserForm;
+import com.example.demo.presentation.form.common.UserAccountEditForm;
+
+import lombok.RequiredArgsConstructor;
 
 @Controller
-public class ConfirmCustomerAccountEditController {
+@RequiredArgsConstructor
+public class ConfirmUserAccountEditController {
 
-	@Autowired
-	UpdateCustomerAccount updateCustomerAccount;
-	HttpSession httpSession;
-	SearchCustomer searchCustomer;
-
-	public ConfirmCustomerAccountEditController(
-			UpdateCustomerAccount updateCustomerAccountTest,
-			HttpSession httpSession, 
-			SearchCustomer searchCustomer){
-		this.updateCustomerAccount = updateCustomerAccountTest;
-		this.httpSession = httpSession;
-		this.searchCustomer = searchCustomer;
-	}
-
+	private final SearchUser searchUser;
+     
 	@PermissionCheck
 	@PostMapping(CONFIRM_ACCOUNT_EDIT)
-	public String confirmCustomerAccountEdit(
-			@Valid CustomerAccountEditForm customerAccountEditForm,
+	public String confirmUserAccountEdit(
+			@Valid UserAccountEditForm userAccountEditForm,
 			BindingResult bindingResult,
 			Model model,
 			HttpSession session){
@@ -55,12 +42,12 @@ public class ConfirmCustomerAccountEditController {
 
 			//パスワードが確認用と違くてはじかれたとき
 			final String ERROR = "パスワードが一致していません";
-			String password = customerAccountEditForm.getPassword();
-			String passwordConfirm = customerAccountEditForm.getPasswordConfirm();
-			String passwordError = customerAccountEditForm.validatePassword(password, passwordConfirm);
+			String password = userAccountEditForm.getPassword();
+			String passwordConfirm = userAccountEditForm.getPasswordConfirm();
+			String passwordError = userAccountEditForm.validatePassword(password, passwordConfirm);
 
 			if (passwordError.equals(ERROR)) {
-				model.addAttribute("CustomerAccountEditForm", customerAccountEditForm);
+				model.addAttribute("UserAccountEditForm", userAccountEditForm);
 				model.addAttribute(MESSAGE_ERROR, ERROR);
 				return ACCOUNT_EDIT_HTML;
 			}
@@ -71,22 +58,24 @@ public class ConfirmCustomerAccountEditController {
 
 			String beforeUsermail = loginUser.getEmail();
 
-			if (!beforeUsermail.equals(customerAccountEditForm.getEmail())){
-				List<UserEntity> userListBymail = searchCustomer.searchUserByEmail(customerAccountEditForm.getEmail());
+			if (!beforeUsermail.equals(userAccountEditForm.getEmail())) {
+			    UserEntity userByEmail =
+			            searchUser.searchUserByEmail(userAccountEditForm.getEmail());
 
-				if (!userListBymail.isEmpty()){
-					model.addAttribute(CUSTOMER_ACCOUNT_EDIT_FORM, customerAccountEditForm);
-					model.addAttribute(MESSAGE_ERROR, DUPLICATION);
-					return ACCOUNT_EDIT_HTML;
-				}
+			    if (userByEmail != null) {
+			        model.addAttribute(CUSTOMER_ACCOUNT_EDIT_FORM, userAccountEditForm);
+			        model.addAttribute(MESSAGE_ERROR, DUPLICATION);
+			        return ACCOUNT_EDIT_HTML;
+			    }
+		
 
 				// 登録確認画面に遷移
-				model.addAttribute(CUSTOMER_ACCOUNT_EDIT_FORM, customerAccountEditForm);
+				model.addAttribute(CUSTOMER_ACCOUNT_EDIT_FORM, userAccountEditForm);
 				return ACCOUNT_EDIT_CONFIRM_HTML;
 			}
 
 			// 登録確認画面に遷移
-			model.addAttribute(CUSTOMER_ACCOUNT_EDIT_FORM, customerAccountEditForm);
+			model.addAttribute(CUSTOMER_ACCOUNT_EDIT_FORM, userAccountEditForm);
 			return ACCOUNT_EDIT_CONFIRM_HTML;
 
 		}catch (Exception e){

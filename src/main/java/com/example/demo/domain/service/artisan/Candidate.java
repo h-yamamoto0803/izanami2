@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import jakarta.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.CandidateResponseDto;
@@ -15,8 +14,8 @@ import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.infra.repository.CandidateRepository;
 import com.example.demo.infra.repository.NotificationRepository;
 import com.example.demo.infra.repository.PostRepository;
-import com.example.demo.presentation.form.LoginUserForm;
 import com.example.demo.presentation.form.artisan.CandidateForm;
+import com.example.demo.presentation.form.common.LoginUserForm;
 
 @Service
 public class Candidate {
@@ -25,7 +24,7 @@ public class Candidate {
 	NotificationRepository notificationRepository;
 	PostRepository postRepository;
 
-	@Autowired
+
 	public Candidate(CandidateRepository candidateRepository, NotificationRepository notificationRepository,
 			PostRepository postRepository) {
 		this.candidateRepository = candidateRepository;

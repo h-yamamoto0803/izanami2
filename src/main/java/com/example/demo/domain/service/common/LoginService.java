@@ -1,4 +1,4 @@
-package com.example.demo.domain.service;
+package com.example.demo.domain.service.common;
 
 import java.util.Optional;
 
@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.infra.repository.UserRepository;
-import com.example.demo.presentation.form.LoginUserForm;
+import com.example.demo.presentation.form.common.LoginUserForm;
 
 import lombok.RequiredArgsConstructor;
 

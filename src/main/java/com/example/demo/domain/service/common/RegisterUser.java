@@ -1,6 +1,5 @@
-package com.example.demo.domain.service.customer;
+package com.example.demo.domain.service.common;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.infra.entity.UserEntity;
@@ -12,15 +11,15 @@ import com.example.demo.infra.repository.UserRepository;
  */
 
 @Service
-public class RegisterCustomer {
+public class RegisterUser {
 	UserRepository repository;
 
-	@Autowired
-	public RegisterCustomer(UserRepository repository) {
+	
+	public RegisterUser(UserRepository repository) {
 		this.repository = repository;
 	}
 
-	public void registerCustomer(UserEntity userEntity) {
+	public void registerUser(UserEntity userEntity) {
 		repository.save(userEntity);
 	}
 }

@@ -11,8 +11,8 @@ import com.example.demo.aop.aspect.PermissionCheck;
 import com.example.demo.domain.service.artisan.Candidate;
 import com.example.demo.dto.CandidateResponseDto;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
-import com.example.demo.presentation.form.LoginUserForm;
 import com.example.demo.presentation.form.artisan.CandidateForm;
+import com.example.demo.presentation.form.common.LoginUserForm;
 
 @RestController
 public class CandidateController {

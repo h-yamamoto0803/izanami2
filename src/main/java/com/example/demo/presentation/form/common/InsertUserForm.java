@@ -1,4 +1,4 @@
-package com.example.demo.presentation.form.customer;
+package com.example.demo.presentation.form.common;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class InsertCustomerForm {
+public class InsertUserForm {
 
 	private String userName;
 
@@ -70,7 +70,7 @@ public class InsertCustomerForm {
 	 * @param insertEmployeeForm 画面から渡ってきた登録内容
 	 * @return UserEntityインスタンス
 	 */
-	public static UserEntity convertTo(InsertCustomerForm insertEmployeeForm) {
+	public static UserEntity convertTo(InsertUserForm insertEmployeeForm) {
 		UserEntity userEntity = new UserEntity();
 
 		userEntity.setUserName(insertEmployeeForm.getUserName());

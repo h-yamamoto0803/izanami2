@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import jakarta.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.FavoriteResponseDto;
@@ -12,7 +11,7 @@ import com.example.demo.infra.entity.FavoriteEntity;
 import com.example.demo.infra.entity.PostEntity;
 import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.infra.repository.FavoriteRepository;
-import com.example.demo.presentation.form.LoginUserForm;
+import com.example.demo.presentation.form.common.LoginUserForm;
 import com.example.demo.presentation.form.customer.FavoriteForm;
 
 @Service
@@ -21,7 +20,7 @@ public class Favorite {
 
 	FavoriteRepository repository;
 
-	@Autowired
+
 	public Favorite(FavoriteRepository repository) {
 		this.repository = repository;
 	}

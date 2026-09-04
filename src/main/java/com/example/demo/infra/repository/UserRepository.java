@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
 import com.example.demo.infra.entity.PostEntity;
 import com.example.demo.infra.entity.UserEntity;
@@ -22,7 +21,6 @@ import com.example.demo.infra.entity.UserEntity;
  * 「入力されたメールアドレスに該当するユーザーを取得する」
  * ために使用します。
  */
-@Repository
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     /**
      * メールアドレスを条件にユーザーを検索します。

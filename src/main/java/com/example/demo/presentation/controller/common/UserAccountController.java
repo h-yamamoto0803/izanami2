@@ -1,4 +1,4 @@
-package com.example.demo.presentation.controller.customer;
+package com.example.demo.presentation.controller.common;
 
 import java.util.List;
 
@@ -9,43 +9,37 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.demo.aop.aspect.PermissionCheck;
+import com.example.demo.domain.service.common.UpdateUserAccount;
 import com.example.demo.domain.service.customer.SearchCustomer;
-import com.example.demo.domain.service.customer.UpdateCustomerAccount;
 import com.example.demo.domain.service.post.PostService;
 import com.example.demo.infra.entity.PostEntity;
 import com.example.demo.presentation.controller.pageproperty.PageReturnAttributeKeyword;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
-import com.example.demo.presentation.form.LoginUserForm;
-import com.example.demo.presentation.form.customer.CustomerAccountEditForm;
+import com.example.demo.presentation.form.common.LoginUserForm;
+import com.example.demo.presentation.form.common.UserAccountEditForm;
 
+import lombok.RequiredArgsConstructor;
+@RequiredArgsConstructor
 @Controller
-public class CustomerAccountController {
+public class UserAccountController {
 
-	HttpSession httpSession;
-	PostService postService;
-	SearchCustomer searchCustomer;
-	UpdateCustomerAccount updateCustomerAccount;
+	private final HttpSession httpSession;
+	private final PostService postService;
+	private final SearchCustomer searchCustomer;
+	private final UpdateUserAccount updateCustomerAccount;
 
-	public CustomerAccountController(HttpSession httpsession,
-			UpdateCustomerAccount updateCustomerAccount,
-			PostService postService,
-			SearchCustomer searchCustomer){
-		this.httpSession = httpsession;
-		this.updateCustomerAccount = updateCustomerAccount;
-		this.postService = postService;
-		this.searchCustomer = searchCustomer;
-	}
+	
 
 	@PermissionCheck
 	@GetMapping(TransitionTargetPageNameKeyword.ACCOUNT)
-	public String customerAccount(Model model, HttpSession session) {
+	public String userAccount(Model model, HttpSession session) {
 		LoginUserForm loginUser = (LoginUserForm) session.getAttribute(SessionKeyword.LOGIN_USER);
 		Integer userId = loginUser.getUserId();
 
-		CustomerAccountEditForm customerAccountEditForm = searchCustomer.searchIdCustomer(userId);
-		String name = customerAccountEditForm.getUserName();
-		String mail = customerAccountEditForm.getEmail();
+		UserAccountEditForm userAccountEditForm = searchCustomer.searchIdCustomer(userId);
+		String name = userAccountEditForm.getUserName();
+		String mail = userAccountEditForm.getEmail();
 
 		model.addAttribute(PageReturnAttributeKeyword.USER_NAME, name);
 		model.addAttribute(PageReturnAttributeKeyword.EMAIL, mail);

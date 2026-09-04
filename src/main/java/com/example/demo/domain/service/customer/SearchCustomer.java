@@ -1,46 +1,36 @@
 package com.example.demo.domain.service.customer;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.infra.repository.UserRepository;
-import com.example.demo.presentation.form.customer.CustomerAccountEditForm;
+import com.example.demo.presentation.form.common.UserAccountEditForm;
+
+import lombok.RequiredArgsConstructor;
+@RequiredArgsConstructor
 @Service
 public class SearchCustomer {
-UserRepository userRepository;
+
 	
-	@Autowired
-	public SearchCustomer(UserRepository userRepository) {
+private final UserRepository userRepository;
+	
+public UserAccountEditForm searchIdCustomer(Integer userId) {
 		
-		this.userRepository = userRepository;
-	}
-public CustomerAccountEditForm searchIdCustomer(Integer userId) {
-		
-		CustomerAccountEditForm customerAccountEditForm = new CustomerAccountEditForm();
+		UserAccountEditForm userAccountEditForm = new UserAccountEditForm();
 		UserEntity userEntity = userRepository.findById(userId).orElseThrow();
 		
 		
 		//userIdでDBからsearchする
 		//とったUserEntityから、FormにSetする
-		customerAccountEditForm.setUserId(userEntity.getUserId());
-		customerAccountEditForm.setUserType(userEntity.getUserType());
-		customerAccountEditForm.setUserName(userEntity.getUserName());
-		customerAccountEditForm.setEmail(userEntity.getEmail());
-		customerAccountEditForm.setPassword(userEntity.getPassword());
+		userAccountEditForm.setUserId(userEntity.getUserId());
+		userAccountEditForm.setUserType(userEntity.getUserType());
+		userAccountEditForm.setUserName(userEntity.getUserName());
+		userAccountEditForm.setEmail(userEntity.getEmail());
+		userAccountEditForm.setPassword(userEntity.getPassword());
 
-		return customerAccountEditForm;
+		return userAccountEditForm;
 	}
 
 	
-	public List<UserEntity> searchUserByEmail(String email) {
-		Optional<UserEntity>userOptional =userRepository.findByEmail(email);
-		if(userOptional.isEmpty()) {
-		return List.of();}else {
-			return List.of(userOptional.get());
-		}
+	
 	}
-}
