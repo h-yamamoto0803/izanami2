@@ -23,27 +23,24 @@ import com.example.demo.domain.service.common.SearchUser;
 import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.presentation.form.common.InsertUserForm;
 
+import lombok.RequiredArgsConstructor;
+
 /*
  * 登録処理用コントローラ
  * 遷移はbooleanを返してJS側で処理
  */
+@RequiredArgsConstructor
 @Controller
 public class InsertUserController {
 	private final static Logger LOGGER = Logger.getLogger(InsertUserController.class.getName());
 	// エラーメッセージ用の定数フィールド
 	private final static String SEVERE_ERROR_MESSAGE = "エラーが発生しました！";
 
-	HttpSession httpSession;
-	RegisterUser register;
-	SearchUser searchUser;
+	private final HttpSession httpSession;
+	private final RegisterUser register;
+	private final SearchUser searchUser;
 
-	public InsertUserController(HttpSession httpSession,
-			RegisterUser register,
-			SearchUser searchUser) {
-		this.httpSession = httpSession;
-		this.register = register;
-		this.searchUser = searchUser;
-	}
+
 
 	@ModelAttribute
 	public InsertUserForm insertUserForm() {

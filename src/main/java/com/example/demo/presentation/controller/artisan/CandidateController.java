@@ -14,14 +14,14 @@ import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.form.artisan.CandidateForm;
 import com.example.demo.presentation.form.common.LoginUserForm;
 
+import lombok.RequiredArgsConstructor;
+@RequiredArgsConstructor
 @RestController
 public class CandidateController {
 
-	Candidate candidate;
+	private final Candidate candidate;
 
-	CandidateController(Candidate candidate) {
-		this.candidate = candidate;
-	}
+	
 
 	/**
 	 * 検討が押された際に呼び出され、処理を行うメソッドを呼び出し結果をjsonで返すコントローラ

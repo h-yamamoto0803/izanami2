@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.demo.aop.aspect.PermissionCheck;
-import com.example.demo.domain.service.common.UpdateUserAccount;
 import com.example.demo.domain.service.customer.SearchCustomer;
 import com.example.demo.domain.service.post.PostService;
 import com.example.demo.infra.entity.PostEntity;
@@ -24,13 +23,8 @@ import lombok.RequiredArgsConstructor;
 @Controller
 public class UserAccountController {
 
-	private final HttpSession httpSession;
 	private final PostService postService;
 	private final SearchCustomer searchCustomer;
-	private final UpdateUserAccount updateCustomerAccount;
-
-	
-
 	@PermissionCheck
 	@GetMapping(TransitionTargetPageNameKeyword.ACCOUNT)
 	public String userAccount(Model model, HttpSession session) {

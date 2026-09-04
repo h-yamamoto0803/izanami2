@@ -14,14 +14,14 @@ import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.form.common.LoginUserForm;
 import com.example.demo.presentation.form.customer.FavoriteForm;
 
+import lombok.RequiredArgsConstructor;
+@RequiredArgsConstructor
 @RestController
 public class FavoriteController {
 
-	Favorite favorite;
+	private final Favorite favorite;
 
-	FavoriteController(Favorite favorite) {
-		this.favorite = favorite;
-	}
+	
 
 	/**
 	 * いいねが押された際に呼び出され、処理を行うメソッドを呼び出し結果をjsonで返すコントローラ

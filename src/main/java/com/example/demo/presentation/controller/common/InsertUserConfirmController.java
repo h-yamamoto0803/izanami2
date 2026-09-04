@@ -4,15 +4,12 @@ import static com.example.demo.presentation.controller.pageproperty.TransitionTa
 
 import java.util.List;
 
-import jakarta.servlet.http.HttpSession;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.aop.aspect.PermissionCheck;
-import com.example.demo.domain.service.common.RegisterUser;
 import com.example.demo.domain.service.common.SearchUser;
 import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.presentation.controller.pageproperty.PageReturnAttributeKeyword;
@@ -20,23 +17,18 @@ import com.example.demo.presentation.controller.pageproperty.TransitionTargetPag
 import com.example.demo.presentation.form.common.InsertUserForm;
 import com.example.demo.presentation.form.common.MessageForm;
 
+import lombok.RequiredArgsConstructor;
+
 /*
  * 新規登録入力内容確認用コントローラ
  */
+@RequiredArgsConstructor
 @Controller
 public class InsertUserConfirmController {
 
-	HttpSession httpSession;
-	RegisterUser register;
-	SearchUser searchUser;
+	private final SearchUser searchUser;
 
-	public InsertUserConfirmController(HttpSession httpSession,
-			RegisterUser register,
-			SearchUser searchUser){
-		this.httpSession = httpSession;
-		this.register = register;
-		this.searchUser = searchUser;
-	}
+	
 
 	@ModelAttribute
 	public InsertUserForm insertUserForm(){

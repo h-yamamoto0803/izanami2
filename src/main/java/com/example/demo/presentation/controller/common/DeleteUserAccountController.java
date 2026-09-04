@@ -18,16 +18,14 @@ import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.form.common.LoginUserForm;
 import com.example.demo.presentation.form.common.UserAccountEditForm;
 
+import lombok.RequiredArgsConstructor;
+@RequiredArgsConstructor
 @Controller
 public class DeleteUserAccountController {
-	HttpSession httpSession;
-	LoginUserForm loginUserForm;
-	DeleteUserAccount deleteUserAccount;
+	private final HttpSession httpSession;
+	private final DeleteUserAccount deleteUserAccount;
 
-	public DeleteUserAccountController(HttpSession httpSession, DeleteUserAccount deleteUserAccount) {
-		this.httpSession = httpSession;
-		this.deleteUserAccount = deleteUserAccount;
-	}
+
 	
 	@PermissionCheck
 	@GetMapping(DELETE_ACCOUNT)
