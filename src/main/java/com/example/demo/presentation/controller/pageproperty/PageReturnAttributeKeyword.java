@@ -6,7 +6,7 @@ package com.example.demo.presentation.controller.pageproperty;
 public class PageReturnAttributeKeyword {
 	public static final String MESSAGE_ERROR = "messageError";
 	public static final String DELETE_MESSAGE = "deleteMessage";
-	public static final String CUSTOMER_ACCOUNT_EDIT_FORM = "CustomerAccountEditForm";
+	public static final String USER_ACCOUNT_EDIT_FORM = "UserAccountEditForm";
 	public static final String INSERT_CUSTOMER_FORM = "insertCustomerForm";
 	public static final String LOGIN_USER_FORM = "loginUserForm";
 	public static final String POST_DETAIL_FORM = "postDetailForm";

@@ -47,7 +47,7 @@ public class ConfirmUserAccountEditController {
 			String passwordError = userAccountEditForm.validatePassword(password, passwordConfirm);
 
 			if (passwordError.equals(ERROR)) {
-				model.addAttribute("UserAccountEditForm", userAccountEditForm);
+				model.addAttribute(USER_ACCOUNT_EDIT_FORM, userAccountEditForm);
 				model.addAttribute(MESSAGE_ERROR, ERROR);
 				return ACCOUNT_EDIT_HTML;
 			}
@@ -63,19 +63,19 @@ public class ConfirmUserAccountEditController {
 			            searchUser.searchUserByEmail(userAccountEditForm.getEmail());
 
 			    if (userByEmail != null) {
-			        model.addAttribute(CUSTOMER_ACCOUNT_EDIT_FORM, userAccountEditForm);
+			        model.addAttribute(USER_ACCOUNT_EDIT_FORM, userAccountEditForm);
 			        model.addAttribute(MESSAGE_ERROR, DUPLICATION);
 			        return ACCOUNT_EDIT_HTML;
 			    }
 		
 
 				// 登録確認画面に遷移
-				model.addAttribute(CUSTOMER_ACCOUNT_EDIT_FORM, userAccountEditForm);
+				model.addAttribute(USER_ACCOUNT_EDIT_FORM, userAccountEditForm);
 				return ACCOUNT_EDIT_CONFIRM_HTML;
 			}
 
 			// 登録確認画面に遷移
-			model.addAttribute(CUSTOMER_ACCOUNT_EDIT_FORM, userAccountEditForm);
+			model.addAttribute(USER_ACCOUNT_EDIT_FORM, userAccountEditForm);
 			return ACCOUNT_EDIT_CONFIRM_HTML;
 
 		}catch (Exception e){

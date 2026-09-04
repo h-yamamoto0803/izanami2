@@ -19,7 +19,7 @@ public class LogoutController {
 	
 	@PermissionCheck
 	@PostMapping(TransitionTargetPageNameKeyword.LOGOUT_CONTROLLER)
-	public String logout(HttpSession session) {
+	public String userLogout(HttpSession session) {
 
 	    session.invalidate();
 

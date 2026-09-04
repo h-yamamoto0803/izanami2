@@ -35,7 +35,7 @@ public class UserAccountEditController {
 			Integer userId = loginUser.getUserId();
 
 			userAccountEditForm = searchCustomer.searchIdCustomer(userId);
-			model.addAttribute(PageReturnAttributeKeyword.CUSTOMER_ACCOUNT_EDIT_FORM, userAccountEditForm);
+			model.addAttribute(PageReturnAttributeKeyword.USER_ACCOUNT_EDIT_FORM, userAccountEditForm);
 			return TransitionTargetPageNameKeyword.ACCOUNT_EDIT_HTML;
 		} catch (Exception e) {
 			
