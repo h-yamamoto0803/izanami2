@@ -22,7 +22,7 @@ public class TransitionTargetPageNameKeyword {
 	public static final String ACCOUNT_EDIT_HTML = "customer-account-edit";
 	public static final String ACCOUNT_EDIT_CONFIRM_HTML = "customer-account-edit-confirm";
 	
-	//消費者アカウント登録・削除・編集関連のController
+	//ユーザーアカウント登録・削除・編集関連のController
 	public static final String ACCOUNT = "/account";
 	public static final String ACCOUNT_EDIT = "/accountEdit";
 	public static final String CONFIRM_ACCOUNT_EDIT = "/confirmAccountEdit";

@@ -27,7 +27,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserEntity {
+	public static final Byte CUSTOMER = 1;
+	public static final Byte ARTISAN = 2;
 
+	public static final Byte DELETED = 1;
+	public static final Byte NOT_DELETED = 0;
     /** ユーザーID */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
