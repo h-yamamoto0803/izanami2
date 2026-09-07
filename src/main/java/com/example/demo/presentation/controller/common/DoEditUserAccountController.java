@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 public class DoEditUserAccountController {
 
-	private final UpdateUserAccount updateCustomerAccount;
+	private final UpdateUserAccount updateUserAccount;
 	private final SearchCustomer searchCustomer;
 
 	
@@ -40,7 +40,7 @@ public class DoEditUserAccountController {
 			userAccountEditForm.setUserType(beforecustomerAccountEditForm.getUserType());
 
 			UserEntity updateUserEntity = UserAccountEditForm.convertTo(userAccountEditForm);
-			updateCustomerAccount.updateUser(beforecustomerAccountEditForm,updateUserEntity);
+			updateUserAccount.updateUser(beforecustomerAccountEditForm,updateUserEntity);
 			
 			loginUser.setUserName(updateUserEntity.getUserName());
 			session.setAttribute(SessionKeyword.LOGIN_USER, loginUser);
