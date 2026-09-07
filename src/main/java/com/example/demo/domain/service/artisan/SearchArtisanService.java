@@ -1,5 +1,5 @@
 package com.example.demo.domain.service.artisan;
 
-public class SearchArtisan {
+public class SearchArtisanService {
 
 }

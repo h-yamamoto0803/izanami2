@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class InsertPost {
+public class InsertPostService {
 	private final PostRepository postRepository;
 	private final UserRepository userRepository;
 	private final TagRepository tagRepository;

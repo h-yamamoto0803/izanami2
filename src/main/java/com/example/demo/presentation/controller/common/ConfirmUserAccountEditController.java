@@ -12,7 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.aop.aspect.PermissionCheck;
-import com.example.demo.domain.service.common.SearchUser;
+import com.example.demo.domain.service.common.SearchUserService;
 import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.form.common.LoginUserForm;
@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ConfirmUserAccountEditController {
 
-	private final SearchUser searchUser;
+	private final SearchUserService searchUserService;
      
 	@PermissionCheck
 	@PostMapping(CONFIRM_ACCOUNT_EDIT)
@@ -64,7 +64,7 @@ public class ConfirmUserAccountEditController {
 
 		       
 		        UserEntity userByEmail =
-		                searchUser.searchUserByEmail(userAccountEditForm.getEmail());
+		                searchUserService.searchUserByEmail(userAccountEditForm.getEmail());
 		        if (userByEmail != null) {
 		            model.addAttribute(USER_ACCOUNT_EDIT_FORM, userAccountEditForm);
 		            model.addAttribute(MESSAGE_ERROR, DUPLICATION);

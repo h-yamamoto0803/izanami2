@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.aop.aspect.PermissionCheck;
-import com.example.demo.domain.service.common.RegisterUser;
+import com.example.demo.domain.service.common.RegisterUserService;
 import com.example.demo.presentation.controller.pageproperty.PageReturnAttributeKeyword;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
 import com.example.demo.presentation.form.common.InsertUserForm;
@@ -24,9 +24,9 @@ public class InsertUserInputController {
 	private final static Logger LOGGER = Logger.getLogger(InsertUserInputController.class.getName());
 	// このインスタンスは使用していない（EMでも同様）が、処理共通serviceのインスタンスは関連するコントローラに必ず作成するなど
 	// コーディング上のルールか何かで存在する物と思われる（要確認）
-	RegisterUser register;
+	RegisterUserService register;
 
-	InsertUserInputController(RegisterUser register){
+	InsertUserInputController(RegisterUserService register){
 		this.register = register;
 	}
 

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.aop.aspect.PermissionCheck;
-import com.example.demo.domain.service.common.SearchUser;
+import com.example.demo.domain.service.common.SearchUserService;
 import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.presentation.controller.pageproperty.PageReturnAttributeKeyword;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
@@ -26,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 public class InsertUserConfirmController {
 
-	private final SearchUser searchUser;
+	private final SearchUserService searchUserService;
 
 	@ModelAttribute
 	public InsertUserForm insertUserForm() {
@@ -53,7 +53,7 @@ public class InsertUserConfirmController {
 
 		//　メールアドレス重複チェック
 		final String DUPLICATION = "既に登録済みのメールアドレスです。";
-		UserEntity otherUser = searchUser.searchUserByEmail(insertUserForm.getEmail());
+		UserEntity otherUser = searchUserService.searchUserByEmail(insertUserForm.getEmail());
 
 		// 検索結果があるか
 		if (otherUser != null) {

@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.demo.aop.aspect.PermissionCheck;
-import com.example.demo.domain.service.customer.SearchCustomer;
+import com.example.demo.domain.service.customer.SearchCustomerService;
 import com.example.demo.domain.service.post.PostService;
 import com.example.demo.infra.entity.PostEntity;
 import com.example.demo.presentation.controller.pageproperty.PageReturnAttributeKeyword;
@@ -24,14 +24,14 @@ import lombok.RequiredArgsConstructor;
 public class UserAccountController {
 
 	private final PostService postService;
-	private final SearchCustomer searchCustomer;
+	private final SearchCustomerService searchCustomerService;
 	@PermissionCheck
 	@GetMapping(TransitionTargetPageNameKeyword.ACCOUNT)
 	public String userAccount(Model model, HttpSession session) {
 		LoginUserForm loginUser = (LoginUserForm) session.getAttribute(SessionKeyword.LOGIN_USER);
 		Integer userId = loginUser.getUserId();
 
-		UserAccountEditForm userAccountEditForm = searchCustomer.searchIdCustomer(userId);
+		UserAccountEditForm userAccountEditForm = searchCustomerService.searchIdCustomer(userId);
 		String name = userAccountEditForm.getUserName();
 		String mail = userAccountEditForm.getEmail();
 

@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class SearchPostDetail {
+public class SearchPostDetailService {
 	
 	private final ArtisanTagRepository artisanTagRepository;
 	private final PostTagRepository postTagRepository;

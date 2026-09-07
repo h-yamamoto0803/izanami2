@@ -8,13 +8,13 @@ import com.example.demo.presentation.form.common.UserAccountEditForm;
 
 @Service
 
-public class DeleteUserAccount {
+public class DeleteUserAccountService {
 
     
     UserRepository userRepository;
     
     
-    public DeleteUserAccount(UserRepository userRepository) {
+    public DeleteUserAccountService(UserRepository userRepository) {
         
         this.userRepository = userRepository;
     }

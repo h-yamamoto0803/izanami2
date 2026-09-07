@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.example.demo.aop.aspect.PermissionCheck;
-import com.example.demo.domain.service.customer.SearchCustomer;
+import com.example.demo.domain.service.customer.SearchCustomerService;
 import com.example.demo.presentation.controller.pageproperty.PageReturnAttributeKeyword;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class UserAccountEditController {
 
 	
-	private final SearchCustomer searchCustomer;
+	private final SearchCustomerService searchCustomerService;
 
 
 	@PermissionCheck
@@ -34,7 +34,7 @@ public class UserAccountEditController {
 			LoginUserForm loginUser = (LoginUserForm) session.getAttribute(SessionKeyword.LOGIN_USER);
 			Integer userId = loginUser.getUserId();
 
-			userAccountEditForm = searchCustomer.searchIdCustomer(userId);
+			userAccountEditForm = searchCustomerService.searchIdCustomer(userId);
 			model.addAttribute(PageReturnAttributeKeyword.USER_ACCOUNT_EDIT_FORM, userAccountEditForm);
 			return TransitionTargetPageNameKeyword.ACCOUNT_EDIT_HTML;
 		} catch (Exception e) {

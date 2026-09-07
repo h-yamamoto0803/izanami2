@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class SearchNotifications{
+public class SearchNotificationsService{
 	private final UserRepository userRepository;
 	private final NotificationsRepository notificationsRepository;
 	

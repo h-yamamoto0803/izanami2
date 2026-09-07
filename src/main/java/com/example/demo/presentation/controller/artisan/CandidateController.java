@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.aop.aspect.PermissionCheck;
-import com.example.demo.domain.service.artisan.Candidate;
+import com.example.demo.domain.service.artisan.CandidateService;
 import com.example.demo.dto.CandidateResponseDto;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.form.artisan.CandidateForm;
@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 public class CandidateController {
 
-	private final Candidate candidate;
+	private final CandidateService candidateService;
 
 	
 
@@ -35,7 +35,7 @@ public class CandidateController {
 	public CandidateResponseDto candidate(CandidateForm form,HttpSession session) {
 		
 		LoginUserForm loginUserForm = (LoginUserForm) session.getAttribute(SessionKeyword.LOGIN_USER);
-		CandidateResponseDto response = candidate.switchCandidate(loginUserForm, form);
+		CandidateResponseDto response = candidateService.switchCandidate(loginUserForm, form);
 
 		return response;
 

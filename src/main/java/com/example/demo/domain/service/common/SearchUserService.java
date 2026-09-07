@@ -6,11 +6,11 @@ import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.infra.repository.UserRepository;
 
 @Service
-public class SearchUser {
+public class SearchUserService {
 
 	UserRepository repository;
 
-	public SearchUser(UserRepository repository) {
+	public SearchUserService(UserRepository repository) {
 		this.repository = repository;
 	}
 

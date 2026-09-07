@@ -9,7 +9,7 @@ import com.example.demo.presentation.form.common.UserAccountEditForm;
 import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
-public class UpdateUserAccount {
+public class UpdateUserAccountService {
 	
 	private final UserRepository userRepository;
 

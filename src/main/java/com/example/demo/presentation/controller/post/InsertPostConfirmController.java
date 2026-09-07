@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.aop.aspect.PermissionCheck;
-import com.example.demo.domain.service.post.InsertPost;
+import com.example.demo.domain.service.post.InsertPostService;
 import com.example.demo.presentation.form.common.LoginUserForm;
 import com.example.demo.presentation.form.post.InsertPostForm;
 
@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class InsertPostConfirmController {
 	
-	private final InsertPost insertPost;
+	private final InsertPostService insertPostService;
 	private final HttpSession httpSession;
 	/*
 	 * 投稿確認画面表示
@@ -45,7 +45,7 @@ public class InsertPostConfirmController {
 		LoginUserForm loginUserForm =  (LoginUserForm)httpSession.getAttribute("loginUser");
 		Integer userId = loginUserForm.getUserId();
 		//サービスの呼び出し
-		insertPost.insertPost(insertPostForm, userId);
+		insertPostService.insertPost(insertPostForm, userId);
 		
 		return REDIRECT_MENU;
 	}

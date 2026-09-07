@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import com.example.demo.domain.service.common.SearchNotifications;
+import com.example.demo.domain.service.common.SearchNotificationsService;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.form.common.LoginUserForm;
 import com.example.demo.presentation.form.common.NotificationsForm;
@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class HeaderControllerAdvice {
 
-    private final SearchNotifications searchNotifications;
+    private final SearchNotificationsService searchNotificationsService;
 
     @ModelAttribute("notificationFormList")
     public List<NotificationsForm> setNotificationFormList(
@@ -32,6 +32,6 @@ public class HeaderControllerAdvice {
     	
     	// ログイン済みなら通知を取得
         Integer userId = loginUserForm.getUserId();
-        return searchNotifications.getNotifications(userId);
+        return searchNotificationsService.getNotifications(userId);
     }
 }
