@@ -35,20 +35,13 @@ public class ConfirmUserAccountEditController {
 			HttpSession session){
 
 		try {
-
-		   
-
 		    if(bindingResult.hasErrors()){
-		       
 		        return ACCOUNT_EDIT_HTML;
 		    }
-
-		    
 
 		    final String ERROR = "パスワードが一致していません";
 		    String password = userAccountEditForm.getPassword();
 		    String passwordConfirm = userAccountEditForm.getPasswordConfirm();
-
 		    String passwordError =
 		            userAccountEditForm.validatePassword(password, passwordConfirm);
 
@@ -72,20 +65,11 @@ public class ConfirmUserAccountEditController {
 		       
 		        UserEntity userByEmail =
 		                searchUser.searchUserByEmail(userAccountEditForm.getEmail());
-
-		       
-
 		        if (userByEmail != null) {
-		            
-
 		            model.addAttribute(USER_ACCOUNT_EDIT_FORM, userAccountEditForm);
 		            model.addAttribute(MESSAGE_ERROR, DUPLICATION);
-
 		            return ACCOUNT_EDIT_HTML;
 		        }
-
-		       
-
 		        model.addAttribute(USER_ACCOUNT_EDIT_FORM, userAccountEditForm);
 		        return ACCOUNT_EDIT_CONFIRM_HTML;
 		    }

@@ -8,16 +8,15 @@ import java.util.logging.Logger;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.ui.Model;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import com.example.demo.exception.InsufficientPermissionException;
 import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
-import com.example.demo.presentation.form.common.LoginUserForm;
 import com.example.demo.presentation.form.common.MessageForm;
 
 /*
@@ -49,22 +48,21 @@ public class GlobalExceptionHandler {
 	 * @return 遷移先の画面
 	 */
 	@ExceptionHandler(InsufficientPermissionException.class)
-	public String handleInsufficientPermissionException(Model model, Exception e, HttpSession session) {
+	public String handleInsufficientPermissionException(
+	        RedirectAttributes redirectAttributes,
+	        InsufficientPermissionException e,
+	        HttpSession session) {
 
-		// セッション情報破棄
-		session.invalidate();
-		// エラーメッセージとログインページ用のフォームをセット
-		model.addAttribute(MESSAGE_ERROR, new MessageForm(SEVERE_ERROR_MESSAGE_ILLEGAL_TRANSITION));
-		model.addAttribute(LOGIN_USER_FORM, new LoginUserForm());
+	    session.invalidate();
 
-		// エラーをコンソールに出力
-		e.printStackTrace();
+	    redirectAttributes.addFlashAttribute(
+	            MESSAGE_ERROR,
+	            new MessageForm(SEVERE_ERROR_MESSAGE_ILLEGAL_TRANSITION));
 
-		// エラーログ出力
-		LOGGER.log(Level.SEVERE, SEVERE_ERROR_MESSAGE_ILLEGAL_TRANSITION, e);
+	    e.printStackTrace();
+	    LOGGER.log(Level.SEVERE, SEVERE_ERROR_MESSAGE_ILLEGAL_TRANSITION, e);
 
-		return TransitionTargetPageNameKeyword.MENU_HTML;
-
+	    return TransitionTargetPageNameKeyword.REDIRECT_MENU;
 	}
 
 	/**
@@ -74,17 +72,21 @@ public class GlobalExceptionHandler {
 	 * @return ログイン画面
 	 */
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-	public String handleBadRequestException(Model model, Exception e, HttpSession session) {
+	public String handleBadRequestException(
+	        RedirectAttributes redirectAttributes,
+	        Exception e,
+	        HttpSession session) {
 
-		session.invalidate();
-		model.addAttribute(MESSAGE_ERROR, SEVERE_ERROR_MESSAGE_BAD_REQUEST);
-		model.addAttribute(LOGIN_USER_FORM, new LoginUserForm());
+	    session.invalidate();
 
-		e.printStackTrace();
+	    redirectAttributes.addFlashAttribute(
+	            MESSAGE_ERROR,
+	            new MessageForm(SEVERE_ERROR_MESSAGE_BAD_REQUEST));
 
-		LOGGER.log(Level.SEVERE, SEVERE_ERROR_MESSAGE_ILLEGAL_TRANSITION, e);
+	    e.printStackTrace();
+	    LOGGER.log(Level.SEVERE, SEVERE_ERROR_MESSAGE_BAD_REQUEST, e);
 
-		return TransitionTargetPageNameKeyword.MENU_HTML;
+	    return TransitionTargetPageNameKeyword.REDIRECT_MENU;
 	}
 
 	/**
@@ -107,16 +109,20 @@ public class GlobalExceptionHandler {
 	 * @return ログイン画面
 	 */
 	@ExceptionHandler(Exception.class)
-	public String AllException(Model model, Exception e, HttpSession session) {
+	public String AllException(
+	        RedirectAttributes redirectAttributes,
+	        Exception e,
+	        HttpSession session) {
 
-		session.invalidate();
-		model.addAttribute(MESSAGE_ERROR, SEVERE_ERROR_MESSAGE_BAD_REQUEST);
-		model.addAttribute(LOGIN_USER_FORM, new LoginUserForm());
+	    session.invalidate();
 
-		e.printStackTrace();
+	    redirectAttributes.addFlashAttribute(
+	            MESSAGE_ERROR,
+	            new MessageForm(SEVERE_ERROR_MESSAGE_BAD_REQUEST));
 
-		LOGGER.log(Level.SEVERE, SEVERE_ERROR_MESSAGE_ILLEGAL_TRANSITION, e);
+	    e.printStackTrace();
+	    LOGGER.log(Level.SEVERE, SEVERE_ERROR_MESSAGE_BAD_REQUEST, e);
 
-		return TransitionTargetPageNameKeyword.MENU_HTML;
+	    return TransitionTargetPageNameKeyword.REDIRECT_MENU;
 	}
 }
