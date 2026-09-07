@@ -34,49 +34,64 @@ public class ConfirmUserAccountEditController {
 			Model model,
 			HttpSession session){
 
-		try{
-			//Formのバリデーションではじかれたとき
-			if(bindingResult.hasErrors()){
-				return ACCOUNT_EDIT_HTML;
-		}
+		try {
 
-			//パスワードが確認用と違くてはじかれたとき
-			final String ERROR = "パスワードが一致していません";
-			String password = userAccountEditForm.getPassword();
-			String passwordConfirm = userAccountEditForm.getPasswordConfirm();
-			String passwordError = userAccountEditForm.validatePassword(password, passwordConfirm);
+		   
 
-			if (passwordError.equals(ERROR)) {
-				model.addAttribute(USER_ACCOUNT_EDIT_FORM, userAccountEditForm);
-				model.addAttribute(MESSAGE_ERROR, ERROR);
-				return ACCOUNT_EDIT_HTML;
-			}
+		    if(bindingResult.hasErrors()){
+		       
+		        return ACCOUNT_EDIT_HTML;
+		    }
 
-			//既に登録済みのメールアドレスを入力してはじかれたとき
-			final String DUPLICATION = "既に登録済みのメールアドレスです。";
-			LoginUserForm loginUser = (LoginUserForm) session.getAttribute(SessionKeyword.LOGIN_USER);
+		    
 
-			String beforeUsermail = loginUser.getEmail();
+		    final String ERROR = "パスワードが一致していません";
+		    String password = userAccountEditForm.getPassword();
+		    String passwordConfirm = userAccountEditForm.getPasswordConfirm();
 
-			if (!beforeUsermail.equals(userAccountEditForm.getEmail())) {
-			    UserEntity userByEmail =
-			            searchUser.searchUserByEmail(userAccountEditForm.getEmail());
+		    String passwordError =
+		            userAccountEditForm.validatePassword(password, passwordConfirm);
 
-			    if (userByEmail != null) {
-			        model.addAttribute(USER_ACCOUNT_EDIT_FORM, userAccountEditForm);
-			        model.addAttribute(MESSAGE_ERROR, DUPLICATION);
-			        return ACCOUNT_EDIT_HTML;
-			    }
-		
+		    
+		    if (passwordError.equals(ERROR)) {
+		        
+		        model.addAttribute(USER_ACCOUNT_EDIT_FORM, userAccountEditForm);
+		        model.addAttribute(MESSAGE_ERROR, ERROR);
+		        return ACCOUNT_EDIT_HTML;
+		    }
 
-				// 登録確認画面に遷移
-				model.addAttribute(USER_ACCOUNT_EDIT_FORM, userAccountEditForm);
-				return ACCOUNT_EDIT_CONFIRM_HTML;
-			}
+		    final String DUPLICATION = "既に登録済みのメールアドレスです。";
 
-			// 登録確認画面に遷移
-			model.addAttribute(USER_ACCOUNT_EDIT_FORM, userAccountEditForm);
-			return ACCOUNT_EDIT_CONFIRM_HTML;
+		    LoginUserForm loginUser =
+		            (LoginUserForm) session.getAttribute(SessionKeyword.LOGIN_USER);
+
+		    String beforeUsermail = loginUser.getEmail();
+
+		    if (!beforeUsermail.equals(userAccountEditForm.getEmail())) {
+
+		       
+		        UserEntity userByEmail =
+		                searchUser.searchUserByEmail(userAccountEditForm.getEmail());
+
+		       
+
+		        if (userByEmail != null) {
+		            
+
+		            model.addAttribute(USER_ACCOUNT_EDIT_FORM, userAccountEditForm);
+		            model.addAttribute(MESSAGE_ERROR, DUPLICATION);
+
+		            return ACCOUNT_EDIT_HTML;
+		        }
+
+		       
+
+		        model.addAttribute(USER_ACCOUNT_EDIT_FORM, userAccountEditForm);
+		        return ACCOUNT_EDIT_CONFIRM_HTML;
+		    }
+
+		    model.addAttribute(USER_ACCOUNT_EDIT_FORM, userAccountEditForm);
+		    return ACCOUNT_EDIT_CONFIRM_HTML;
 
 		}catch (Exception e){
 			// ログイン情報の破棄
