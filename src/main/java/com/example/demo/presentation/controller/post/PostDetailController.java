@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.aop.aspect.PermissionCheck;
 import com.example.demo.domain.service.post.SearchPostDetail;
+import com.example.demo.exception.InsufficientPermissionException;
 import com.example.demo.infra.entity.PostEntity;
 import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
@@ -23,7 +24,7 @@ import lombok.RequiredArgsConstructor;;
 
 @Controller
 @RequiredArgsConstructor
-public class PostDtailController {
+public class PostDetailController {
 
 	private final SearchPostDetail searchPostDetail;
 
@@ -35,6 +36,16 @@ public class PostDtailController {
 			HttpSession session){
 		LoginUserForm loginUser = (LoginUserForm) session.getAttribute(SessionKeyword.LOGIN_USER);
 		PostEntity postEntity = searchPostDetail.getPostDetail(postId);
+		// 職人の場合、専門タグが投稿に付いているか確認
+		if (loginUser != null && loginUser.isArtisan()) {
+
+		    if (!searchPostDetail.canViewPostDetail(
+		            loginUser.getUserId(), postEntity)) {
+
+		        throw new InsufficientPermissionException("ユーザータイプが不正です");
+		    }
+		}
+
 		UserEntity userEntity = null;
 		PostDetailForm postDetailForm = searchPostDetail.convertFrom(postEntity);
 		
