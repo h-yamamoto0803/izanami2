@@ -42,10 +42,12 @@
 							id="passwordConfirm" type="password" required minlength="6" th:field="*{passwordConfirm}"
 							name="passwordConfirm">
 					</div>
-					<p class="form-error" hidden th:if="${errorMessage}"
-						th:attr="hidden=${errorMessage} ? null : 'hidden'" th:text="${errorMessage}"
-						style="color:#b52e3c;text-align:center;font-size:12px">
-						入力内容を確認してください。
+					<p class="form-error" hidden
+					   th:if="${messageError}"
+					   th:attr="hidden=${messageError} ? null : 'hidden'"
+					   th:text="${messageError}"
+					   style="color:#b52e3c;text-align:center;font-size:12px">
+					    入力内容を確認してください。
 					</p>
 					<div class="actions">
 
