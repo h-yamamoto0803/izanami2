@@ -54,16 +54,24 @@
 
 
 				<!-- 投稿ボタン：guest / artisan / customer 共通 -->
-				<a class="header-post" th:classappend="
-	                     ${userType == 'artisan'}
-	                         ? ' artisan-post'
-	                         : (${userType == 'customer'}
-	                             ? ' customer-post'
-	                             : ' guest-post')" th:href="@{/insertPost}">
-					＋ 投稿する
+				<a class="header-post"
+				   th:classappend="
+				       ${userType == 'artisan'}
+				           ? ' artisan-post'
+				           : (${userType == 'customer'}
+				               ? ' customer-post'
+				               : ' guest-post')"
+				   th:href="@{/insertPost}">
+				    ＋ 投稿する
 				</a>
 
 
+				<!-- ポートフォリオ投稿：artisanのみ -->
+				<a class="header-post artisan-portfolio-post"
+				   th:if="${userType == 'artisan'}"
+				   th:href="@{#}">
+				    ＋ ポートフォリオを投稿
+				</a>
 				<!-- guestのみ -->
 				<th:block th:if="${userType == 'guest'}">
 
@@ -76,7 +84,7 @@
 					</a>
 
 				</th:block>
-
+	
 
 				<!-- artisan / customer 共通 -->
 				<th:block th:if="${userType == 'artisan' or userType == 'customer'}">

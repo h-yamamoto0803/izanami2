@@ -47,16 +47,13 @@
 
 
 						<div>
-						<span class="favorite-count" th:text="|いいね: *{favoriteCount} |">
-						</span>
-						<span class="candidate-count" th:text="|検討: *{CandidateCount} |">
-						</span>
+							<span class="favorite-count" th:text="|いいね: *{favoriteCount} |">
+							</span>
+							<span class="candidate-count" th:text="|検討: *{CandidateCount} |">
+							</span>
 						</div>
-						<button th:if="${session.loginUser == null}"
-						        id="fav-button-logout"
-						        class="btn btn-outline btn-favorite"
-						        type="button"
-						        th:text="|♥ いいね *{favoriteCount}|">
+						<button th:if="${session.loginUser == null}" id="fav-button-logout"
+							class="btn btn-outline btn-favorite" type="button" th:text="|♥ いいね *{favoriteCount}|">
 						</button>
 
 						<button th:if="${session.loginUser != null and session.loginUser.userType == 1}"
@@ -70,66 +67,116 @@
 							type="button" th:text="|検討 *{candidateCount}|">
 						</button>
 					</div>
+					<section id="comments" class="comment-section">
 
+						<h2 class="section-title">
+							コメント
+						</h2>
 
-				</article>
-				<div class="actions">
-				    <a class="btn btn-secondary" th:href="@{/menu}">戻る</a>
-				</div>
-			</section>
+						<div class="comment-list">
+
+							<div class="comment-card">
+
+							    <div class="comment-header">
+							        <span class="comment-author">ユーザーA</span>
+							        <span class="comment-date">2026/09/09 10:00</span>
+							    </div>
+
+							    <p class="comment-text">とても素敵な投稿ですね！</p>
+
+							    <!-- 自分のコメントの場合だけ表示するモック -->
+							    <div class="comment-actions">
+							        <button class="comment-edit-button" type="button">
+							            編集
+							        </button>
+
+							        <button class="comment-delete-button" type="button">
+							            削除
+							        </button>
+							    </div>
+
+							</div>
+
+							<div class="comment-card">
+								<div class="comment-header">
+									<span class="comment-author">職人B</span>
+									<span class="comment-date">2026/09/09 10:10</span>
+								</div>
+
+								<p class="comment-text">このような作品なら制作できそうです。</p>
+							</div>
+
+						</div>
+
+						<div class="comment-form">
+							<textarea class="comment-input" placeholder="コメントを入力してください" rows="4"></textarea>
+
+							<div class="actions">
+								<button class="btn btn-primary" type="button">
+									コメントを投稿
+								</button>
+							</div>
+						</div>
+
+					</section>
+
 		</div>
-		
-		
+		</article>
+		<div class="actions">
+			<a class="btn btn-secondary" th:href="@{/menu}">戻る</a>
+		</div>
+		</section>
+		</div>
+
+
 		<div id="loginModal" hidden>
-		  <form class="card form-card login-popup"
-		        th:action="@{/customer/login}"
-		        th:object="${loginForm}"
-		        method="post">
+			<form class="card form-card login-popup" th:action="@{/customer/login}" th:object="${loginForm}"
+				method="post">
 
-		    <p>ログインして好きな投稿にいいねしよう！</p>
+				<p>ログインして好きな投稿にいいねしよう！</p>
 
-		    <div class="form-group">
-		      <label for="customerEmail">メールアドレス</label>
-		      <input id="customerEmail" type="email" th:field="*{email}">
-		      <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
-		    </div>
+				<div class="form-group">
+					<label for="customerEmail">メールアドレス</label>
+					<input id="customerEmail" type="email" th:field="*{email}">
+					<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+				</div>
 
-		    <div class="form-group">
-		      <label for="customerPassword">パスワード</label>
-		      <input id="customerPassword" type="password" th:field="*{password}">
-		      <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
-		    </div>
+				<div class="form-group">
+					<label for="customerPassword">パスワード</label>
+					<input id="customerPassword" type="password" th:field="*{password}">
+					<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+				</div>
 
-		    <div class="actions">
-		      <button class="btn btn-primary" type="submit">ログイン</button>
-		      <a class="btn btn-outline" th:href="@{/insertCustomerInput}">新規登録</a>
-		    </div>
+				<div class="actions">
+					<button class="btn btn-primary" type="submit">ログイン</button>
+					<a class="btn btn-outline" th:href="@{/insertCustomerInput}">新規登録</a>
+				</div>
 
-		  </form>
+			</form>
 		</div>
-		
+
 	</main>
 
 	<Script>
 		// いいねボタンログイン処理
 		const favoriteButtonLogout = document.getElementById("fav-button-logout");
 		const loginModal = document.getElementById("loginModal");
-		
-		
+
+
 		loginModal.addEventListener("click", (e) => {
-		  if (e.target === loginModal) {
-		    loginModal.hidden = true;
-		  }
+			if (e.target === loginModal) {
+				loginModal.hidden = true;
+			}
 		});
-		
-		if (favoriteButtonLogout != null){
+
+		if (favoriteButtonLogout != null) {
 			favoriteButtonLogout.addEventListener("click", () => {
-			  loginModal.hidden = false;
+				loginModal.hidden = false;
 			});
 		}
-		
-		
-	
+
+
+
 		// いいねボタン処理
 		const favoriteButton = document.getElementById("favorite-button");
 
@@ -190,6 +237,85 @@
 					= `検討 ${result.candidateCount}`;
 			});
 		}
+		
+		// コメント編集処理(今後コメント編集機能が追加されたときに丸々削除してください)
+		const editButtons = document.querySelectorAll(".comment-edit-button");
+
+		editButtons.forEach((editButton) => {
+
+			editButton.addEventListener("click", () => {
+
+				// 編集対象のコメントカード
+				const commentCard = editButton.closest(".comment-card");
+
+				// コメント本文
+				const commentText = commentCard.querySelector(".comment-text");
+
+				// 元のコメント内容
+				const originalText = commentText.textContent;
+
+				// 入力欄を作成
+				const input = document.createElement("textarea");
+				input.className = "comment-input";
+				input.rows = 4;
+				input.value = originalText;
+
+				// 保存ボタン
+				const saveButton = document.createElement("button");
+				saveButton.className = "btn btn-primary";
+				saveButton.type = "button";
+				saveButton.textContent = "保存";
+
+				// キャンセルボタン
+				const cancelButton = document.createElement("button");
+				cancelButton.className = "btn btn-secondary";
+				cancelButton.type = "button";
+				cancelButton.textContent = "キャンセル";
+
+				// コメント本文を入力欄に変更
+				commentText.replaceWith(input);
+
+				// 編集・削除ボタンを非表示
+				editButton.style.display = "none";
+
+				const deleteButton =
+					commentCard.querySelector(".comment-delete-button");
+
+				deleteButton.style.display = "none";
+
+				// 保存・キャンセルボタンを追加
+				const actions = commentCard.querySelector(".comment-actions");
+
+				actions.appendChild(saveButton);
+				actions.appendChild(cancelButton);
+
+				// 保存
+				saveButton.addEventListener("click", () => {
+
+					commentText.textContent = input.value;
+
+					input.replaceWith(commentText);
+
+					saveButton.remove();
+					cancelButton.remove();
+
+					editButton.style.display = "";
+					deleteButton.style.display = "";
+				});
+
+				// キャンセル
+				cancelButton.addEventListener("click", () => {
+
+					input.replaceWith(commentText);
+
+					saveButton.remove();
+					cancelButton.remove();
+
+					editButton.style.display = "";
+					deleteButton.style.display = "";
+				});
+			});
+		});
 	</Script>
 
 </body>
