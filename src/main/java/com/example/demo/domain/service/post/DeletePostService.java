@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class DeletePost {
+public class DeletePostService {
 
 	private final PostRepository postRepository;
 

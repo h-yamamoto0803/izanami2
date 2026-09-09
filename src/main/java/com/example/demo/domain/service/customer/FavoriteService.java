@@ -16,12 +16,12 @@ import com.example.demo.presentation.form.customer.FavoriteForm;
 
 @Service
 @Transactional
-public class Favorite {
+public class FavoriteService {
 
 	FavoriteRepository repository;
 
 
-	public Favorite(FavoriteRepository repository) {
+	public FavoriteService(FavoriteRepository repository) {
 		this.repository = repository;
 	}
 

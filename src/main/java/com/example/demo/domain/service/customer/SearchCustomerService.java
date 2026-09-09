@@ -9,7 +9,7 @@ import com.example.demo.presentation.form.common.UserAccountEditForm;
 import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
-public class SearchCustomer {
+public class SearchCustomerService {
 
 	
 private final UserRepository userRepository;

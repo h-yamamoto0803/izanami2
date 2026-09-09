@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.aop.aspect.PermissionCheck;
-import com.example.demo.domain.service.customer.Favorite;
+import com.example.demo.domain.service.customer.FavoriteService;
 import com.example.demo.dto.FavoriteResponseDto;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.form.common.LoginUserForm;
@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 public class FavoriteController {
 
-	private final Favorite favorite;
+	private final FavoriteService favoriteService;
 
 	
 
@@ -36,7 +36,7 @@ public class FavoriteController {
 			FavoriteForm form,
 			HttpSession session){
 		LoginUserForm loginUserForm = (LoginUserForm) session.getAttribute(SessionKeyword.LOGIN_USER);
-		FavoriteResponseDto response = favorite.switchFavorite(loginUserForm, form);
+		FavoriteResponseDto response = favoriteService.switchFavorite(loginUserForm, form);
 		return response;
 	}
 }

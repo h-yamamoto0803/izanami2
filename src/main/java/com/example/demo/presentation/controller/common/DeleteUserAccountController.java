@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.aop.aspect.PermissionCheck;
-import com.example.demo.domain.service.common.DeleteUserAccount;
+import com.example.demo.domain.service.common.DeleteUserAccountService;
 import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.presentation.controller.pageproperty.PageReturnAttributeKeyword;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 public class DeleteUserAccountController {
 	private final HttpSession httpSession;
-	private final DeleteUserAccount deleteUserAccount;
+	private final DeleteUserAccountService deleteUserAccountService;
 
 
 	
@@ -36,11 +36,11 @@ public class DeleteUserAccountController {
 
 		try {
 			LoginUserForm loginUser = (LoginUserForm) session.getAttribute(SessionKeyword.LOGIN_USER);
-			UserAccountEditForm beforeuserrAccountEditForm = deleteUserAccount.searchIdUser(loginUser.getUserId());
+			UserAccountEditForm beforeuserrAccountEditForm = deleteUserAccountService.searchIdUser(loginUser.getUserId());
 			UserEntity deleteUserEntity = UserAccountEditForm.convertTo(beforeuserrAccountEditForm);
 
 			deleteUserEntity.setIsDeleted((byte) 1);
-			deleteUserAccount.deleteUser(beforeuserrAccountEditForm,deleteUserEntity);
+			deleteUserAccountService.deleteUser(beforeuserrAccountEditForm,deleteUserEntity);
 			String deleteMessage = "ユーザーの削除が完了しました";
 			httpSession.invalidate();
 	        redirect.addFlashAttribute(PageReturnAttributeKeyword.DELETE_MESSAGE, deleteMessage);

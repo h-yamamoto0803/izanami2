@@ -11,11 +11,11 @@ import com.example.demo.infra.repository.UserRepository;
  */
 
 @Service
-public class RegisterUser {
+public class RegisterUserService {
 	UserRepository repository;
 
 	
-	public RegisterUser(UserRepository repository) {
+	public RegisterUserService(UserRepository repository) {
 		this.repository = repository;
 	}
 

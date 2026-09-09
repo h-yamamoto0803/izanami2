@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.aop.aspect.PermissionCheck;
-import com.example.demo.domain.service.common.UpdateUserAccount;
-import com.example.demo.domain.service.customer.SearchCustomer;
+import com.example.demo.domain.service.common.UpdateUserAccountService;
+import com.example.demo.domain.service.customer.SearchCustomerService;
 import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.form.common.LoginUserForm;
@@ -23,8 +23,8 @@ import lombok.RequiredArgsConstructor;
 @Controller
 public class DoEditUserAccountController {
 
-	private final UpdateUserAccount updateUserAccount;
-	private final SearchCustomer searchCustomer;
+	private final UpdateUserAccountService updateUserAccountService;
+	private final SearchCustomerService searchCustomerService;
 
 	
 	@PermissionCheck
@@ -35,12 +35,12 @@ public class DoEditUserAccountController {
 		try {
 			LoginUserForm loginUser = (LoginUserForm) session.getAttribute(SessionKeyword.LOGIN_USER);
 
-			UserAccountEditForm beforecustomerAccountEditForm = searchCustomer.searchIdCustomer(loginUser.getUserId());
+			UserAccountEditForm beforecustomerAccountEditForm = searchCustomerService.searchIdCustomer(loginUser.getUserId());
 			userAccountEditForm.setUserId(beforecustomerAccountEditForm.getUserId());
 			userAccountEditForm.setUserType(beforecustomerAccountEditForm.getUserType());
 
 			UserEntity updateUserEntity = UserAccountEditForm.convertTo(userAccountEditForm);
-			updateUserAccount.updateUser(beforecustomerAccountEditForm,updateUserEntity);
+			updateUserAccountService.updateUser(beforecustomerAccountEditForm,updateUserEntity);
 			
 			loginUser.setUserName(updateUserEntity.getUserName());
 			session.setAttribute(SessionKeyword.LOGIN_USER, loginUser);

@@ -21,7 +21,7 @@ public class TransitionTargetPageNameKeyword {
 	public static final String ACCOUNT_HTML = "customer-account";
 	public static final String ACCOUNT_EDIT_HTML = "customer-account-edit";
 	public static final String ACCOUNT_EDIT_CONFIRM_HTML = "customer-account-edit-confirm";
-	
+
 	//ユーザーアカウント登録・削除・編集関連のController
 	public static final String ACCOUNT = "/account";
 	public static final String ACCOUNT_EDIT = "/accountEdit";
@@ -67,24 +67,22 @@ public class TransitionTargetPageNameKeyword {
 				MENU,
 				REDIRECT,
 				REDIRECT_MENU,
-				
+
 				ACCOUNT,
 				ACCOUNT_EDIT,
 				CONFIRM_ACCOUNT_EDIT,
 				DO_EDIT_ACCOUNT,
 				DELETE_ACCOUNT,
-				
+
 				POST_DETAIL,
 				INSERT_POST,
 				INSERT_POST_RET,
 				INSERT_POST_CONFIRM,
 				DO_INSERT_POST,
 				DELETE_POST,
-				
-				
+
 				CANDIDATE,
-				LOGOUT_CONTROLLER
-				);
+				LOGOUT_CONTROLLER);
 	}
 
 	public static Set<String> getCustomerPageList() {
@@ -94,17 +92,17 @@ public class TransitionTargetPageNameKeyword {
 				MENU,
 				REDIRECT,
 				REDIRECT_MENU,
-				
+
 				ACCOUNT,
 				ACCOUNT_EDIT,
 				CONFIRM_ACCOUNT_EDIT,
 				DO_EDIT_ACCOUNT,
 				DELETE_ACCOUNT,
-				
+
 				INSERT_CUSTOMER,
 				INSERT_CUSTOMER_INPUT,
 				INSERT_CUSTOMER_CONFIRM,
-				
+
 				POST_DETAIL,
 				INSERT_POST,
 				INSERT_POST_RET,
@@ -113,8 +111,7 @@ public class TransitionTargetPageNameKeyword {
 				DELETE_POST,
 
 				FAVORITE,
-				LOGOUT_CONTROLLER
-				);
+				LOGOUT_CONTROLLER);
 	}
 
 	public static Set<String> getGuestPageList() {
@@ -124,15 +121,14 @@ public class TransitionTargetPageNameKeyword {
 				MENU,
 				REDIRECT,
 				REDIRECT_MENU,
-				
+
 				INSERT_POST,
 				POST_DETAIL,
-				
+
 				LOGIN_CUSTOMER_CONTROLLER,
 				LOGIN_ARTISAN_CONTROLLER,
 				INSERT_CUSTOMER,
 				INSERT_CUSTOMER_INPUT,
-				INSERT_CUSTOMER_CONFIRM
-				);
+				INSERT_CUSTOMER_CONFIRM);
 	}
 }

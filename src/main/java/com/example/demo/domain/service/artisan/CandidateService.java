@@ -18,14 +18,14 @@ import com.example.demo.presentation.form.artisan.CandidateForm;
 import com.example.demo.presentation.form.common.LoginUserForm;
 
 @Service
-public class Candidate {
+public class CandidateService {
 
 	CandidateRepository candidateRepository;
 	NotificationRepository notificationRepository;
 	PostRepository postRepository;
 
 
-	public Candidate(CandidateRepository candidateRepository, NotificationRepository notificationRepository,
+	public CandidateService(CandidateRepository candidateRepository, NotificationRepository notificationRepository,
 			PostRepository postRepository) {
 		this.candidateRepository = candidateRepository;
 		this.notificationRepository = notificationRepository;

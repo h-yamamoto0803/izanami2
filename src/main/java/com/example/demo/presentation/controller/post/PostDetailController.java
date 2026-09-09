@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.aop.aspect.PermissionCheck;
-import com.example.demo.domain.service.post.SearchPostDetail;
+import com.example.demo.domain.service.post.SearchPostDetailService;
+import com.example.demo.exception.InsufficientPermissionException;
 import com.example.demo.infra.entity.PostEntity;
 import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
@@ -23,9 +24,9 @@ import lombok.RequiredArgsConstructor;;
 
 @Controller
 @RequiredArgsConstructor
-public class PostDtailController {
+public class PostDetailController {
 
-	private final SearchPostDetail searchPostDetail;
+	private final SearchPostDetailService searchPostDetailService;
 
 	/*--- 投稿詳細画面表示リクエスト ---*/
 	@PermissionCheck
@@ -34,14 +35,24 @@ public class PostDtailController {
 			@RequestParam Integer postId,
 			HttpSession session){
 		LoginUserForm loginUser = (LoginUserForm) session.getAttribute(SessionKeyword.LOGIN_USER);
-		PostEntity postEntity = searchPostDetail.getPostDetail(postId);
+		PostEntity postEntity = searchPostDetailService.getPostDetail(postId);
+		// 職人の場合、専門タグが投稿に付いているか確認
+		if (loginUser != null && loginUser.isArtisan()) {
+
+		    if (!searchPostDetailService.canViewPostDetail(
+		            loginUser.getUserId(), postEntity)) {
+
+		        throw new InsufficientPermissionException("ユーザータイプが不正です");
+		    }
+		}
+
 		UserEntity userEntity = null;
-		PostDetailForm postDetailForm = searchPostDetail.convertFrom(postEntity);
+		PostDetailForm postDetailForm = searchPostDetailService.convertFrom(postEntity);
 		
 		if (loginUser != null) {
 			userEntity = loginUser.convertToUserEntity(loginUser);
 			// いいね・検討フラグ情報を追加
-			postDetailForm = searchPostDetail.alreadyFlag(
+			postDetailForm = searchPostDetailService.alreadyFlag(
 				postDetailForm,
 				userEntity,
 				postEntity

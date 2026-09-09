@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.aop.aspect.PermissionCheck;
-import com.example.demo.domain.service.common.RegisterUser;
-import com.example.demo.domain.service.common.SearchUser;
+import com.example.demo.domain.service.common.RegisterUserService;
+import com.example.demo.domain.service.common.SearchUserService;
 import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.presentation.form.common.InsertUserForm;
 
@@ -37,8 +37,8 @@ public class InsertUserController {
 	private final static String SEVERE_ERROR_MESSAGE = "エラーが発生しました！";
 
 	private final HttpSession httpSession;
-	private final RegisterUser register;
-	private final SearchUser searchUser;
+	private final RegisterUserService register;
+	private final SearchUserService searchUserService;
 
 
 
@@ -76,7 +76,7 @@ public class InsertUserController {
 			}
 
 			// メールアドレス重複チェック
-			UserEntity otherUser = searchUser.searchUserByEmail(insertUserForm.getEmail());
+			UserEntity otherUser = searchUserService.searchUserByEmail(insertUserForm.getEmail());
 
 			// 検索結果があるか
 			if (otherUser != null) {
