@@ -90,41 +90,63 @@
          タグ絞り込み
     ========================= -->
 
-    <form class="toolbar"
-          th:action="@{/menu}"
-          method="get">
+	<form class="toolbar"
+	      th:action="@{/menu}"
+	      method="get">
 
-      <select name="tag"
-              aria-label="タグ">
-
-        <option value=""
-                th:selected="${selectedTag == null or selectedTag == ''}">
-          すべてのタグ
-        </option>
+	  
 
 
-        <option th:each="tag : ${tags}"
-                th:value="${tag}"
-                th:text="${tag}"
-                th:selected="${selectedTag == tag}">
-          タグ名
-        </option>
+	  <!-- タグ絞り込み -->
+	  <select name="tag"
+	          aria-label="タグ">
 
-      </select>
+	    <option value=""
+	            th:selected="${selectedTag == null or selectedTag == ''}">
+	      すべてのタグ
+	    </option>
+
+	    <option th:each="tag : ${tags}"
+	            th:value="${tag}"
+	            th:text="${tag}"
+	            th:selected="${selectedTag == tag}">
+	      タグ名
+	    </option>
+
+	  </select>
+	  <!-- 表示対象の切り替え -->
+	  	  <select name="contentType"
+	  	          aria-label="表示対象">
+
+	  	    <option value="all"
+	  	            th:selected="${contentType == null or contentType == 'all'}">
+	  	      すべて表示
+	  	    </option>
+
+	  	    <option value="post"
+	  	            th:selected="${contentType == 'post'}">
+	  	     投稿
+	  	    </option>
+
+	  	    <option value="portfolio"
+	  	            th:selected="${contentType == 'portfolio'}">
+	  	      ポートフォリオ
+	  	    </option>
+
+	  	  </select>
+
+	  <button class="btn btn-primary"
+	          type="submit">
+	    絞り込み
+	  </button>
 
 
-      <button class="btn btn-primary"
-              type="submit">
-        絞り込み
-      </button>
+	  <a class="btn btn-outline"
+	     th:href="@{/menu}">
+	    クリア
+	  </a>
 
-
-      <a class="btn btn-outline"
-         th:href="@{/menu}">
-        クリア
-      </a>
-
-    </form>
+	</form>
 
 
     <!-- =========================
@@ -256,14 +278,15 @@
 
 		  <!-- いいね数 -->
 
+
 		  <span class="favorite-count"
-		        th:text="'いいね:' + ${post.favoriteCount} ">
-
+		        th:text="'いいね:' + ${post.favoriteCount}">
 		    いいね:0
-
 		  </span>
-
-
+		  <a class="comment-count"
+		     th:href="@{/postDetail?postId={postId}#comments(postId=${post.postId})}">
+		      0件のコメント
+		  </a>
 		  <!-- Guest -->
 
 		  <button th:if="${session.loginUser == null}"
