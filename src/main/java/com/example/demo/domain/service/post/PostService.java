@@ -1,7 +1,6 @@
 package com.example.demo.domain.service.post;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -30,16 +29,6 @@ public class PostService {
 	private final ArtisanTagRepository artisanTagRepository;
 	private final UserRepository userRepository;
 	private final CandidateRepository candidateRepository;
-
-	/**
-	 * すべてのタグ名を取得する
-	 */
-	public List<String> getAllTags() {
-		return tagRepository.findAll()
-				.stream()
-				.map(TagEntity::getTagName)
-				.toList();
-	}
 
 	/**
 	 * ユーザー種別に応じて投稿を検索します。
@@ -178,28 +167,7 @@ public class PostService {
 		return convertToPostListForm(posts);
 	}
 
-	/**
-	 * Artisanに設定されている専門タグの名前を取得します。
-	 *
-	 * メニュー画面の「あなたの専門タグ」の表示に使用します。
-	 *
-	 * @param userId ArtisanのユーザーID
-	 * @return 専門タグ名の一覧
-	 */
-	public List<String> getArtisanTagNames(Integer userId) {
-
-		// ユーザーIDがない場合は空の一覧を返す
-		if (userId == null) {
-			return List.of();
-		}
-
-		// Artisanに設定されているタグを取得し、
-		// タグ名だけを取り出して返す
-		return artisanTagRepository.findTagsByUserId(userId)
-				.stream()
-				.map(TagEntity::getTagName)
-				.toList();
-	}
+	
 
 	/**
 	 * 投稿Entityを画面表示用のPostListFormに変換します。
@@ -256,22 +224,7 @@ public class PostService {
 		return result;
 	}
 
-	public List<String> getTagNamesByPostId(Integer postId) {
-		List<PostTagEntity> postTags = postTagRepository.findByIdPostId(postId);
-
-		return postTags.stream()
-				// PostTagEntityからタグIDを取得
-				.map(postTag -> postTag.getId().getTagId())
-				// タグIDからタグを取得
-				.map(tagId -> tagRepository.findById(tagId))
-				// タグが存在するものだけに絞る
-				.filter(Optional::isPresent)
-				// OptionalからTagEntityを取り出す
-				.map(Optional::get)
-				// TagEntityからタグ名を取得
-				.map(TagEntity::getTagName)
-				.toList();
-	}
+	
 	
 	public List<PostEntity> findByUserId(Integer userId){
 		

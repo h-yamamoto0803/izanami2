@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.demo.domain.service.common.TagService;
 import com.example.demo.infra.entity.PostEntity;
 import com.example.demo.infra.entity.PostTagEntity;
 import com.example.demo.infra.entity.TagEntity;
@@ -24,10 +25,9 @@ public class SearchPostDetailService {
 	private final ArtisanTagRepository artisanTagRepository;
 	private final PostTagRepository postTagRepository;
 	private final PostRepository repository;
-	private final PostService postService;
 	private final FavoriteRepository favoriteRepository;
 	private final CandidateRepository candidateRepository;
-
+	private final TagService tagService;
 	/**
 	 * postIdからPostEntityを取得するメソッド
 	 * @param postId
@@ -53,7 +53,7 @@ public class SearchPostDetailService {
 		form.setPostTime(entity.getCreatedAt());
 		form.setPostTitle(entity.getPostTitle());
 		form.setPostText(entity.getPostText());
-		form.setTags(postService.getTagNamesByPostId(entity.getPostId()));
+		form.setTags(tagService.getTagNamesByPostId(entity.getPostId()));
 		form.setFavoriteCount(favoriteRepository.countByPost(entity));
 		form.setCandidateCount(candidateRepository.countByPost(entity));
 		return form;
