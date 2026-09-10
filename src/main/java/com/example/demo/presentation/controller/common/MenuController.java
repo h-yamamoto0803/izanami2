@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.aop.aspect.PermissionCheck;
+import com.example.demo.domain.service.common.TagService;
 import com.example.demo.domain.service.post.PostService;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
-import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
 import com.example.demo.presentation.form.common.LoginUserForm;
 import com.example.demo.presentation.form.post.PostListForm;
 
@@ -26,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class MenuController {
 
     private final PostService postService;
-    
+    private final TagService tagService;
     @PermissionCheck
 	@GetMapping({ INDEX_BLANK, INDEX_SLASH, MENU_HTML })
 	public String showMenu(
@@ -53,17 +53,17 @@ public class MenuController {
 		if (userId != null && loginUserForm.isArtisan()) {
 
 			// 職人に紐づいているタグだけ取得
-			model.addAttribute(TAGS, postService.getArtisanTagNames(userId));
+			model.addAttribute(TAGS, tagService.getArtisanTagNames(userId));
 		} else {
 			// Guest / Customer は全タグ
-			model.addAttribute(TAGS,postService.getAllTags());
+			model.addAttribute(TAGS,tagService.getAllTags());
 		}
 		model.addAttribute(SELECTED_TAGS, selectedTag);
 
 		LoginUserForm loginUserFormInput = new LoginUserForm();
-		model.addAttribute(TransitionTargetPageNameKeyword.LOGIN_FORM, loginUserFormInput);
+		model.addAttribute(LOGIN_FORM, loginUserFormInput);
 
 		// 共通メニュー画面へ
-		return TransitionTargetPageNameKeyword.MENU_HTML;
+		return MENU_HTML;
 	}
 }
