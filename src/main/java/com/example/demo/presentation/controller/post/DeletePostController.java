@@ -13,7 +13,6 @@ import com.example.demo.aop.aspect.PermissionCheck;
 import com.example.demo.domain.service.post.DeletePostService;
 import com.example.demo.presentation.controller.pageproperty.PageReturnAttributeKeyword;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
-import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
 import com.example.demo.presentation.form.common.LoginUserForm;
 
 import lombok.RequiredArgsConstructor;
@@ -25,7 +24,7 @@ public class DeletePostController {
     private final DeletePostService deletePostService;
     
     @PermissionCheck
-    @PostMapping(TransitionTargetPageNameKeyword.DELETE_POST)
+    @PostMapping(DELETE_POST)
     public String deletePost(@RequestParam Integer postId, 
     		RedirectAttributes redirect,
     		HttpSession session){
