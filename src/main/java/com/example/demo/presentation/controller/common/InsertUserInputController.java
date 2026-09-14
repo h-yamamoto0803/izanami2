@@ -1,5 +1,8 @@
 package com.example.demo.presentation.controller.common;
 
+import static com.example.demo.presentation.controller.pageproperty.PageReturnAttributeKeyword.*;
+import static com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword.*;
+
 import java.util.logging.Logger;
 
 import org.springframework.stereotype.Controller;
@@ -10,8 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.aop.aspect.PermissionCheck;
 import com.example.demo.domain.service.common.RegisterUserService;
-import com.example.demo.presentation.controller.pageproperty.PageReturnAttributeKeyword;
-import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
 import com.example.demo.presentation.form.common.InsertUserForm;
 
 /*
@@ -37,15 +38,15 @@ public class InsertUserInputController {
 	}
 	// 登録画面表示
 	@PermissionCheck
-	@GetMapping(TransitionTargetPageNameKeyword.INSERT_CUSTOMER_INPUT)
+	@GetMapping(INSERT_CUSTOMER_INPUT)
 	public String insertInput(InsertUserForm insertUserForm, Model model){
-		model.addAttribute(PageReturnAttributeKeyword.INSERT_CUSTOMER_FORM, insertUserForm);
-		return TransitionTargetPageNameKeyword.INSERT_CUSTOMER_INPUT_HTML;
+		model.addAttribute(INSERT_CUSTOMER_FORM, insertUserForm);
+		return INSERT_CUSTOMER_INPUT_HTML;
 	}
 	@PermissionCheck
-	@PostMapping(TransitionTargetPageNameKeyword.INSERT_CUSTOMER_INPUT)
+	@PostMapping(INSERT_CUSTOMER_INPUT)
 	public String returnInsertInput(InsertUserForm insertUserForm, Model model){
-		model.addAttribute(PageReturnAttributeKeyword.INSERT_CUSTOMER_FORM, insertUserForm);
-		return TransitionTargetPageNameKeyword.INSERT_CUSTOMER_INPUT_HTML;
+		model.addAttribute(INSERT_CUSTOMER_FORM, insertUserForm);
+		return INSERT_CUSTOMER_INPUT_HTML;
 	}
 }

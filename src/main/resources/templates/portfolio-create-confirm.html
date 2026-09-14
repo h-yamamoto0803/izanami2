@@ -1,0 +1,86 @@
+<!doctype html>
+
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ポートフォリオ確認 | Traemon</title>
+	<link rel="stylesheet" th:href="@{/css/styles.css}">
+	<script th:src="@{/js/common.js}" defer></script>
+</head>
+
+<body>
+
+
+<!-- =========================
+     共通ヘッダー
+========================= -->
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main>
+	<div class="container">
+
+		<section>
+			<h1 class="page-title">ポートフォリオ確認ページ</h1>
+
+			<div class="card form-card">
+
+				<dl class="confirm-list">
+
+					<!-- 作品画像 -->
+					<div class="confirm-row">
+					    <dt>作品画像</dt>
+					    <dd>
+					        <img th:src="${portfolioForm.tempImagePath}"
+					             alt="作品画像"
+					             style="max-width: 300px;">
+					    </dd>
+					</div>
+
+					<div class="confirm-row">
+					    <dt>作品説明</dt>
+					    <dd th:text="${portfolioForm.description}">
+					        作品についての説明がここに表示されます。
+					    </dd>
+					</div>
+					
+
+					
+				</dl>
+
+				<div class="actions">
+
+					<!-- 登録実行 -->
+					<form th:action="@{/portfolio}"
+					      th:object="${portfolioForm}"
+					      method="post">
+
+					    <input type="hidden"
+					           th:field="*{description}">
+
+					    <input type="hidden"
+					           th:field="*{tempImagePath}">
+
+							   <button class="btn btn-primary" type="submit">
+							       投稿確定
+							   </button>
+					</form>
+
+					<!-- 入力画面へ戻る -->
+					<a class="btn btn-secondary" th:href="@{/portfolio-create}">
+						戻る
+					</a>
+
+				</div>
+
+			</div>
+
+		</section>
+
+	</div>
+</main>
+
+</body>
+</html>

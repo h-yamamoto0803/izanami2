@@ -1,9 +1,11 @@
 package com.example.demo.presentation.controller.post;
 
+import static com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword.*;
+
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -23,7 +25,7 @@ public class DeletePostController {
     private final DeletePostService deletePostService;
     
     @PermissionCheck
-    @GetMapping(TransitionTargetPageNameKeyword.DELETE_POST)
+    @PostMapping(TransitionTargetPageNameKeyword.DELETE_POST)
     public String deletePost(@RequestParam Integer postId, 
     		RedirectAttributes redirect,
     		HttpSession session){
@@ -33,6 +35,6 @@ public class DeletePostController {
         String deleteMessage = deletePostService.deletePost(postId, userId);
         redirect.addFlashAttribute(PageReturnAttributeKeyword.DELETE_MESSAGE, deleteMessage);
 
-        return "redirect:/account";
+        return REDIRECT_ACCOUNT;
     }
 }

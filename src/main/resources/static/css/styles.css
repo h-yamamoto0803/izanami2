@@ -416,6 +416,11 @@ main{padding:38px 0 70px}
   margin:0 0 12px;
   color:var(--muted);
   font-size:13px;
+
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+  max-width:100%;
 }
 .detail-card{padding:28px}
 .detail-title{

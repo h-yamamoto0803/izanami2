@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.demo.aop.aspect.PermissionCheck;
 import com.example.demo.domain.service.customer.SearchCustomerService;
+import com.example.demo.domain.service.portfolio.PortfolioService;
 import com.example.demo.domain.service.post.PostService;
+import com.example.demo.infra.entity.PortfolioEntity;
 import com.example.demo.infra.entity.PostEntity;
 import com.example.demo.presentation.controller.pageproperty.PageReturnAttributeKeyword;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
@@ -22,25 +24,58 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Controller
 public class UserAccountController {
-
+	
+	private final PortfolioService portfolioService;
 	private final PostService postService;
 	private final SearchCustomerService searchCustomerService;
-	@PermissionCheck
-	@GetMapping(TransitionTargetPageNameKeyword.ACCOUNT)
-	public String userAccount(Model model, HttpSession session) {
-		LoginUserForm loginUser = (LoginUserForm) session.getAttribute(SessionKeyword.LOGIN_USER);
-		Integer userId = loginUser.getUserId();
+	
+	
+	    @PermissionCheck
+	    @GetMapping(TransitionTargetPageNameKeyword.ACCOUNT)
+	    public String userAccount(Model model, HttpSession session) {
 
-		UserAccountEditForm userAccountEditForm = searchCustomerService.searchIdCustomer(userId);
-		String name = userAccountEditForm.getUserName();
-		String mail = userAccountEditForm.getEmail();
+	        LoginUserForm loginUser =
+	                (LoginUserForm) session.getAttribute(SessionKeyword.LOGIN_USER);
 
-		model.addAttribute(PageReturnAttributeKeyword.USER_NAME, name);
-		model.addAttribute(PageReturnAttributeKeyword.EMAIL, mail);
+	        Integer userId = loginUser.getUserId();
 
-		List<PostEntity> posts = postService.findByUserIdAndIsDeleted(userId, (byte) 0);
-		model.addAttribute(PageReturnAttributeKeyword.POSTS, postService.convertToPostListForm(posts));
+	        UserAccountEditForm userAccountEditForm =
+	                searchCustomerService.searchIdCustomer(userId);
 
-		return TransitionTargetPageNameKeyword.ACCOUNT_HTML;
+	        String name = userAccountEditForm.getUserName();
+	        String mail = userAccountEditForm.getEmail();
+
+	        model.addAttribute(
+	                PageReturnAttributeKeyword.USER_NAME,
+	                name
+	        );
+
+	        model.addAttribute(
+	                PageReturnAttributeKeyword.EMAIL,
+	                mail
+	        );
+	     // 自分の投稿一覧取得
+	        List<PostEntity> posts =
+	                postService.findByUserIdAndIsDeleted(
+	                        userId,
+	                        (byte) 0
+	                );
+
+	        model.addAttribute(
+	                PageReturnAttributeKeyword.POSTS,
+	                postService.convertToPostListForm(posts)
+	        );
+
+	        // 自分のポートフォリオ一覧取得
+	        List<PortfolioEntity> portfolios =
+	                portfolioService.findByUserId(userId);
+
+	        model.addAttribute(
+	                "portfolios",
+	                portfolios
+	        );
+
+	        return TransitionTargetPageNameKeyword.ACCOUNT_HTML;
+	    }
 	}
-}
+

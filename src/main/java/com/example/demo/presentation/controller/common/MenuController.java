@@ -1,6 +1,7 @@
 package com.example.demo.presentation.controller.common;
 
 import static com.example.demo.presentation.controller.pageproperty.PageReturnAttributeKeyword.*;
+import static com.example.demo.presentation.controller.pageproperty.SessionKeyword.*;
 import static com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword.*;
 
 import java.util.List;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.aop.aspect.PermissionCheck;
 import com.example.demo.domain.service.common.TagService;
 import com.example.demo.domain.service.post.PostService;
-import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.form.common.LoginUserForm;
 import com.example.demo.presentation.form.post.PostListForm;
 
@@ -35,7 +35,7 @@ public class MenuController {
 			HttpSession session) {
 
 		// セッションからログインユーザー情報を取得
-		LoginUserForm loginUserForm = (LoginUserForm) session.getAttribute(SessionKeyword.LOGIN_USER);
+		LoginUserForm loginUserForm = (LoginUserForm) session.getAttribute(LOGIN_USER);
 
 		Integer userId = null;
 

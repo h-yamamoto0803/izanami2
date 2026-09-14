@@ -7,6 +7,7 @@ public class TransitionTargetPageNameKeyword {
 	// guest, utill
 	public static final String MENU_HTML = "menu";
 	// Controller
+	
 	public static final String INDEX_BLANK = "";
 	public static final String INDEX_SLASH = "/";
 	public static final String LOGOUT_CONTROLLER = "/logout";
@@ -27,6 +28,7 @@ public class TransitionTargetPageNameKeyword {
 	public static final String ACCOUNT_EDIT = "/accountEdit";
 	public static final String CONFIRM_ACCOUNT_EDIT = "/confirmAccountEdit";
 	public static final String DO_EDIT_ACCOUNT = "/doEditCustomerAccount";
+	public static final String REDIRECT_ACCOUNT = "redirect:/account";
 	public static final String DELETE_ACCOUNT = "/deleteAccount";
 	// artisan
 	// HTML
@@ -59,7 +61,17 @@ public class TransitionTargetPageNameKeyword {
 
 	// Form
 	public final static String LOGIN_FORM = "loginForm";
-
+	
+	// Portfolio
+	// Controller
+	public static final String INSERT_PORTFOLIO ="/portfolio-create";
+	public static final String INSERT_PORTFOLIO_RET="/insertPortfolioRet";
+	public static final String INSERT_PORTFOLIO_CONFIRM ="/portfolio-create-confirm";
+	public static final String DO_INSERT_PORTFOLIO = "/portfolio";
+	public static final String DELETE_PORTFOLIO = "/deletePortfolio";
+	// HTML
+	public static final String INSERT_PORTFOLIO_HTML="portfolio-create";
+	public static final String INSERT_PORTFOLIO_CONFIRM_HTML="portfolio-create-confirm";
 	public static Set<String> getArtisanPageList() {
 		return Set.of(
 				INDEX_BLANK,
@@ -73,6 +85,7 @@ public class TransitionTargetPageNameKeyword {
 				CONFIRM_ACCOUNT_EDIT,
 				DO_EDIT_ACCOUNT,
 				DELETE_ACCOUNT,
+				REDIRECT_ACCOUNT,
 
 				POST_DETAIL,
 				INSERT_POST,
@@ -82,7 +95,11 @@ public class TransitionTargetPageNameKeyword {
 				DELETE_POST,
 
 				CANDIDATE,
-				LOGOUT_CONTROLLER);
+				LOGOUT_CONTROLLER,
+				INSERT_PORTFOLIO,
+				INSERT_PORTFOLIO_CONFIRM,
+				DO_INSERT_PORTFOLIO,
+				DELETE_PORTFOLIO);
 	}
 
 	public static Set<String> getCustomerPageList() {
@@ -98,6 +115,7 @@ public class TransitionTargetPageNameKeyword {
 				CONFIRM_ACCOUNT_EDIT,
 				DO_EDIT_ACCOUNT,
 				DELETE_ACCOUNT,
+				REDIRECT_ACCOUNT,
 
 				INSERT_CUSTOMER,
 				INSERT_CUSTOMER_INPUT,
