@@ -184,7 +184,10 @@
          投稿一覧
     ========================= -->
 
-    <div class="timeline">
+	<div class="timeline"
+	     th:if="${contentType == null
+	          or contentType == 'all'
+	          or contentType == 'post'}">
 
 
       <article class="card post-card post-list-card"
@@ -274,7 +277,7 @@
 
         </div>
 
-
+		
         <!-- =========================
              いいね・アクション
         ========================= -->
@@ -337,7 +340,28 @@
 
 
   </div>
-  
+  <!-- ポートフォリオ一覧 -->
+  		<div class="timeline"
+  		     th:if="${contentType == null
+  		          or contentType == 'all'
+  		          or contentType == 'portfolio'}">
+
+  		    <article class="card post-card post-list-card"
+  		             th:each="portfolio : ${portfolios}">
+
+  		        <a th:href="@{/portfolio-detail(portfolioId=${portfolio.portfolioId})}">
+  		            <img th:src="${portfolio.imagePath}"
+  		                 alt="作品画像"
+  		                 style="max-width:300px;">
+  		        </a>
+
+  		        <p class="post-summary"
+  		           th:text="${portfolio.description}">
+  		            作品説明
+  		        </p>
+
+  		    </article>
+  		</div>
   <div id="loginModal" hidden>
     <form class="card form-card login-popup"
           th:action="@{/customer/login}"

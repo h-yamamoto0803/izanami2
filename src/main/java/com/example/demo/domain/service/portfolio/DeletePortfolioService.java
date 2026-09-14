@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class DeletePortfolioService {
 
+    private final PortfolioService portfolioService;
     private final PortfolioRepository portfolioRepository;
     private final ImageService imageService;
 
@@ -22,24 +23,15 @@ public class DeletePortfolioService {
             Integer userId) throws IOException {
 
         PortfolioEntity portfolio =
-                portfolioRepository
-                        .findByPortfolioIdAndUserUserId(
-                                portfolioId,
-                                userId
-                        )
-                        .orElseThrow(() ->
-                                new IllegalArgumentException(
-                                        "ポートフォリオが見つかりません"
-                                )
-                        );
+                portfolioService.findByIdAndUserId(
+                        portfolioId,
+                        userId
+                );
 
-        // DB削除後に画像削除するため、先に画像パスを保持
         String imagePath = portfolio.getImagePath();
 
-        // DB削除
         portfolioRepository.delete(portfolio);
 
-        // 画像削除
         imageService.deleteImage(imagePath);
 
         return "ポートフォリオを削除しました。";

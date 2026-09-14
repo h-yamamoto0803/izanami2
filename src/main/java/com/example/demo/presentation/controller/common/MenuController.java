@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.aop.aspect.PermissionCheck;
 import com.example.demo.domain.service.common.TagService;
+import com.example.demo.domain.service.portfolio.PortfolioService;
 import com.example.demo.domain.service.post.PostService;
 import com.example.demo.presentation.form.common.LoginUserForm;
 import com.example.demo.presentation.form.post.PostListForm;
@@ -27,43 +28,68 @@ public class MenuController {
 
     private final PostService postService;
     private final TagService tagService;
+    private final PortfolioService portfolioService;
+
     @PermissionCheck
-	@GetMapping({ INDEX_BLANK, INDEX_SLASH, MENU_HTML })
-	public String showMenu(
-			@RequestParam(required = false, name = "tag") String selectedTag,
-			Model model,
-			HttpSession session) {
+    @GetMapping({ INDEX_BLANK, INDEX_SLASH, MENU_HTML })
+    public String showMenu(
+            @RequestParam(required = false, name = "tag") String selectedTag,
+            @RequestParam(required = false, name = "contentType", defaultValue = "all")
+            String contentType,
+            Model model,
+            HttpSession session) {
 
-		// セッションからログインユーザー情報を取得
-		LoginUserForm loginUserForm = (LoginUserForm) session.getAttribute(LOGIN_USER);
+        LoginUserForm loginUserForm =
+                (LoginUserForm) session.getAttribute(LOGIN_USER);
 
-		Integer userId = null;
+        Integer userId = null;
 
-		// ログインユーザーが存在する場合はユーザーIDを取得
-		if (loginUserForm != null) {
-			userId = loginUserForm.getUserId();
-		}
+        if (loginUserForm != null) {
+            userId = loginUserForm.getUserId();
+        }
 
-		List<PostListForm> postList = postService.searchPostByUserType(userId, selectedTag);
+        List<PostListForm> postList =
+                postService.searchPostByUserType(userId, selectedTag);
 
-		// Serviceで投稿を取得
-		model.addAttribute(POSTS, postList);
+        model.addAttribute(POSTS, postList);
 
-		// タグ一覧を取得
-		if (userId != null && loginUserForm.isArtisan()) {
+        // ポートフォリオ一覧
+        model.addAttribute(
+                "portfolios",
+                portfolioService.findAll()
+        );
 
-			// 職人に紐づいているタグだけ取得
-			model.addAttribute(TAGS, tagService.getArtisanTagNames(userId));
-		} else {
-			// Guest / Customer は全タグ
-			model.addAttribute(TAGS,tagService.getAllTags());
-		}
-		model.addAttribute(SELECTED_TAGS, selectedTag);
+        // 選択状態保持
+        model.addAttribute(
+                "contentType",
+                contentType
+        );
 
-		LoginUserForm loginUserFormInput = new LoginUserForm();
-		model.addAttribute(LOGIN_FORM, loginUserFormInput);
+        if (userId != null && loginUserForm.isArtisan()) {
+            model.addAttribute(
+                    TAGS,
+                    tagService.getArtisanTagNames(userId)
+            );
+        } else {
+            model.addAttribute(
+                    TAGS,
+                    tagService.getAllTags()
+            );
+        }
 
-		// 共通メニュー画面へ
-		return MENU_HTML;
-	}
+        model.addAttribute(
+                SELECTED_TAGS,
+                selectedTag
+        );
+
+        LoginUserForm loginUserFormInput =
+                new LoginUserForm();
+
+        model.addAttribute(
+                LOGIN_FORM,
+                loginUserFormInput
+        );
+
+        return MENU_HTML;
+    }
 }

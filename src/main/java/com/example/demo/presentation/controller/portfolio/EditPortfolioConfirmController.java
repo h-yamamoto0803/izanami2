@@ -1,0 +1,80 @@
+package com.example.demo.presentation.controller.portfolio;
+
+import static com.example.demo.presentation.controller.pageproperty.SessionKeyword.*;
+import static com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword.*;
+
+import java.io.IOException;
+
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.example.demo.aop.aspect.PermissionCheck;
+import com.example.demo.domain.service.common.ImageService;
+import com.example.demo.domain.service.portfolio.EditPortfolioService;
+import com.example.demo.presentation.form.common.LoginUserForm;
+import com.example.demo.presentation.form.portfolio.PortfolioForm;
+
+import lombok.RequiredArgsConstructor;
+
+@Controller
+@RequiredArgsConstructor
+public class EditPortfolioConfirmController 
+{
+	private final ImageService imageService;
+    private final HttpSession httpSession;
+    private final EditPortfolioService editPortfolioService;
+
+    @PermissionCheck
+    @PostMapping(EDIT_PORTFOLIO_CONFIRM)
+    public String portfolioEditConfirm(
+            @Valid @ModelAttribute PortfolioForm form,
+            BindingResult bindingResult) throws IOException {
+
+        if (bindingResult.hasErrors()) {
+            return EDIT_PORTFOLIO_HTML;
+        }
+
+        MultipartFile image = form.getImage();
+
+        if (image != null && !image.isEmpty()) {
+            String tempImagePath =
+                    imageService.saveTempImage(image, "portfolio");
+
+            form.setTempImagePath(tempImagePath);
+        }
+        return EDIT_PORTFOLIO_CONFIRM_HTML;
+    }
+
+    @PermissionCheck
+    @PostMapping(DO_EDIT_PORTFOLIO)
+    public String portfolioUpdate(
+            @ModelAttribute PortfolioForm form,
+            RedirectAttributes redirectAttributes)
+            throws IOException {
+
+        LoginUserForm loginUser =
+                (LoginUserForm) httpSession.getAttribute(
+                        LOGIN_USER);
+
+        Integer userId = loginUser.getUserId();
+
+        editPortfolioService.editPortfolio(
+                form,
+                userId
+        );
+
+        redirectAttributes.addFlashAttribute(
+                "successMessage",
+                "ポートフォリオを更新しました。"
+        );
+
+        return REDIRECT_ACCOUNT;
+    }
+}
