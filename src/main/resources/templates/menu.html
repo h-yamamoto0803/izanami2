@@ -291,10 +291,15 @@
 		        th:text="'いいね:' + ${post.favoriteCount}">
 		    いいね:0
 		  </span>
+		  
+		  <!-- コメント件数 -->
+		  
 		  <a class="comment-count"
-		     th:href="@{/postDetail?postId={postId}#comments(postId=${post.postId})}">
+		     th:href="@{/postDetail?postId={postId}#comments(postId=${post.postId})}"
+		     th:text="${post.commentCount} + '件のコメント'">
 		      0件のコメント
 		  </a>
+		  
 		  <!-- Guest -->
 
 		  <button th:if="${session.loginUser == null}"

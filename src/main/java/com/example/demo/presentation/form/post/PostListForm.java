@@ -42,4 +42,12 @@ public class PostListForm {
 	 * 検討フラグ
 	 */
 	private boolean candidated;
+	
+	
+	// 二次開発追加
+	
+	/**
+	 * コメント件数
+	 */
+	private long commentCount;
 }
