@@ -699,3 +699,130 @@ color: black;
     justify-content: flex-end;
     gap: 8px;
 }
+/* =========================
+   タグ選択
+========================= */
+
+.tag-select {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
+
+.tag-select-button {
+    width: 100%;
+    padding: 10px 12px;
+
+    border: 1px solid #d5ccc3;
+    border-radius: 10px;
+
+    background: #fff;
+    color: var(--text);
+
+    text-align: left;
+    cursor: pointer;
+}
+
+.tag-select-button:hover {
+    border-color: var(--orange);
+}
+
+.tag-dropdown {
+    display: none;
+
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+
+    width: 100%;
+    max-height: 220px;
+
+    overflow-y: auto;
+
+    border: 1px solid var(--line);
+    border-radius: 10px;
+
+    background: #fff;
+    box-shadow: var(--shadow);
+
+    z-index: 20;
+}
+
+.tag-dropdown.open {
+    display: block;
+}
+
+.tag-option {
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+
+    margin: 0 !important;
+    padding: 9px 12px;
+
+    font-size: 13px;
+    font-weight: normal !important;
+
+    cursor: pointer;
+}
+
+.tag-option:hover {
+    background: #faf8f6;
+}
+
+/* 共通inputの width:100% を打ち消す */
+.form-group .tag-option input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+    padding: 0;
+
+    flex: 0 0 auto;
+
+    accent-color: var(--orange);
+}
+
+.tag-option span {
+    flex: 1;
+}
+
+/* 選択済みタグ */
+.selected-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+
+    margin-top: 10px;
+}
+
+.selected-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 5px 10px;
+
+    border: 1px solid var(--line);
+    border-radius: 999px;
+
+    background: #faf8f6;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.selected-tag button {
+    border: 0;
+    padding: 0;
+
+    background: transparent;
+    color: var(--muted);
+
+    font-size: 15px;
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+.selected-tag button:hover {
+    color: var(--text);
+}

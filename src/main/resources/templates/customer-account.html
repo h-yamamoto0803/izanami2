@@ -66,6 +66,11 @@
 										<div  th:if="${deleteMessage} != null">
 											<span style="color: red;" th:text="${deleteMessage}"></span>
 										</div>
+										<div th:if="${successMessage != null}">
+											    <span style="color: green;"
+											          th:text="${successMessage}">
+											    </span>
+											</div>
 			<div class="section-title">
 				<h2>自分の投稿</h2>
 			</div>
@@ -182,7 +187,13 @@
 				               th:text="${portfolio.description}">
 				                作品についての説明
 				            </p>
-
+							<div class="post-tags">
+							    <span class="tag"
+							          th:each="tag : ${portfolio.tags}"
+							          th:text="'#' + ${tag}">
+							        #タグ
+							    </span>
+							</div>
 				            <div class="post-actions portfolio-actions">
 
 				                <a class="btn btn-primary"

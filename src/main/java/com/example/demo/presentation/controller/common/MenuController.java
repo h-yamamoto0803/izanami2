@@ -34,7 +34,7 @@ public class MenuController {
     @GetMapping({ INDEX_BLANK, INDEX_SLASH, MENU_HTML })
     public String showMenu(
             @RequestParam(required = false, name = "tag") String selectedTag,
-            @RequestParam(required = false, name = "contentType", defaultValue = "all")
+            @RequestParam(required = false, defaultValue = "all")
             String contentType,
             Model model,
             HttpSession session) {
@@ -56,9 +56,11 @@ public class MenuController {
         // ポートフォリオ一覧
         model.addAttribute(
                 "portfolios",
-                portfolioService.findAll()
+                portfolioService.searchPortfolioByUserType(
+                        userId,
+                        selectedTag
+                )
         );
-
         // 選択状態保持
         model.addAttribute(
                 "contentType",

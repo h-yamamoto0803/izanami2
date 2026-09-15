@@ -33,7 +33,7 @@
 
 								<!-- 職人名 -->
 								<span class="post-user"
-								      th:text="${portfolio.user.userName}">
+								      th:text="${portfolio.userName}">
 								    職人の名前
 								</span>
 
@@ -42,11 +42,12 @@
 							</div>
 
 							<div class="post-date"
-							     th:text="${portfolio.createdAt}">
-							    2026/09/09 10:00
+							     th:text="${#temporals.format(portfolio.createdAt, 'yyyy/MM/dd HH:mm')}">
+							    2026/09/15 14:10
+							</div>
 							</div>
 
-						</div>
+						
 					</div>
 
 					<!-- 作品画像 -->
@@ -55,14 +56,21 @@
 						     alt="作品画像"
 						     style="max-width:600px; width:100%; height:auto;">
 					</div>
-
+						
 					<!-- 作品説明 -->
 					<div class="detail-body">
 					    <p th:text="${portfolio.description}">
 					        作品説明
 					    </p>
 					</div>
-
+					<!-- タグ -->
+					<div class="post-tags">
+					    <span th:each="tag : ${portfolio.tags}"
+					          class="tag"
+					          th:text="${tag}">
+					        タグ名
+					    </span>
+					</div>
 					<!-- 戻る -->
 					<div class="actions">
 						<a class="btn btn-secondary" th:href="@{/menu(contentType='portfolio')}">

@@ -7,25 +7,26 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.demo.domain.service.portfolio.PortfolioService;
-import com.example.demo.infra.entity.PortfolioEntity;
+import com.example.demo.domain.service.portfolio.SearchPortfolioDetailService;
+import com.example.demo.presentation.form.portfolio.PortfolioDetailForm;
 
 import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class PortfolioDetailController {
 
-    private final PortfolioService portfolioService;
+	private final SearchPortfolioDetailService searchPortfolioDetailService;
 
     @GetMapping(DETAIL_PORTFOLIO)
     public String portfolioDetail(
             @RequestParam Integer portfolioId,
             Model model) {
 
-        PortfolioEntity portfolio =
-                portfolioService.findById(portfolioId);
+    	PortfolioDetailForm portfolio =
+    	        searchPortfolioDetailService
+    	                .searchPortfolioDetail(portfolioId);
 
-        model.addAttribute("portfolio", portfolio);
+    	model.addAttribute("portfolio", portfolio);
 
         return PORTFOLIO_DETAIL_HTML;
     }

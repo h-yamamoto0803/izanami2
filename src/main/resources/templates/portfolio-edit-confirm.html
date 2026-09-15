@@ -47,32 +47,46 @@
                     </div>
 
                 </dl>
+				<!-- タグ -->
+				<div class="confirm-row">
+				    <dt>タグ</dt>
 
+				    <dd>
+				        <span th:each="tagName : ${tagNames}"
+				              class="tag"
+				              th:text="'#' + ${tagName}">
+				            #タグ
+				        </span>
+				    </dd>
+				</div>
                 <div class="actions">
 
                     <!-- 更新実行 -->
-                    <form th:action="@{/portfolio-update}"
-                          th:object="${portfolioForm}"
-                          method="post">
+					<form th:action="@{/portfolio-update}"
+					      th:object="${portfolioForm}"
+					      method="post">
 
-                        <!-- 編集対象 -->
-                        <input type="hidden"
-                               th:field="*{portfolioId}">
+					    <!-- 編集対象 -->
+					    <input type="hidden"
+					           th:field="*{portfolioId}">
 
-                        <!-- 説明 -->
-                        <input type="hidden"
-                               th:field="*{description}">
+					    <!-- 説明 -->
+					    <input type="hidden"
+					           th:field="*{description}">
 
-                        <!-- 確認画面で表示している画像パス -->
-                        <input type="hidden"
-                               th:field="*{tempImagePath}">
+					    <!-- 確認画面で表示している画像パス -->
+					    <input type="hidden"
+					           th:field="*{tempImagePath}">
 
-                        <button class="btn btn-primary"
-                                type="submit">
-                            変更を確定
-                        </button>
+					    <!-- タグ -->
+					    <input type="hidden"th:each="tagId : ${portfolioForm.tagIds}"name="tagIds"th:value="${tagId}">
 
-                    </form>
+					    <button class="btn btn-primary"
+					            type="submit">
+					        変更を確定
+					    </button>
+
+					</form>
 
                     <!-- 編集画面へ戻る -->
                     <a class="btn btn-secondary"

@@ -52,6 +52,44 @@
 								   th:errors="*{description}"
 								   style="color: red;">
 								</p>
+								
+								<div class="form-group">
+								    <label>タグ</label>
+
+								    <div class="tag-select">
+								        <button type="button"
+								                id="tagDropdownButton"
+								                class="tag-select-button">
+								            タグを選択 ▼
+								        </button>
+
+								        <div id="tagDropdown"
+								             class="tag-dropdown">
+
+								            <label th:each="tag : ${tags}"
+								                   class="tag-option">
+
+								                <input type="checkbox"
+								                       th:field="*{tagIds}"
+								                       th:value="${tag.tagId}"
+								                       th:data-name="${tag.tagName}"
+								                       class="tag-checkbox">
+
+								                <span th:text="${tag.tagName}"></span>
+								            </label>
+
+								        </div>
+								    </div>
+
+								    <div id="selectedTags"
+								         class="selected-tags">
+								    </div>
+
+								    <div th:if="${#fields.hasErrors('tagIds')}"
+								         th:errors="*{tagIds}"
+								         class="error-message">
+								    </div>
+								</div>
 			<div class="actions">
 				<button class="btn btn-primary" type="submit">
 					確認画面へ

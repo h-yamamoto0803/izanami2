@@ -359,7 +359,13 @@
   		           th:text="${portfolio.description}">
   		            作品説明
   		        </p>
-
+				<div class="post-tags">
+				    <span class="tag"
+				          th:each="tag : ${portfolio.tags}"
+				          th:text="'#' + ${tag}">
+				        #タグ
+				    </span>
+				</div>
   		    </article>
   		</div>
   <div id="loginModal" hidden>

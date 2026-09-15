@@ -72,7 +72,7 @@ public class UserAccountController {
 
 	        model.addAttribute(
 	                "portfolios",
-	                portfolios
+	                portfolioService.convertToPortfolioListForm(portfolios)
 	        );
 
 	        return TransitionTargetPageNameKeyword.ACCOUNT_HTML;
