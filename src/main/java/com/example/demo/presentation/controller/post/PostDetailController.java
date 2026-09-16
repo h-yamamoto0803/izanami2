@@ -50,10 +50,6 @@ public class PostDetailController {
             @RequestParam Integer postId,
             HttpSession session) {
     	
-    	System.out.println(
-                "errorMessage = "
-                        + model.getAttribute("errorMessage"));
-    	
 
         // ログインユーザーを取得
         LoginUserForm loginUser =

@@ -1,961 +1,950 @@
 <!doctype html>
+
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 
 <head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>投稿詳細 | Traemon</title>
 
-    <title>投稿詳細 | Traemon</title>
+	<link rel="stylesheet" th:href="@{/css/styles.css}">
 
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <script th:src="@{/js/common.js}" defer></script>
-
+	<script th:src="@{/js/common.js}" defer>
+	</script>
 </head>
 
 <body>
 
-    <div th:replace="~{fragments/header :: header}"></div>
+	<div th:replace="~{fragments/header :: header}">
+	</div>
 
-    <main>
+	<main>
 
-        <div class="container">
+		<div class="container">
 
-            <section>
+			<section>
 
-                <h1 class="page-title">
-                    投稿詳細
-                </h1>
+				<h1 class="page-title">
+					投稿詳細
+				</h1>
 
-                <p class="page-subtitle">
-                    投稿の内容を詳しく確認できます。
-                </p>
+				<p class="page-subtitle">
+					投稿の内容を詳しく確認できます。
+				</p>
 
 
-                <!-- ==================== -->
-                <!-- 投稿詳細 -->
-                <!-- ==================== -->
+				<!-- ==================== -->
+				<!-- 投稿詳細 -->
+				<!-- ==================== -->
 
-                <article class="card detail-card"
-                         th:object="${postDetailForm}">
+				<article class="card detail-card" th:object="${postDetailForm}">
 
-                    <!-- 投稿者情報 -->
 
-                    <div class="post-top">
+					<!-- 投稿者情報 -->
 
-                        <div>
+					<div class="post-top">
 
-                            <div class="post-author">
+						<div>
 
-                                <div th:switch="${postDetailForm.userType}">
+							<div class="post-author">
 
-                                    <span class="role-badge customer"
-                                          th:case="1">
+								<div th:switch="${postDetailForm.userType}">
 
-                                        <span class="role-dot"></span>
-                                        ユーザー
+									<span class="role-badge customer" th:case="1">
 
-                                    </span>
+										<span class="role-dot">
+										</span>
 
-                                    <span class="role-badge artisan"
-                                          th:case="2">
+										ユーザー
 
-                                        <span class="role-dot"></span>
-                                        職人
+									</span>
 
-                                    </span>
 
-                                </div>
+									<span class="role-badge artisan" th:case="2">
 
-                                <span class="post-user"
-                                      th:text="*{userName}">
-                                    ユーザー名
-                                </span>
+										<span class="role-dot">
+										</span>
 
-                            </div>
+										職人
 
-                            <div class="post-date"
-                                 th:text="*{#dates.format(postTime, 'yyyy/MM/dd HH:mm')}">
-                            </div>
+									</span>
 
-                        </div>
+								</div>
 
-                    </div>
 
+								<span class="post-user" th:text="*{userName}">
 
-                    <!-- 投稿タイトル -->
+									ユーザー名
 
-                    <h1 class="detail-title"
-                        th:text="*{postTitle}">
-                        投稿タイトル
-                    </h1>
+								</span>
 
+							</div>
 
-                    <!-- 投稿本文 -->
 
-                    <div class="detail-body"
-                         th:text="*{postText}">
-                        投稿本文
-                    </div>
+							<div class="post-date" th:text="*{#dates.format(postTime, 'yyyy/MM/dd HH:mm')}">
+							</div>
 
+						</div>
 
-                    <!-- タグ -->
+					</div>
 
-                    <div class="post-tags">
 
-                        <span class="tag"
-                              th:each="tag : *{tags}"
-                              th:text="|#${tag}|">
-                        </span>
+					<!-- 投稿タイトル -->
 
-                    </div>
+					<h1 class="detail-title" th:text="*{postTitle}">
 
+						投稿タイトル
 
-                    <!-- ==================== -->
-                    <!-- いいね・検討 -->
-                    <!-- ==================== -->
+					</h1>
 
-                    <div class="post-actions">
 
-                        <div>
+					<!-- 投稿本文 -->
 
-                            <span class="favorite-count"
-                                  th:text="|いいね: *{favoriteCount}|">
-                            </span>
+					<div class="detail-body" th:text="*{postText}">
 
-                            <span class="candidate-count"
-                                  th:text="|検討: *{candidateCount}|">
-                            </span>
+						投稿本文
 
-                        </div>
+					</div>
 
 
-                        <!-- ==================== -->
-                        <!-- 未ログイン：いいね -->
-                        <!-- ==================== -->
+					<!-- タグ -->
 
-                        <button th:if="${session.loginUser == null}"
-                                id="fav-button-logout"
-                                class="btn btn-outline btn-favorite"
-                                type="button"
-                                th:text="|♥ いいね *{favoriteCount}|">
-                        </button>
+					<div class="post-tags">
 
+						<span class="tag" th:each="tag : *{tags}" th:text="|#${tag}|">
+						</span>
 
-                        <!-- ==================== -->
-                        <!-- ユーザー：いいね -->
-                        <!-- ==================== -->
+					</div>
 
-                        <button th:if="${session.loginUser != null and session.loginUser.userType == 1}"
-                                id="favorite-button"
-                                class="btn btn-outline btn-favorite"
-                                th:classappend="*{favorited} ? 'is-favorited' : ''"
-                                th:data-post-id="*{postId}"
-                                type="button"
-                                th:text="|♥ いいね *{favoriteCount}|">
-                        </button>
 
+					<!-- ==================== -->
+					<!-- いいね・検討 -->
+					<!-- ==================== -->
 
-                        <!-- ==================== -->
-                        <!-- 職人：検討 -->
-                        <!-- ==================== -->
+					<div class="post-actions">
 
-                        <button th:if="${session.loginUser != null and session.loginUser.userType == 2}"
-                                id="candidate-button"
-                                class="btn btn-outline btn-candidate"
-                                th:classappend="*{candidated} ? 'is-candidated' : ''"
-                                th:data-post-id="*{postId}"
-                                type="button"
-                                th:text="|検討 *{candidateCount}|">
-                        </button>
+						<div>
 
-                    </div>
+							<span class="favorite-count" th:text="|いいね: *{favoriteCount}|">
+							</span>
 
+							<span class="candidate-count" th:text="|検討: *{candidateCount}|">
+							</span>
 
-                    <!-- ==================== -->
-                    <!-- コメント -->
-                    <!-- ==================== -->
+						</div>
 
-                    <section id="comments"
-                             class="comment-section">
 
-                        <h2 class="section-title">
-                            コメント
-                        </h2>
+						<!-- 未ログイン：いいね -->
 
+						<button th:if="${session.loginUser == null}" id="fav-button-logout"
+							class="btn btn-outline btn-favorite" type="button" th:text="|♥ いいね *{favoriteCount}|">
+						</button>
 
-                        <!-- 処理結果メッセージ -->
 
-                        <p th:if="${message != null}"
-                           class="success-message"
-                           th:text="${message}">
-                        </p>
+						<!-- ユーザー：いいね -->
 
+						<button th:if="${session.loginUser != null and session.loginUser.userType == 1}"
+							id="favorite-button" class="btn btn-outline btn-favorite"
+							th:classappend="*{favorited} ? 'is-favorited' : ''" th:data-post-id="*{postId}"
+							type="button" th:text="|♥ いいね *{favoriteCount}|">
+						</button>
 
-                        <!-- エラーメッセージ -->
 
-                        <p th:if="${errorMessage != null}"
-                           class="error-message"
-                           th:text="${errorMessage}">
-                        </p>
+						<!-- 職人：検討 -->
 
+						<button th:if="${session.loginUser != null and session.loginUser.userType == 2}"
+							id="candidate-button" class="btn btn-outline btn-candidate"
+							th:classappend="*{candidated} ? 'is-candidated' : ''" th:data-post-id="*{postId}"
+							type="button" th:text="|検討 *{candidateCount}|">
+						</button>
 
-                        <!-- ==================== -->
-                        <!-- コメント一覧 -->
-                        <!-- ==================== -->
+					</div>
 
-                        <div class="comment-list">
 
-                            <div class="comment-card"
-                                 th:each="thread : ${threadList}"
-                                 th:data-thread-id="${thread.threadId}">
+					<!-- ==================== -->
+					<!-- コメント -->
+					<!-- ==================== -->
 
+					<section id="comments" class="comment-section">
 
-                                <!-- コメントヘッダー -->
+						<h2 class="section-title">
+							コメント
+						</h2>
 
-                                <div class="comment-header">
 
-                                    <span class="comment-author"
-                                          th:text="${thread.userName}">
-                                        ユーザー名
-                                    </span>
+						<!-- 処理結果メッセージ -->
 
-                                    <span class="comment-date"
-                                          th:text="${#dates.format(thread.createdAt, 'yyyy/MM/dd HH:mm')}">
-                                        2026/09/09 10:00
-                                    </span>
+						<p th:if="${message != null}" class="success-message" th:text="${message}">
+						</p>
 
-                                </div>
 
+						<!-- エラーメッセージ -->
 
-                                <!-- コメント本文 -->
+						<p th:if="${errorMessage != null}" class="error-message" th:text="${errorMessage}">
+						</p>
 
-                                <p class="comment-text"
-                                   th:text="${thread.comment}">
-                                    コメント本文
-                                </p>
 
+						<!-- ==================== -->
+						<!-- コメント一覧 -->
+						<!-- ==================== -->
 
-                                <!-- ==================== -->
-                                <!-- 自分のコメント -->
-                                <!-- ==================== -->
+						<div class="comment-list">
 
-                                <div class="comment-actions"
-                                     th:if="${thread.ownComment}">
+							<div class="comment-card" th:each="thread : ${threadList}"
+								th:data-thread-id="${thread.threadId}">
 
 
-                                    <!-- 編集 -->
+								<!-- コメントヘッダー -->
 
-                                    <button class="comment-edit-button"
-                                            type="button"
-                                            th:data-thread-id="${thread.threadId}"
-                                            th:data-post-id="${thread.postId}">
-                                        編集
-                                    </button>
+								<div class="comment-header">
 
+									<span class="comment-author" th:text="${thread.userName}">
 
-                                    <!-- 削除 -->
+										ユーザー名
 
-                                    <form th:action="@{/thread/delete}"
-                                          method="post"
-                                          class="comment-delete-form">
+									</span>
 
-                                        <input type="hidden"
-                                               name="threadId"
-                                               th:value="${thread.threadId}">
 
-                                        <input type="hidden"
-                                               name="postId"
-                                               th:value="${thread.postId}">
+									<span class="comment-date"
+										th:text="${#dates.format(thread.createdAt, 'yyyy/MM/dd HH:mm')}">
 
-                                        <button class="comment-delete-button"
-                                                type="submit"
-                                                onclick="return confirm('本当に削除しますか？');">
-                                            削除
-                                        </button>
+										2026/09/09 10:00
 
-                                    </form>
+									</span>
 
-                                </div>
+								</div>
 
-                            </div>
 
-                        </div>
+								<!-- ==================== -->
+								<!-- コメント本文 -->
+								<!-- ==================== -->
 
+								<p class="comment-text" th:text="${thread.comment}">
 
-                        <!-- ==================== -->
-                        <!-- コメント投稿 -->
-                        <!-- ==================== -->
+									コメント本文
 
-                        <div class="comment-form">
+								</p>
 
-                            <form th:action="@{/thread}"
-                                  method="post"
-                                  th:object="${threadForm}"
-                                  id="comment-form">
 
+								<!-- ==================== -->
+								<!-- 自分のコメント -->
+								<!-- ==================== -->
 
-                                <!-- コメント本文 -->
+								<div class="comment-actions" th:if="${thread.ownComment}">
 
-                                <textarea class="comment-input"
-                                          th:field="*{comment}"
-                                          placeholder="コメントを入力してください"
-                                          rows="4"
-                                          maxlength="1000"></textarea>
 
+									<!-- 編集 -->
 
-                                <!-- 投稿ID -->
+									<button class="comment-edit-button" type="button"
+										th:data-thread-id="${thread.threadId}" th:data-post-id="${thread.postId}">
 
-                                <input type="hidden"
-                                       th:field="*{postId}">
+										編集
 
+									</button>
 
-                                <div class="actions">
 
-                                    <!-- ==================== -->
-                                    <!-- 未ログイン時 -->
-                                    <!-- ==================== -->
+									<!-- 削除 -->
 
-                                    <button th:if="${session.loginUser == null}"
-                                            id="comment-button-logout"
-                                            class="btn btn-primary"
-                                            type="button">
+									<form th:action="@{/thread/delete}" method="post" class="comment-delete-form">
 
-                                        コメントを投稿
+										<input type="hidden" name="threadId" th:value="${thread.threadId}">
 
-                                    </button>
+										<input type="hidden" name="postId" th:value="${thread.postId}">
 
 
-                                    <!-- ==================== -->
-                                    <!-- ログイン済み -->
-                                    <!-- ==================== -->
+										<button class="comment-delete-button" type="submit"
+											onclick="return confirm('本当に削除しますか？');">
 
-                                    <button th:if="${session.loginUser != null}"
-                                            id="comment-button"
-                                            class="btn btn-primary"
-                                            type="submit">
+											削除
 
-                                        コメントを投稿
+										</button>
 
-                                    </button>
+									</form>
 
-                                </div>
+								</div>
 
-                            </form>
+							</div>
 
-                        </div>
+						</div>
 
-                    </section>
 
-                </article>
+						<!-- ==================== -->
+						<!-- コメント新規投稿 -->
+						<!-- ==================== -->
 
+						<div class="comment-form">
 
-                <!-- 戻る -->
+							<form th:action="@{/thread}" method="post" th:object="${threadForm}" id="comment-form">
 
-                <div class="actions">
 
-                    <a class="btn btn-secondary"
-                       th:href="@{/menu}">
-                        戻る
-                    </a>
+								<!-- コメント本文 -->
 
-                </div>
+								<textarea class="comment-input" th:field="*{comment}" rows="4">
+                            </textarea>
 
-            </section>
 
-        </div>
+								<!-- 新規投稿時のバリデーションエラー -->
 
+								<p th:if="${#fields.hasErrors('comment')}" class="error-message" th:errors="*{comment}">
+								</p>
 
-        <!-- ==================== -->
-        <!-- ログインモーダル -->
-        <!-- ==================== -->
 
-        <div id="loginModal"
-             hidden>
+								<!-- 投稿ID -->
 
-            <form class="card form-card login-popup"
-                  th:action="@{/customer/login}"
-                  th:object="${loginForm}"
-                  method="post">
+								<input type="hidden" th:field="*{postId}">
 
-                <p>
-                    ログインして好きな投稿にいいねしよう！
-                </p>
 
+								<div class="actions">
 
-                <div class="form-group">
 
-                    <label for="customerEmail">
-                        メールアドレス
-                    </label>
+									<!-- 未ログイン時 -->
 
-                    <input id="customerEmail"
-                           type="email"
-                           th:field="*{email}">
+									<button th:if="${session.loginUser == null}" id="comment-button-logout"
+										class="btn btn-primary" type="button">
 
-                    <p th:if="${#fields.hasErrors('email')}"
-                       th:errors="*{email}">
-                    </p>
+										コメントを投稿
 
-                </div>
+									</button>
 
 
-                <div class="form-group">
+									<!-- ログイン済み -->
 
-                    <label for="customerPassword">
-                        パスワード
-                    </label>
+									<button th:if="${session.loginUser != null}" id="comment-button"
+										class="btn btn-primary" type="submit">
 
-                    <input id="customerPassword"
-                           type="password"
-                           th:field="*{password}">
+										コメントを投稿
 
-                    <p th:if="${#fields.hasErrors('password')}"
-                       th:errors="*{password}">
-                    </p>
+									</button>
 
-                </div>
+								</div>
 
+							</form>
 
-                <div class="actions">
+						</div>
 
-                    <button class="btn btn-primary"
-                            type="submit">
-                        ログイン
-                    </button>
+					</section>
 
-                    <a class="btn btn-outline"
-                       th:href="@{/insertCustomerInput}">
-                        新規登録
-                    </a>
+				</article>
 
-                </div>
 
-            </form>
+				<!-- 戻る -->
 
-        </div>
+				<div class="actions">
 
-    </main>
+					<a class="btn btn-secondary" th:href="@{/menu}">
 
+						戻る
 
-    <script>
+					</a>
 
-        /* ==================================================
-         * いいね・ログインモーダル
-         * ================================================== */
+				</div>
 
-        const favoriteButtonLogout =
-            document.getElementById("fav-button-logout");
+			</section>
 
-        const commentButtonLogout =
-            document.getElementById("comment-button-logout");
+		</div>
 
-        const loginModal =
-            document.getElementById("loginModal");
 
+		<!-- ==================== -->
+		<!-- ログインモーダル -->
+		<!-- ==================== -->
 
-        /* ==================================================
-         * ログインモーダル表示
-         * ================================================== */
+		<div id="loginModal" hidden>
 
-        if (loginModal != null) {
+			<form class="card form-card login-popup" th:action="@{/customer/login}" th:object="${loginForm}"
+				method="post">
 
-            loginModal.addEventListener("click", (e) => {
 
-                if (e.target === loginModal) {
+				<p>
+					ログインして好きな投稿にいいねしよう！
+				</p>
 
-                    loginModal.hidden = true;
 
-                }
+				<div class="form-group">
 
-            });
+					<label for="customerEmail">
+						メールアドレス
+					</label>
 
-        }
+					<input id="customerEmail" type="email" th:field="*{email}">
 
+					<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+					</p>
 
-        /* ==================================================
-         * 未ログイン：いいね
-         * ================================================== */
+				</div>
 
-        if (favoriteButtonLogout != null) {
 
-            favoriteButtonLogout.addEventListener(
-                "click",
-                () => {
+				<div class="form-group">
 
-                    loginModal.hidden = false;
+					<label for="customerPassword">
+						パスワード
+					</label>
 
-                }
-            );
+					<input id="customerPassword" type="password" th:field="*{password}">
 
-        }
+					<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
+					</p>
 
+				</div>
 
-        /* ==================================================
-         * 未ログイン：コメント投稿
-         * ================================================== */
 
-        if (commentButtonLogout != null) {
+				<div class="actions">
 
-            commentButtonLogout.addEventListener(
-                "click",
-                () => {
+					<button class="btn btn-primary" type="submit">
 
-                    loginModal.hidden = false;
+						ログイン
 
-                }
-            );
+					</button>
 
-        }
 
+					<a class="btn btn-outline" th:href="@{/insertCustomerInput}">
 
-        /* ==================================================
-         * いいね
-         * ================================================== */
+						新規登録
 
-        const favoriteButton =
-            document.getElementById("favorite-button");
+					</a>
 
+				</div>
 
-        if (favoriteButton != null) {
+			</form>
 
-            favoriteButton.addEventListener(
-                "click",
-                async () => {
+		</div>
 
-                    const formData =
-                        new FormData();
+	</main>
 
-                    formData.append(
-                        "postId",
-                        favoriteButton.dataset.postId
-                    );
 
+	<script>
 
-                    const response =
-                        await fetch(
-                            "/favorite",
-                            {
-                                method: "POST",
-                                body: formData
-                            }
-                        );
+		/* ==================================================
+		 * いいね・ログインモーダル
+		 * ================================================== */
 
+		const favoriteButtonLogout =
+			document.getElementById(
+				"fav-button-logout"
+			);
 
-                    const result =
-                        await response.json();
+		const commentButtonLogout =
+			document.getElementById(
+				"comment-button-logout"
+			);
 
+		const loginModal =
+			document.getElementById(
+				"loginModal"
+			);
 
-                    if (result.favorited) {
 
-                        favoriteButton.classList.add(
-                            "is-favorited"
-                        );
+		/* ==================================================
+		 * ログインモーダル表示
+		 * ================================================== */
 
-                    } else {
+		if (loginModal != null) {
 
-                        favoriteButton.classList.remove(
-                            "is-favorited"
-                        );
+			loginModal.addEventListener(
+				"click",
+				(e) => {
 
-                    }
+					if (e.target === loginModal) {
 
+						loginModal.hidden = true;
 
-                    document.querySelector(
-                        ".favorite-count"
-                    ).textContent =
-                        `いいね: ${result.favoriteCount}`;
+					}
 
+				}
+			);
 
-                    favoriteButton.textContent =
-                        `♥ いいね ${result.favoriteCount}`;
+		}
 
-                }
-            );
 
-        }
+		/* ==================================================
+		 * 未ログイン：いいね
+		 * ================================================== */
 
+		if (favoriteButtonLogout != null) {
 
-        /* ==================================================
-         * 検討
-         * ================================================== */
+			favoriteButtonLogout.addEventListener(
+				"click",
+				() => {
 
-        const candidateButton =
-            document.getElementById("candidate-button");
+					loginModal.hidden = false;
 
+				}
+			);
 
-        if (candidateButton != null) {
+		}
 
-            candidateButton.addEventListener(
-                "click",
-                async () => {
 
-                    const formData =
-                        new FormData();
+		/* ==================================================
+		 * 未ログイン：コメント投稿
+		 * ================================================== */
 
-                    formData.append(
-                        "postId",
-                        candidateButton.dataset.postId
-                    );
+		if (commentButtonLogout != null) {
 
+			commentButtonLogout.addEventListener(
+				"click",
+				() => {
 
-                    const response =
-                        await fetch(
-                            "/candidate",
-                            {
-                                method: "POST",
-                                body: formData
-                            }
-                        );
+					loginModal.hidden = false;
 
+				}
+			);
 
-                    const result =
-                        await response.json();
+		}
 
 
-                    if (result.candidated) {
+		/* ==================================================
+		 * いいね
+		 * ================================================== */
 
-                        candidateButton.classList.add(
-                            "is-candidated"
-                        );
+		const favoriteButton =
+			document.getElementById(
+				"favorite-button"
+			);
 
-                    } else {
 
-                        candidateButton.classList.remove(
-                            "is-candidated"
-                        );
+		if (favoriteButton != null) {
 
-                    }
+			favoriteButton.addEventListener(
+				"click",
+				async () => {
 
+					const formData =
+						new FormData();
 
-                    document.querySelector(
-                        ".candidate-count"
-                    ).textContent =
-                        `検討: ${result.candidateCount}`;
+					formData.append(
+						"postId",
+						favoriteButton.dataset.postId
+					);
 
 
-                    candidateButton.textContent =
-                        `検討 ${result.candidateCount}`;
+					const response =
+						await fetch(
+							"/favorite",
+							{
+								method: "POST",
+								body: formData
+							}
+						);
 
-                }
-            );
 
-        }
+					const result =
+						await response.json();
 
 
-        /* ==================================================
-         * コメント編集
-         * ================================================== */
+					if (result.favorited) {
 
-        const editButtons =
-            document.querySelectorAll(
-                ".comment-edit-button"
-            );
+						favoriteButton.classList.add(
+							"is-favorited"
+						);
 
+					} else {
 
-        editButtons.forEach((editButton) => {
+						favoriteButton.classList.remove(
+							"is-favorited"
+						);
 
-            editButton.addEventListener(
-                "click",
-                () => {
+					}
 
 
-                    /* ==========================
-                     * コメントカード
-                     * ========================== */
+					document.querySelector(
+						".favorite-count"
+					).textContent =
+						`いいね: ${result.favoriteCount}`;
 
-                    const commentCard =
-                        editButton.closest(
-                            ".comment-card"
-                        );
 
+					favoriteButton.textContent =
+						`♥ いいね ${result.favoriteCount}`;
 
-                    /* ==========================
-                     * コメントID
-                     * ========================== */
+				}
+			);
 
-                    const threadId =
-                        editButton.dataset.threadId;
+		}
 
 
-                    /* ==========================
-                     * 投稿ID
-                     * ========================== */
+		/* ==================================================
+		 * 検討
+		 * ================================================== */
 
-                    const postId =
-                        editButton.dataset.postId;
+		const candidateButton =
+			document.getElementById(
+				"candidate-button"
+			);
 
 
-                    /* ==========================
-                     * コメント本文
-                     * ========================== */
+		if (candidateButton != null) {
 
-                    const commentText =
-                        commentCard.querySelector(
-                            ".comment-text"
-                        );
+			candidateButton.addEventListener(
+				"click",
+				async () => {
 
+					const formData =
+						new FormData();
 
-                    const originalText =
-                        commentText.textContent.trim();
+					formData.append(
+						"postId",
+						candidateButton.dataset.postId
+					);
 
 
-                    /* ==========================
-                     * 入力欄
-                     * ========================== */
+					const response =
+						await fetch(
+							"/candidate",
+							{
+								method: "POST",
+								body: formData
+							}
+						);
 
-                    const input =
-                        document.createElement(
-                            "textarea"
-                        );
 
-                    input.className =
-                        "comment-input";
+					const result =
+						await response.json();
 
-                    input.rows = 4;
 
-                    input.maxLength = 1000;
+					if (result.candidated) {
 
-                    input.value =
-                        originalText;
+						candidateButton.classList.add(
+							"is-candidated"
+						);
 
+					} else {
 
-                    /* ==========================
-                     * 保存ボタン
-                     * ========================== */
+						candidateButton.classList.remove(
+							"is-candidated"
+						);
 
-                    const saveButton =
-                        document.createElement(
-                            "button"
-                        );
+					}
 
-                    saveButton.className =
-                        "comment-edit-button";
 
-                    saveButton.type =
-                        "button";
+					document.querySelector(
+						".candidate-count"
+					).textContent =
+						`検討: ${result.candidateCount}`;
 
-                    saveButton.textContent =
-                        "保存";
 
+					candidateButton.textContent =
+						`検討 ${result.candidateCount}`;
 
-                    /* ==========================
-                     * キャンセルボタン
-                     * ========================== */
+				}
+			);
 
-                    const cancelButton =
-                        document.createElement(
-                            "button"
-                        );
+		}
 
-                    cancelButton.className =
-                        "comment-delete-button";
 
-                    cancelButton.type =
-                        "button";
+		/* ==================================================
+		 * コメント編集
+		 *
+		 * JavaScriptではコメント入力チェックを行わない。
+		 *
+		 * 編集時も通常のフォームPOSTで
+		 * /thread/updateへ送信する。
+		 *
+		 * バリデーションはThreadFormの
+		 *
+		 * @NotBlank
+		 * @Size(max = 1000)
+		 *
+		 * をSpring Validationで行う。
+		 * ================================================== */
 
-                    cancelButton.textContent =
-                        "キャンセル";
+		const editButtons =
+			document.querySelectorAll(
+				".comment-edit-button"
+			);
 
 
-                    /* ==========================
-                     * 本文を入力欄へ変更
-                     * ========================== */
+		editButtons.forEach(
+			(editButton) => {
 
-                    commentText.replaceWith(
-                        input
-                    );
+				editButton.addEventListener(
+					"click",
+					() => {
 
 
-                    /* ==========================
-                     * 編集ボタンを非表示
-                     * ========================== */
+						/* ==========================
+						 * コメントカード
+						 * ========================== */
 
-                    editButton.style.display =
-                        "none";
+						const commentCard =
+							editButton.closest(
+								".comment-card"
+							);
 
 
-                    /* ==========================
-                     * 削除ボタンを非表示
-                     * ========================== */
+						/* ==========================
+						 * コメントID
+						 * ========================== */
 
-                    const deleteForm =
-                        commentCard.querySelector(
-                            ".comment-delete-form"
-                        );
+						const threadId =
+							editButton.dataset.threadId;
 
 
-                    if (deleteForm != null) {
+						/* ==========================
+						 * 投稿ID
+						 * ========================== */
 
-                        deleteForm.style.display =
-                            "none";
+						const postId =
+							editButton.dataset.postId;
 
-                    }
 
+						/* ==========================
+						 * コメント本文
+						 * ========================== */
 
-                    /* ==========================
-                     * ボタン追加
-                     * ========================== */
+						const commentText =
+							commentCard.querySelector(
+								".comment-text"
+							);
 
-                    const actions =
-                        commentCard.querySelector(
-                            ".comment-actions"
-                        );
 
+						const originalText =
+							commentText.textContent.trim();
 
-                    actions.appendChild(
-                        saveButton
-                    );
 
-                    actions.appendChild(
-                        cancelButton
-                    );
+						/* ==========================
+						 * 編集フォーム作成
+						 * ========================== */
 
+						const form =
+							document.createElement(
+								"form"
+							);
 
-                    /* ==========================
-                     * 保存
-                     * ========================== */
 
-                    saveButton.addEventListener(
-                        "click",
-                        async () => {
+						form.method =
+							"post";
 
 
-                            /* 空文字チェック */
+						form.action =
+							"/thread/update";
 
-                            if (
-                                input.value.trim().length === 0
-                            ) {
 
-                                alert(
-                                    "コメントを入力してください。"
-                                );
+						/* ==========================
+						 * コメントID
+						 * ========================== */
 
-                                return;
+						const threadIdInput =
+							document.createElement(
+								"input"
+							);
 
-                            }
 
+						threadIdInput.type =
+							"hidden";
 
-                            /* 1000文字チェック */
 
-                            if (
-                                input.value.length > 1000
-                            ) {
+						threadIdInput.name =
+							"threadId";
 
-                                alert(
-                                    "コメントは1000文字以内で入力してください。"
-                                );
 
-                                return;
+						threadIdInput.value =
+							threadId;
 
-                            }
 
+						/* ==========================
+						 * 投稿ID
+						 * ========================== */
 
-                            /* FormData */
+						const postIdInput =
+							document.createElement(
+								"input"
+							);
 
-                            const formData =
-                                new FormData();
 
+						postIdInput.type =
+							"hidden";
 
-                            formData.append(
-                                "threadId",
-                                threadId
-                            );
 
+						postIdInput.name =
+							"postId";
 
-                            formData.append(
-                                "postId",
-                                postId
-                            );
 
+						postIdInput.value =
+							postId;
 
-                            formData.append(
-                                "comment",
-                                input.value
-                            );
 
+						/* ==========================
+						 * コメント本文
+						 * ========================== */
 
-                            /* ==========================
-                             * 更新リクエスト
-                             * ========================== */
+						const input =
+							document.createElement(
+								"textarea"
+							);
 
-                            const response =
-                                await fetch(
-                                    "/thread/update",
-                                    {
-                                        method: "POST",
-                                        body: formData
-                                    }
-                                );
 
+						input.className =
+							"comment-input";
 
-                            /* ==========================
-                             * 更新成功
-                             * ========================== */
 
-                            if (response.ok) {
+						input.rows =
+							4;
 
-                                location.reload();
 
-                            } else {
+						input.name =
+							"comment";
 
-                                alert(
-                                    "コメントの更新に失敗しました。"
-                                );
 
-                            }
+						input.value =
+							originalText;
 
-                        }
-                    );
 
+						/* ==========================
+						 * 保存ボタン
+						 * ========================== */
 
-                    /* ==========================
-                     * キャンセル
-                     * ========================== */
+						const saveButton =
+							document.createElement(
+								"button"
+							);
 
-                    cancelButton.addEventListener(
-                        "click",
-                        () => {
 
+						saveButton.className =
+							"comment-edit-button";
 
-                            /* 元の本文へ戻す */
 
-                            input.replaceWith(
-                                commentText
-                            );
+						saveButton.type =
+							"submit";
 
 
-                            /* 保存・キャンセルを削除 */
+						saveButton.textContent =
+							"保存";
 
-                            saveButton.remove();
 
-                            cancelButton.remove();
+						/* ==========================
+						 * キャンセルボタン
+						 * ========================== */
 
+						const cancelButton =
+							document.createElement(
+								"button"
+							);
 
-                            /* 編集ボタンを表示 */
 
-                            editButton.style.display =
-                                "";
+						cancelButton.className =
+							"comment-delete-button";
 
 
-                            /* 削除フォームを表示 */
+						cancelButton.type =
+							"button";
 
-                            if (deleteForm != null) {
 
-                                deleteForm.style.display =
-                                    "";
+						cancelButton.textContent =
+							"キャンセル";
 
-                            }
 
-                        }
-                    );
+						/* ==========================
+						 * 本文をフォームへ変更
+						 * ========================== */
 
-                }
-            );
+						commentText.replaceWith(
+							form
+						);
 
-        });
 
-    </script>
+						form.appendChild(
+							threadIdInput
+						);
+
+
+						form.appendChild(
+							postIdInput
+						);
+
+
+						form.appendChild(
+							input
+						);
+
+
+						/* ==========================
+						 * ボタン
+						 * ========================== */
+
+						const actions =
+							document.createElement(
+								"div"
+							);
+
+
+						actions.className =
+							"comment-actions";
+
+
+						actions.appendChild(
+							saveButton
+						);
+
+
+						actions.appendChild(
+							cancelButton
+						);
+
+
+						form.appendChild(
+							actions
+						);
+
+
+						/* ==========================
+						 * 編集ボタン非表示
+						 * ========================== */
+
+						editButton.style.display =
+							"none";
+
+
+						/* ==========================
+						 * 削除フォーム非表示
+						 * ========================== */
+
+						const deleteForm =
+							commentCard.querySelector(
+								".comment-delete-form"
+							);
+
+
+						if (deleteForm != null) {
+
+							deleteForm.style.display =
+								"none";
+
+						}
+
+
+						/* ==========================
+						 * キャンセル
+						 * ========================== */
+
+						cancelButton.addEventListener(
+							"click",
+							() => {
+
+								form.replaceWith(
+									commentText
+								);
+
+
+								editButton.style.display =
+									"";
+
+
+								if (deleteForm != null) {
+
+									deleteForm.style.display =
+										"";
+
+								}
+
+							}
+						);
+
+					}
+				);
+
+			}
+		);
+
+	</script>
 
 </body>
 
