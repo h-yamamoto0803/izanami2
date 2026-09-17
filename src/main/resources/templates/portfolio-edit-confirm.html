@@ -39,24 +39,12 @@
 
                     <!-- 作品説明 -->
                     <div class="confirm-row">
-                        <dt>作品説明</dt>
-
-                        <dd th:text="${portfolioForm.description}">
-                            作品説明
-                        </dd>
+                        <dt>作品説明</dt><dd th:text="${portfolioForm.description}">作品説明</dd>
                     </div>
 
                 </dl>
 				<!-- タグ -->
-				<div class="confirm-row">
-				    <dt>タグ</dt>
-
-				    <dd>
-				        <span th:each="tagName : ${tagNames}"
-				              class="tag"
-				              th:text="'#' + ${tagName}">
-				            #タグ
-				        </span>
+				<div class="confirm-row"><dt>タグ</dt><dd><span th:each="tagName : ${tagNames}" class="tag" th:text="'#' + ${tagName}">#タグ</span>
 				    </dd>
 				</div>
                 <div class="actions">

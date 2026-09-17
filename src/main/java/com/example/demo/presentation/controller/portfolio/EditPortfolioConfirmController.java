@@ -56,16 +56,27 @@ public class EditPortfolioConfirmController {
 
         if (image != null && !image.isEmpty()) {
 
-            String tempImagePath =
-                    imageService.saveTempImage(
-                            image,
-                            "portfolio"
-                    );
+            try {
+                String tempImagePath =
+                        imageService.saveTempImage(
+                                image,
+                                "portfolio"
+                        );
 
-            form.setTempImagePath(tempImagePath);
+                form.setTempImagePath(tempImagePath);
+
+            } catch (IllegalArgumentException e) {
+
+                bindingResult.rejectValue(
+                        "image",
+                        "image.error",
+                        e.getMessage()
+                );
+
+                return EDIT_PORTFOLIO_HTML;
+            }
         }
 
-        // 確認画面表示用のタグ名
         model.addAttribute(
                 "tagNames",
                 tagService.getTagNamesByIds(
@@ -75,7 +86,6 @@ public class EditPortfolioConfirmController {
 
         return EDIT_PORTFOLIO_CONFIRM_HTML;
     }
-
     @PermissionCheck
     @PostMapping(DO_EDIT_PORTFOLIO)
     public String portfolioUpdate(
