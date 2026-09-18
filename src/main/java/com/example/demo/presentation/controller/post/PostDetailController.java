@@ -50,7 +50,7 @@ public class PostDetailController {
             @RequestParam Integer postId,
             HttpSession session) {
     	
-    
+
 
         // ログインユーザーを取得
         LoginUserForm loginUser =

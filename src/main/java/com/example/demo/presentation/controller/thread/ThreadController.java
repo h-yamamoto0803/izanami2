@@ -1,17 +1,27 @@
 package com.example.demo.presentation.controller.thread;
 
+import static com.example.demo.presentation.controller.pageproperty.PageReturnAttributeKeyword.*;
 import static com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword.*;
+
+import java.util.List;
 
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.demo.domain.service.post.SearchPostDetailService;
 import com.example.demo.domain.service.thread.ThreadService;
+import com.example.demo.infra.entity.PostEntity;
+import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.form.common.LoginUserForm;
+import com.example.demo.presentation.form.post.PostDetailForm;
 import com.example.demo.presentation.form.thread.ThreadForm;
 
 import lombok.RequiredArgsConstructor;
@@ -23,126 +33,214 @@ public class ThreadController {
     /** コメント処理を行うService */
     private final ThreadService threadService;
 
+    /** 投稿詳細取得Service */
+    private final SearchPostDetailService searchPostDetailService;
+
     /**
      * コメント投稿処理
      *
-     * @param postId 投稿対象の投稿ID
-     * @param comment コメント本文
+     * 新規コメント投稿時はThreadFormの
+     * @NotBlank、@Sizeによるバリデーションを行う。
+     *
+     * @param form コメント投稿フォーム
+     * @param bindingResult バリデーション結果
+     * @param model Model
      * @param session ログインユーザー情報取得用
-     * @param redirectAttributes リダイレクト先へのメッセージ受け渡し用
      * @return 投稿詳細画面
      */
     @PostMapping("/thread")
     public String insertThread(
-            @RequestParam Integer postId,
-            @RequestParam String comment,
-            HttpSession session,
-            RedirectAttributes redirectAttributes) {
+            @Validated
+            @ModelAttribute("threadForm")
+            ThreadForm form,
+            BindingResult bindingResult,
+            Model model,
+            HttpSession session) {
 
-        // ログインユーザー情報を取得
+        // ログインユーザーを取得
         LoginUserForm loginUser =
                 (LoginUserForm) session.getAttribute(
                         SessionKeyword.LOGIN_USER);
 
-        // コメント未入力チェック
-        if (comment == null || comment.trim().isEmpty()) {
+        /*
+         * ログインしていない場合
+         */
+        if (loginUser == null) {
 
-            redirectAttributes.addFlashAttribute(
+            model.addAttribute(
                     "errorMessage",
-                    "コメントを入力してください。");
+                    "コメントを投稿するにはログインしてください。");
 
-            return "redirect:" + POST_DETAIL
-                    + "?postId=" + postId;
+            return POST_DETAIL_HTML;
         }
 
-        // コメント文字数チェック
-        if (comment.length() > 1000) {
+        /*
+         * 新規コメント投稿のバリデーション
+         *
+         * ThreadFormの
+         * @NotBlank
+         * @Size(max = 1000)
+         *
+         * をSpring Validationでチェックする。
+         */
+        if (bindingResult.hasErrors()) {
 
-            redirectAttributes.addFlashAttribute(
-                    "errorMessage",
-                    "コメントは1000文字以内で入力してください。");
+            // 投稿詳細を取得
+            PostEntity postEntity =
+                    searchPostDetailService.getPostDetail(
+                            form.getPostId());
 
-            return "redirect:" + POST_DETAIL
-                    + "?postId=" + postId;
+            // 投稿詳細Formへ変換
+            PostDetailForm postDetailForm =
+                    searchPostDetailService.convertFrom(
+                            postEntity);
+
+            // ログインユーザーEntityへ変換
+            UserEntity userEntity =
+                    loginUser.convertToUserEntity(
+                            loginUser);
+
+            // いいね・検討情報を設定
+            postDetailForm =
+                    searchPostDetailService.alreadyFlag(
+                            postDetailForm,
+                            userEntity,
+                            postEntity);
+
+            // 投稿詳細情報をModelへ設定
+            model.addAttribute(
+                    POST_DETAIL_FORM,
+                    postDetailForm);
+
+            // コメント一覧を取得
+            List<ThreadForm> threadList =
+                    threadService.findByPostId(
+                            form.getPostId(),
+                            loginUser.getUserId());
+
+            // コメント一覧をModelへ設定
+            model.addAttribute(
+                    "threadList",
+                    threadList);
+
+            // ログインフォームをModelへ設定
+            LoginUserForm loginUserForm =
+                    new LoginUserForm();
+
+            model.addAttribute(
+                    LOGIN_FORM,
+                    loginUserForm);
+
+            /*
+             * 新規投稿の場合のみ、
+             * バリデーションエラーとなった
+             * ThreadFormをそのままModelへ戻す。
+             *
+             * これにより、新規コメント欄には
+             * 入力内容とエラーメッセージが表示される。
+             */
+            model.addAttribute(
+                    "threadForm",
+                    form);
+
+            return POST_DETAIL_HTML;
         }
 
         // ログインユーザーIDを取得
-        Integer userId = loginUser.getUserId();
-
-        // コメント投稿フォームを作成
-        ThreadForm form = new ThreadForm();
-
-        // 投稿ID
-        form.setPostId(postId);
-
-        // コメント本文
-        form.setComment(comment);
+        Integer userId =
+                loginUser.getUserId();
 
         // コメント登録
-        threadService.insertThread(form, userId);
+        threadService.insertThread(
+                form,
+                userId);
 
-        // 投稿詳細画面へ戻る
-        return "redirect:" + POST_DETAIL
-                + "?postId=" + postId;
+        // 登録成功時は投稿詳細へリダイレクト
+        return "redirect:"
+                + POST_DETAIL
+                + "?postId="
+                + form.getPostId();
     }
 
     /**
      * コメント編集処理
      *
-     * @param threadId コメントID
-     * @param comment 編集後のコメント
-     * @param postId 投稿ID
+     * 編集時もThreadFormの
+     * @NotBlank、@Sizeによるバリデーションを行う。
+     *
+     * バリデーションエラーの場合は、
+     * 新規コメント欄へエラー内容を渡さず、
+     * 投稿詳細画面へ戻るだけとする。
+     *
+     * @param form コメント編集フォーム
+     * @param bindingResult バリデーション結果
      * @param session ログインユーザー情報取得用
-     * @param redirectAttributes リダイレクト先へのメッセージ受け渡し用
-     * @return 投稿詳細画面へリダイレクト
+     * @return 投稿詳細画面
      */
     @PostMapping("/thread/update")
     public String updateThread(
-            @RequestParam Integer threadId,
-            @RequestParam String comment,
-            @RequestParam Integer postId,
-            HttpSession session,
-            RedirectAttributes redirectAttributes) {
+            @Validated
+            @ModelAttribute("threadForm")
+            ThreadForm form,
+            BindingResult bindingResult,
+            HttpSession session) {
 
-        // ログインユーザー情報を取得
+        // ログインユーザーを取得
         LoginUserForm loginUser =
                 (LoginUserForm) session.getAttribute(
                         SessionKeyword.LOGIN_USER);
 
-        // コメント未入力チェック
-        if (comment == null || comment.trim().isEmpty()) {
+        /*
+         * 未ログインの場合
+         *
+         * 編集処理を行わず投稿詳細へ戻る。
+         */
+        if (loginUser == null) {
 
-            redirectAttributes.addFlashAttribute(
-                    "errorMessage",
-                    "コメントを入力してください。");
-
-            return "redirect:" + POST_DETAIL
-                    + "?postId=" + postId;
+            return "redirect:"
+                    + POST_DETAIL
+                    + "?postId="
+                    + form.getPostId();
         }
 
-        // コメント文字数チェック
-        if (comment.length() > 1000) {
+        /*
+         * 編集時のバリデーション
+         *
+         * ThreadFormの
+         * @NotBlank
+         * @Size(max = 1000)
+         *
+         * を使用する。
+         *
+         * エラーの場合は、
+         * 新規コメント用のModelへ
+         * ThreadFormを設定しない。
+         *
+         * そのため、新規コメント欄へ
+         * 編集時のエラー内容は表示されない。
+         */
+        if (bindingResult.hasErrors()) {
 
-            redirectAttributes.addFlashAttribute(
-                    "errorMessage",
-                    "コメントは1000文字以内で入力してください。");
-
-            return "redirect:" + POST_DETAIL
-                    + "?postId=" + postId;
+            return "redirect:"
+                    + POST_DETAIL
+                    + "?postId="
+                    + form.getPostId();
         }
 
         // ログインユーザーIDを取得
-        Integer userId = loginUser.getUserId();
+        Integer userId =
+                loginUser.getUserId();
 
         // コメント更新
         threadService.updateThread(
-                threadId,
-                comment,
+                form,
                 userId);
 
-        // 投稿詳細画面へ戻る
-        return "redirect:" + POST_DETAIL
-                + "?postId=" + postId;
+        // 更新成功時は投稿詳細画面へ戻る
+        return "redirect:"
+                + POST_DETAIL
+                + "?postId="
+                + form.getPostId();
     }
 
     /**
@@ -159,13 +257,14 @@ public class ThreadController {
             @RequestParam Integer postId,
             HttpSession session) {
 
-        // ログインユーザー情報を取得
+        // ログインユーザーを取得
         LoginUserForm loginUser =
                 (LoginUserForm) session.getAttribute(
                         SessionKeyword.LOGIN_USER);
 
         // ログインユーザーIDを取得
-        Integer userId = loginUser.getUserId();
+        Integer userId =
+                loginUser.getUserId();
 
         // コメントを削除
         threadService.deleteThread(
@@ -173,8 +272,10 @@ public class ThreadController {
                 userId);
 
         // 投稿詳細画面へ戻る
-        return "redirect:" + POST_DETAIL
-                + "?postId=" + postId;
+        return "redirect:"
+                + POST_DETAIL
+                + "?postId="
+                + postId;
     }
 }
 
