@@ -49,8 +49,6 @@ public class PostDetailController {
             Model model,
             @RequestParam Integer postId,
             HttpSession session) {
-    	
-
 
         // ログインユーザーを取得
         LoginUserForm loginUser =

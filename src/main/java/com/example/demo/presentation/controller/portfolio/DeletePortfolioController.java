@@ -1,5 +1,7 @@
 package com.example.demo.presentation.controller.portfolio;
 
+import static com.example.demo.presentation.controller.pageproperty.PageReturnAttributeKeyword.*;
+import static com.example.demo.presentation.controller.pageproperty.SessionKeyword.*;
 import static com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword.*;
 
 import java.io.IOException;
@@ -13,9 +15,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.aop.aspect.PermissionCheck;
 import com.example.demo.domain.service.portfolio.DeletePortfolioService;
-import com.example.demo.presentation.controller.pageproperty.PageReturnAttributeKeyword;
-import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
-import com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword;
 import com.example.demo.presentation.form.common.LoginUserForm;
 
 import lombok.RequiredArgsConstructor;
@@ -27,7 +26,7 @@ public class DeletePortfolioController {
     private final DeletePortfolioService deletePortfolioService;
 
     @PermissionCheck
-    @PostMapping(TransitionTargetPageNameKeyword.DELETE_PORTFOLIO)
+    @PostMapping(DELETE_PORTFOLIO)
     public String deletePortfolio(
             @RequestParam Integer portfolioId,
             RedirectAttributes redirect,
@@ -36,7 +35,7 @@ public class DeletePortfolioController {
         // セッションからログインユーザー情報を取得
         LoginUserForm loginUserForm =
                 (LoginUserForm) session.getAttribute(
-                        SessionKeyword.LOGIN_USER
+                        LOGIN_USER
                 );
 
         // ログインユーザーIDを取得
@@ -51,7 +50,7 @@ public class DeletePortfolioController {
 
         // 削除結果メッセージをリダイレクト先へ渡す
         redirect.addFlashAttribute(
-                PageReturnAttributeKeyword.DELETE_MESSAGE,
+                DELETE_MESSAGE,
                 deleteMessage
         );
 

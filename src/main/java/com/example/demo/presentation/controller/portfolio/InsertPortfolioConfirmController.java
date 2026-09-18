@@ -1,5 +1,6 @@
 package com.example.demo.presentation.controller.portfolio;
 
+import static com.example.demo.presentation.controller.pageproperty.PageReturnAttributeKeyword.*;
 import static com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword.*;
 
 import java.io.IOException;
@@ -35,7 +36,7 @@ public class InsertPortfolioConfirmController {
     private final HttpSession httpSession;
     private final TagService tagService;
     
-    @ModelAttribute("tags")
+    @ModelAttribute(TAGS)
     public List<TagEntity> setTags() {
         return tagService.getAllTagEntities();
     }

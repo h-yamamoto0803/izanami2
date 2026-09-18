@@ -1,5 +1,6 @@
 package com.example.demo.presentation.controller.portfolio;
 
+import static com.example.demo.presentation.controller.pageproperty.PageReturnAttributeKeyword.*;
 import static com.example.demo.presentation.controller.pageproperty.SessionKeyword.*;
 import static com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword.*;
 
@@ -29,7 +30,7 @@ public class EditPortfolioController {
     private final PortfolioService portfolioService;
     private final TagService tagService;
 
-    @ModelAttribute("tags")
+    @ModelAttribute(TAGS)
     public List<TagEntity> setTags() {
         return tagService.getAllTagEntities();
     }
