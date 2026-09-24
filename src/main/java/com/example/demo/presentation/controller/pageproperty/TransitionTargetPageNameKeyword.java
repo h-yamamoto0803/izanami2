@@ -52,6 +52,11 @@ public class TransitionTargetPageNameKeyword {
 	public static final String DO_INSERT_POST = "/post";
 	public static final String FAVORITE = "/favorite";
 	public static final String CANDIDATE = "/candidate";
+	
+	//Thread
+	//Controller
+	public static final String POST_DETAIL_REDIRECT= REDIRECT + POST_DETAIL + "?postId=";
+	
 	// HTML
 	public static final String POST_DETAIL_HTML = "post-detail";
 	public static final String POST_CREATE_HTML = "post-create";

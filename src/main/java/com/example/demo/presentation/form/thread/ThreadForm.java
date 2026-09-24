@@ -14,41 +14,37 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ThreadForm {
 
-    /** コメントId */
-    private Integer threadId;
+	/** コメントId */
+	private Integer threadId;
 
-    /** 投稿Id */
-    private Integer postId;
+	/** 投稿Id */
+	private Integer postId;
 
-    /** コメント投稿者のユーザーID */
-    private Integer userId;
+	/** コメント投稿者のユーザーID */
+	private Integer userId;
 
-    /** コメント投稿者名 */
-    private String userName;
+	/** コメント投稿者名 */
+	private String userName;
 
-    /** コメント投稿者のユーザー種別 */
-    private String userType;
+	/** コメント投稿者のユーザー種別 */
+	private String userType;
 
-    /**
-     * コメント本文
-     *
-     * 新規投稿・編集の両方で
-     * Spring Validationによる入力チェックを行う。
-     */
-    @NotBlank(message = "コメントを入力してください。")
-    @Size(
-        max = 1000,
-        message = "コメントは1000文字以内で入力してください。"
-    )
-    private String comment;
+	/**
+	 * コメント本文
+	 *
+	 * 新規投稿・編集の両方で
+	 * Spring Validationによる入力チェックを行う。
+	 */
+	@NotBlank(message = "コメントを入力してください。")
+	@Size(max = 1000, message = "コメントは1000文字以内で入力してください。")
+	private String comment;
 
-    /** コメント作成日時 */
-    private Timestamp createdAt;
+	/** コメント作成日時 */
+	private Timestamp createdAt;
 
-    /** コメント更新日時 */
-    private Timestamp updatedAt;
+	/** コメント更新日時 */
+	private Timestamp updatedAt;
 
-    /** ログインユーザー本人のコメントかを示す */
-    private boolean ownComment;
+	/** ログインユーザー本人のコメントかを示す */
+	private boolean ownComment;
 }
-

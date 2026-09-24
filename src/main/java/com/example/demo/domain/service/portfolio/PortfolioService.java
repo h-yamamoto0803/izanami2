@@ -91,67 +91,60 @@ public class PortfolioService {
 	 * 全ポートフォリオを検索する
 	 */
 	private List<PortfolioListForm> searchAllPortfolios(
-			String selectedTag) {
+	        String selectedTag) {
 
-		List<PortfolioEntity> portfolios = portfolioRepository.findAll();
+	    List<PortfolioEntity> portfolios =
+	            portfolioRepository.findAll();
 
-		if (selectedTag != null
-				&& !selectedTag.isEmpty()) {
+	    portfolios =
+	            filterBySelectedTag(
+	                    portfolios,
+	                    selectedTag
+	            );
 
-			portfolios = portfolios.stream()
-					.filter(portfolio -> tagService
-							.getTagNamesByPortfolioId(
-									portfolio.getPortfolioId())
-							.contains(selectedTag))
-					.toList();
-		}
-
-		return convertToPortfolioListForm(portfolios);
+	    return convertToPortfolioListForm(portfolios);
 	}
 
 	/**
 	 * Artisan本人のポートフォリオを検索する
 	 */
 	private List<PortfolioListForm> searchPortfoliosByArtisan(
-			Integer userId,
-			String selectedTag) {
+	        Integer userId,
+	        String selectedTag) {
 
-		// Artisanの専門タグを取得
-		List<String> artisanTags = tagService.getArtisanTagNames(userId);
+	    List<String> artisanTags =
+	            tagService.getArtisanTagNames(userId);
 
-		if (artisanTags.isEmpty()) {
-			return List.of();
-		}
+	    if (artisanTags.isEmpty()) {
+	        return List.of();
+	    }
 
-		List<PortfolioEntity> portfolios = portfolioRepository.findAll();
+	    if (hasSelectedTag(selectedTag)
+	            && !artisanTags.contains(selectedTag)) {
 
-		// タグが未選択の場合
-		if (selectedTag == null || selectedTag.isEmpty()) {
+	        return List.of();
+	    }
 
-			portfolios = portfolios.stream()
-					.filter(portfolio -> tagService
-							.getTagNamesByPortfolioId(
-									portfolio.getPortfolioId())
-							.stream()
-							.anyMatch(artisanTags::contains))
-					.toList();
+	    List<PortfolioEntity> portfolios =
+	            portfolioRepository.findAll();
 
-		} else {
+	    portfolios = portfolios.stream()
+	            .filter(portfolio -> {
 
-			// 選択タグが専門タグでなければ表示しない
-			if (!artisanTags.contains(selectedTag)) {
-				return List.of();
-			}
+	                List<String> portfolioTags =
+	                        getPortfolioTagNames(portfolio);
 
-			portfolios = portfolios.stream()
-					.filter(portfolio -> tagService
-							.getTagNamesByPortfolioId(
-									portfolio.getPortfolioId())
-							.contains(selectedTag))
-					.toList();
-		}
+	                if (!hasSelectedTag(selectedTag)) {
 
-		return convertToPortfolioListForm(portfolios);
+	                    return portfolioTags.stream()
+	                            .anyMatch(artisanTags::contains);
+	                }
+
+	                return portfolioTags.contains(selectedTag);
+	            })
+	            .toList();
+
+	    return convertToPortfolioListForm(portfolios);
 	}
 
 	/**
@@ -169,20 +162,47 @@ public class PortfolioService {
 	                form.setPortfolioId(
 	                        portfolio.getPortfolioId()
 	                );
+
 	                form.setImagePath(
 	                        portfolio.getImagePath()
 	                );
+
 	                form.setDescription(
 	                        portfolio.getDescription()
 	                );
+
 	                form.setTags(
-	                        tagService.getTagNamesByPortfolioId(
-	                                portfolio.getPortfolioId()
-	                        )
+	                        getPortfolioTagNames(portfolio)
 	                );
 
 	                return form;
 	            })
+	            .toList();
+	}
+	private boolean hasSelectedTag(String selectedTag) {
+	    return selectedTag != null && !selectedTag.isEmpty();
+	}
+
+	private List<String> getPortfolioTagNames(
+	        PortfolioEntity portfolio) {
+
+	    return tagService.getTagNamesByPortfolioId(
+	            portfolio.getPortfolioId()
+	    );
+	}
+
+	private List<PortfolioEntity> filterBySelectedTag(
+	        List<PortfolioEntity> portfolios,
+	        String selectedTag) {
+
+	    if (!hasSelectedTag(selectedTag)) {
+	        return portfolios;
+	    }
+
+	    return portfolios.stream()
+	            .filter(portfolio ->
+	                    getPortfolioTagNames(portfolio)
+	                            .contains(selectedTag))
 	            .toList();
 	}
 }

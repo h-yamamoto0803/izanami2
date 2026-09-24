@@ -130,8 +130,7 @@ public class PostDetailController {
         model.addAttribute(
                 "threadForm",
                 threadForm);
-        
-       
+
        
         return POST_DETAIL_HTML;
     }
