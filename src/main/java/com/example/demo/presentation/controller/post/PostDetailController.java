@@ -131,10 +131,6 @@ public class PostDetailController {
         model.addAttribute(
                 "threadForm",
                 threadForm);
-        
-        System.out.println(
-                "errorMessage = "
-                + model.getAttribute("errorMessage"));
 
        
         return POST_DETAIL_HTML;
