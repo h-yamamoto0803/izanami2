@@ -48,15 +48,12 @@ public class ThreadService {
 
 		for (ThreadEntity thread : threads) {
 
-			boolean ownComment = false;
-
-			if (loginUserId != null
-					&& thread.getUser() != null
-					&& loginUserId.equals(
-							thread.getUser().getUserId())) {
-
-				ownComment = true;
-			}
+			boolean ownComment =
+			        loginUserId != null
+			        && thread.getUser() != null
+			        && loginUserId.equals(
+			                thread.getUser().getUserId());
+			
 
 			ThreadForm form = new ThreadForm(
 					thread.getThreadId(),
