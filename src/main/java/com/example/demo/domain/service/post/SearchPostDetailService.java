@@ -29,9 +29,10 @@ public class SearchPostDetailService {
 	private final CandidateRepository candidateRepository;
 	private final TagService tagService;
 	/**
-	 * postIdからPostEntityを取得するメソッド
-	 * @param postId
-	 * @return PostDetailForm
+	 * postIdからPostEntityを取得する。
+	 *
+	 * @param postId 投稿ID
+	 * @return 投稿Entity
 	 */
 	// フラグ設定でEntityとセッション情報を利用するため処理を分割しeneityを返すよう変更
 	public PostEntity getPostDetail(Integer postId) {
