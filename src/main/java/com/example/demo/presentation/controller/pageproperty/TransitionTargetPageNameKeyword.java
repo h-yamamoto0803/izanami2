@@ -55,6 +55,9 @@ public class TransitionTargetPageNameKeyword {
 	
 	//Thread
 	//Controller
+	public static final String THREAD = "/thread";
+	public static final String THREAD_UPDATE = "/thread/update";
+	public static final String THREAD_DELETE = "/thread/delete";
 	public static final String POST_DETAIL_REDIRECT= REDIRECT + POST_DETAIL + "?postId=";
 	
 	// HTML

@@ -28,51 +28,72 @@ public class ThreadService {
 
 	/**
 	 * 指定した投稿に紐づく未削除コメントを
-	 * 作成日時の昇順で取得。
+	 * 作成日時の昇順で取得する。
 	 *
 	 * @param postId 投稿ID
 	 * @param loginUserId ログインユーザーID
 	 * @return コメント一覧
 	 */
-	public List<ThreadForm> findByPostId(
+	public List<ThreadForm> findThreadFormsByPostId(
 			Integer postId,
 			Integer loginUserId) {
 
 		// 未削除コメントのみ取得
-		List<ThreadEntity> threads = threadRepository
-				.findByPostPostIdAndIsDeletedOrderByCreatedAtAsc(
-						postId,
-						NOT_DELETED);
+		List<ThreadEntity> threads =
+				threadRepository
+						.findByPostPostIdAndIsDeletedOrderByCreatedAtAsc(
+								postId,
+								NOT_DELETED);
 
-		List<ThreadForm> result = new ArrayList<>();
+		List<ThreadForm> result =
+				new ArrayList<>();
 
 		for (ThreadEntity thread : threads) {
 
-			boolean ownComment = false;
-
-			if (loginUserId != null
-					&& thread.getUser() != null
-					&& loginUserId.equals(
-							thread.getUser().getUserId())) {
-
-				ownComment = true;
-			}
-
-			ThreadForm form = new ThreadForm(
-					thread.getThreadId(),
-					thread.getPost().getPostId(),
-					thread.getUser().getUserId(),
-					thread.getUser().getUserName(),
-					thread.getUser().getUserType().toString(),
-					thread.getComment(),
-					thread.getCreatedAt(),
-					thread.getUpdatedAt(),
-					ownComment);
+			// EntityからThreadFormへ変換
+			ThreadForm form =
+					convertToThreadForm(
+							thread,
+							loginUserId);
 
 			result.add(form);
 		}
 
 		return result;
+	}
+
+	/**
+	 * ThreadEntityをThreadFormへ変換する。
+	 *
+	 * @param thread コメントEntity
+	 * @param loginUserId ログインユーザーID
+	 * @return コメントForm
+	 */
+	private ThreadForm convertToThreadForm(
+			ThreadEntity thread,
+			Integer loginUserId) {
+
+		/*
+		 * ログインユーザーが存在し、
+		 * コメント投稿者がログインユーザー自身の場合は
+		 * ownCommentをtrueにする。
+		 */
+		boolean ownComment =
+				loginUserId != null
+				&& thread.getUser() != null
+				&& loginUserId.equals(
+						thread.getUser().getUserId());
+
+		return new ThreadForm(
+				thread.getThreadId(),
+				thread.getPost().getPostId(),
+				thread.getUser().getUserId(),
+				thread.getUser().getUserName(),
+				thread.getUser().getUserType().toString(),
+				thread.getComment(),
+				thread.getCreatedAt(),
+				thread.getUpdatedAt(),
+				ownComment);
 	}
 
 	/**
@@ -124,8 +145,9 @@ public class ThreadService {
 				NOT_DELETED);
 
 		// 作成日時・更新日時
-		Timestamp now = new Timestamp(
-				System.currentTimeMillis());
+		Timestamp now =
+				new Timestamp(
+						System.currentTimeMillis());
 
 		thread.setCreatedAt(now);
 		thread.setUpdatedAt(now);
@@ -148,9 +170,10 @@ public class ThreadService {
 			Integer userId) {
 
 		// 自分の未削除コメントを取得
-		ThreadEntity thread = findTargetThread(
-				form.getThreadId(),
-				userId);
+		ThreadEntity thread =
+				findTargetThread(
+						form.getThreadId(),
+						userId);
 
 		// コメント本文を更新
 		thread.setComment(
@@ -176,9 +199,10 @@ public class ThreadService {
 			Integer userId) {
 
 		// 自分の未削除コメントを取得
-		ThreadEntity thread = findTargetThread(
-				threadId,
-				userId);
+		ThreadEntity thread =
+				findTargetThread(
+						threadId,
+						userId);
 
 		// 論理削除
 		thread.setIsDeleted(
@@ -191,7 +215,6 @@ public class ThreadService {
 
 		// DB更新
 		threadRepository.save(thread);
-
 	}
 
 	/**
