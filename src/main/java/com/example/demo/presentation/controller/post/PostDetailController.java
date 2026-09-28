@@ -3,8 +3,6 @@ package com.example.demo.presentation.controller.post;
 import static com.example.demo.presentation.controller.pageproperty.PageReturnAttributeKeyword.*;
 import static com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword.*;
 
-import java.util.List;
-
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -13,14 +11,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.aop.aspect.PermissionCheck;
+import com.example.demo.domain.service.post.PostDetailViewService;
 import com.example.demo.domain.service.post.SearchPostDetailService;
-import com.example.demo.domain.service.thread.ThreadService;
 import com.example.demo.exception.InsufficientPermissionException;
 import com.example.demo.infra.entity.PostEntity;
-import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.form.common.LoginUserForm;
-import com.example.demo.presentation.form.post.PostDetailForm;
+import com.example.demo.presentation.form.post.PostDetailViewData;
 import com.example.demo.presentation.form.thread.ThreadForm;
 
 import lombok.RequiredArgsConstructor;
@@ -31,10 +28,11 @@ public class PostDetailController {
 
     /** 投稿詳細取得Service */
     private final SearchPostDetailService searchPostDetailService;
-
-    /** コメント処理Service */
-    private final ThreadService threadService;
-
+    
+    /** 投稿詳細画面表示用Service */
+    private final PostDetailViewService postDetailViewService;
+    
+    
     /**
      * 投稿詳細画面表示
      *
@@ -70,36 +68,11 @@ public class PostDetailController {
                         "ユーザータイプが不正です");
             }
         }
-
-        // 投稿詳細Formへ変換
-        PostDetailForm postDetailForm =
-                searchPostDetailService.convertFrom(postEntity);
-
-        // ログインユーザーが存在する場合
-        if (loginUser != null) {
-
-            UserEntity userEntity =
-                    loginUser.convertToUserEntity(loginUser);
-
-            // いいね・検討フラグ情報を追加
-            postDetailForm =
-                    searchPostDetailService.alreadyFlag(
-                            postDetailForm,
-                            userEntity,
-                            postEntity);
-        }
-
-        // ログインユーザーIDを取得
-        Integer loginUserId =
-                loginUser != null
-                        ? loginUser.getUserId()
-                        : null;
-
-        // 対象投稿の未削除コメントを取得
-        List<ThreadForm> threadList =
-                threadService.findByPostId(
+     // 投稿詳細画面に必要な情報をまとめて取得
+        PostDetailViewData viewData =
+                postDetailViewService.createPostDetailViewData(
                         postId,
-                        loginUserId);
+                        loginUser);
 
         // ログインフォームを画面へ渡す
         LoginUserForm loginUserForm =
@@ -112,13 +85,13 @@ public class PostDetailController {
         // 投稿詳細情報を画面へ渡す
         model.addAttribute(
                 POST_DETAIL_FORM,
-                postDetailForm);
+                viewData.getPostDetailForm());
 
         // コメント一覧を画面へ渡す
         model.addAttribute(
                 "threadList",
-                threadList);
-
+                viewData.getThreadList());
+        
         // コメント投稿フォームを作成
         ThreadForm threadForm =
                 new ThreadForm();

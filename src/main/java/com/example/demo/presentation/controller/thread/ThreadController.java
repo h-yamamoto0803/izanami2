@@ -3,8 +3,6 @@ package com.example.demo.presentation.controller.thread;
 import static com.example.demo.presentation.controller.pageproperty.PageReturnAttributeKeyword.*;
 import static com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword.*;
 
-import java.util.List;
-
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
@@ -15,13 +13,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.demo.domain.service.post.SearchPostDetailService;
+import com.example.demo.domain.service.post.PostDetailViewService;
 import com.example.demo.domain.service.thread.ThreadService;
-import com.example.demo.infra.entity.PostEntity;
-import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.form.common.LoginUserForm;
-import com.example.demo.presentation.form.post.PostDetailForm;
+import com.example.demo.presentation.form.post.PostDetailViewData;
 import com.example.demo.presentation.form.thread.ThreadForm;
 
 import lombok.RequiredArgsConstructor;
@@ -33,8 +29,8 @@ public class ThreadController {
 	/** コメント処理を行うService */
 	private final ThreadService threadService;
 
-	/** 投稿詳細取得Service */
-	private final SearchPostDetailService searchPostDetailService;
+	/** 投稿詳細画面表示用Service */
+	private final PostDetailViewService postDetailViewService;
 
 	/**
 	 * コメント投稿処理
@@ -48,105 +44,90 @@ public class ThreadController {
 	 * @param session ログインユーザー情報取得用
 	 * @return 投稿詳細画面
 	 */
-	@PostMapping("/thread")
+	@PostMapping(THREAD)
 	public String insertThread(
 	        @Valid @ModelAttribute("threadForm") ThreadForm form,
 	        BindingResult bindingResult,
 	        Model model,
 	        HttpSession session) {
 
-		// ログインユーザーを取得
-		LoginUserForm loginUser = (LoginUserForm) session.getAttribute(
-				SessionKeyword.LOGIN_USER);
+	    // ログインユーザーを取得
+	    LoginUserForm loginUser =
+	            (LoginUserForm) session.getAttribute(
+	                    SessionKeyword.LOGIN_USER);
 
-		/*
-		 * ログインしていない場合
-		 */
-		if (loginUser == null) {
+	    /*
+	     * ログインしていない場合
+	     */
+	    if (loginUser == null) {
 
-			model.addAttribute(
-					"errorMessage",
-					"コメントを投稿するにはログインしてください。");
+	        model.addAttribute(
+	                "errorMessage",
+	                "コメントを投稿するにはログインしてください。");
 
-			return POST_DETAIL_HTML;
-		}
+	        return POST_DETAIL_HTML;
+	    }
 
-		/*
-		 * 新規コメント投稿のバリデーション
-		 *
-		 * ThreadFormの
-		 * @NotBlank
-		 * @Size(max = 1000)
-		 *
-		 * をSpring Validationでチェックする。
-		 */
-		if (bindingResult.hasErrors()) {
+	    /*
+	     * 新規コメント投稿のバリデーション
+	     *
+	     * ThreadFormの
+	     * @NotBlank
+	     * @Size(max = 1000)
+	     *
+	     * を使用する。
+	     *
+	     * エラーの場合は、
+	     * 投稿詳細画面を再表示するために
+	     * 投稿詳細情報とコメント一覧を取得する。
+	     */
+	    if (bindingResult.hasErrors()) {
 
-			// 投稿詳細を取得
-			PostEntity postEntity = searchPostDetailService.getPostDetail(
-					form.getPostId());
+	        // 投稿詳細画面に必要な情報を取得
+	    	PostDetailViewData viewData =
+	    	        postDetailViewService.createPostDetailViewData(
+	    	        		form.getPostId(),
+	    	                loginUser);
 
-			// 投稿詳細Formへ変換
-			PostDetailForm postDetailForm = searchPostDetailService.convertFrom(
-					postEntity);
+	        // 投稿詳細情報をModelへ設定
+	        model.addAttribute(
+	                POST_DETAIL_FORM,
+	                viewData.getPostDetailForm());
 
-			// ログインユーザーEntityへ変換
-			UserEntity userEntity = loginUser.convertToUserEntity(
-					loginUser);
+	        // コメント一覧をModelへ設定
+	        model.addAttribute(
+	                "threadList",
+	                viewData.getThreadList());
 
-			// いいね・検討情報を設定
-			postDetailForm = searchPostDetailService.alreadyFlag(
-					postDetailForm,
-					userEntity,
-					postEntity);
+	        // ログインフォームをModelへ設定
+	        model.addAttribute(
+	                LOGIN_FORM,
+	                new LoginUserForm());
 
-			// 投稿詳細情報をModelへ設定
-			model.addAttribute(
-					POST_DETAIL_FORM,
-					postDetailForm);
+	        /*
+	         * バリデーションエラーとなったThreadFormを
+	         * そのままModelへ戻す。
+	         *
+	         * これにより、新規コメント欄には
+	         * 入力内容とエラーメッセージが表示される。
+	         */
+	        model.addAttribute(
+	                "threadForm",
+	                form);
 
-			// コメント一覧を取得
-			List<ThreadForm> threadList = threadService.findByPostId(
-					form.getPostId(),
-					loginUser.getUserId());
+	        return POST_DETAIL_HTML;
+	    }
 
-			// コメント一覧をModelへ設定
-			model.addAttribute(
-					"threadList",
-					threadList);
+	    // ログインユーザーIDを取得
+	    Integer userId = loginUser.getUserId();
 
-			// ログインフォームをModelへ設定
-			LoginUserForm loginUserForm = new LoginUserForm();
+	    // コメント登録
+	    threadService.insertThread(
+	            form,
+	            userId);
 
-			model.addAttribute(
-					LOGIN_FORM,
-					loginUserForm);
-
-			/*
-			 * 新規投稿の場合のみ、
-			 * バリデーションエラーとなった
-			 * ThreadFormをそのままModelへ戻す。
-			 *
-			 * これにより、新規コメント欄には
-			 * 入力内容とエラーメッセージが表示される。
-			 */
-			model.addAttribute(
-					"threadForm",
-					form);
-
-			return POST_DETAIL_HTML;
-		}
-
-		// ログインユーザーIDを取得
-		Integer userId = loginUser.getUserId();
-
-		// コメント登録
-		threadService.insertThread(
-				form,
-				userId);
-
-		// 登録成功時は投稿詳細へリダイレクト
-		return POST_DETAIL_REDIRECT + form.getPostId();
+	    // 登録成功時は投稿詳細へリダイレクト
+	    return POST_DETAIL_REDIRECT + form.getPostId();
 	}
 
 	/**
@@ -164,7 +145,7 @@ public class ThreadController {
 	 * @param session ログインユーザー情報取得用
 	 * @return 投稿詳細画面
 	 */
-	@PostMapping("/thread/update")
+	@PostMapping(THREAD_UPDATE)
 	public String updateThread(
 			@Valid @ModelAttribute("threadForm") ThreadForm form,
 			BindingResult bindingResult,
@@ -225,7 +206,7 @@ public class ThreadController {
 	 * @param session ログインユーザー情報取得用
 	 * @return 投稿詳細画面へリダイレクト
 	 */
-	@PostMapping("/thread/delete")
+	@PostMapping(THREAD_DELETE)
 	public String deleteThread(
 			@RequestParam Integer threadId,
 			@RequestParam Integer postId,
