@@ -69,6 +69,7 @@ public class TransitionTargetPageNameKeyword {
 
 	// Form
 	public static final String LOGIN_FORM = "loginForm";
+	public static final String THREADFORM = "threadForm";
 
 	// Portfolio
 	// Controller

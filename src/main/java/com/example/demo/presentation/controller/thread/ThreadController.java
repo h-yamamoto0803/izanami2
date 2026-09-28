@@ -1,6 +1,7 @@
 package com.example.demo.presentation.controller.thread;
 
 import static com.example.demo.presentation.controller.pageproperty.PageReturnAttributeKeyword.*;
+import static com.example.demo.presentation.controller.pageproperty.SessionKeyword.*;
 import static com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword.*;
 
 import jakarta.servlet.http.HttpSession;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.domain.service.post.PostDetailViewService;
 import com.example.demo.domain.service.thread.ThreadService;
-import com.example.demo.presentation.controller.pageproperty.SessionKeyword;
 import com.example.demo.presentation.form.common.LoginUserForm;
 import com.example.demo.presentation.form.post.PostDetailViewData;
 import com.example.demo.presentation.form.thread.ThreadForm;
@@ -46,7 +46,7 @@ public class ThreadController {
 	 */
 	@PostMapping(THREAD)
 	public String insertThread(
-	        @Valid @ModelAttribute("threadForm") ThreadForm form,
+	        @Valid @ModelAttribute(THREADFORM) ThreadForm form,
 	        BindingResult bindingResult,
 	        Model model,
 	        HttpSession session) {
@@ -54,7 +54,7 @@ public class ThreadController {
 	    // ログインユーザーを取得
 	    LoginUserForm loginUser =
 	            (LoginUserForm) session.getAttribute(
-	                    SessionKeyword.LOGIN_USER);
+	                    LOGIN_USER);
 
 	    /*
 	     * ログインしていない場合
@@ -112,7 +112,7 @@ public class ThreadController {
 	         * 入力内容とエラーメッセージが表示される。
 	         */
 	        model.addAttribute(
-	                "threadForm",
+	        		THREADFORM,
 	                form);
 
 	        return POST_DETAIL_HTML;
@@ -147,13 +147,13 @@ public class ThreadController {
 	 */
 	@PostMapping(THREAD_UPDATE)
 	public String updateThread(
-			@Valid @ModelAttribute("threadForm") ThreadForm form,
+			@Valid @ModelAttribute(THREADFORM) ThreadForm form,
 			BindingResult bindingResult,
 			HttpSession session) {
 
 		// ログインユーザーを取得
 		LoginUserForm loginUser = (LoginUserForm) session.getAttribute(
-				SessionKeyword.LOGIN_USER);
+				LOGIN_USER);
 
 		/*
 		 * 未ログインの場合
@@ -215,7 +215,19 @@ public class ThreadController {
 		// ログインユーザーを取得
 		LoginUserForm loginUser = (LoginUserForm) session.getAttribute(
 
-				SessionKeyword.LOGIN_USER);
+				LOGIN_USER);
+		
+		/*
+	     * 未ログインの場合
+	     *
+	     * 削除処理を行わず投稿詳細へ戻る。
+	     */
+	    if (loginUser == null) {
+
+	        return POST_DETAIL_REDIRECT + postId;
+
+		}
+
 
 		// ログインユーザーIDを取得
 		Integer userId = loginUser.getUserId();
