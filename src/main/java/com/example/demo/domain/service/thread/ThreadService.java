@@ -55,7 +55,6 @@ public class ThreadService {
 					convertToThreadForm(
 							thread,
 							loginUserId);
-
 			result.add(form);
 		}
 
