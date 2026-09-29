@@ -2,52 +2,96 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>投稿作成 | Traemon</title>
-	<link rel="stylesheet" th:href="@{css/styles.css}">
-	<script th:src="@{/js/common.js}" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>投稿作成 | Traemon</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <script th:src="@{/js/common.js}" defer></script>
 </head>
 
 <body>
-	<!-- =========================
-	     共通ヘッダー
-	========================= -->
 
-	<div th:replace="~{fragments/header :: header}"></div>
-	
-	<main>
-		<div class="container">
-			<section>
-				<h1 class="page-title">投稿作成ページ</h1>
-				<p class="page-subtitle">タイトル・投稿内容・カテゴリタグを入力してください。</p>
-				<form class="card form-card" th:action="@{/insertPostConfirm}" method="post"
-					th:object="${insertPostForm}">
-				
-					<div class="form-group"><label for="postTitle-customer">タイトル</label><input id="postTitle-customer"
-							th:field="*{postTitle}" type="text" required></div>
-					<div class="form-group"><label for="postText-customer">投稿内容</label><textarea id="postText-customer"
-							th:field="*{postText}" rows="8" required></textarea></div>
-					<div class="form-group"><label for="tag-customer">カテゴリタグ</label>
-						<div class="form-group">
+    <div th:replace="~{fragments/header :: header}"></div>
 
+    <main>
+        <div class="container">
+            <section>
+                <h1 class="page-title">投稿作成ページ</h1>
+                <p class="page-subtitle">
+                    タイトル・投稿内容・カテゴリタグを入力してください。
+                </p>
 
-							<input id="tagInput" th:field="*{tags}" type="text" placeholder="タグを入力してEnter">
+				<form class="card form-card"
+				      th:action="@{/insertPostConfirm}"
+				      method="post"
+				      th:object="${insertPostForm}"
+				      novalidate>
 
-							<div id="tagList"></div>
+                    <div class="form-group">
+                        <label for="postTitle-customer">タイトル</label>
+                        <input id="postTitle-customer"
+                               th:field="*{postTitle}"
+                               type="text"
+                               required>
 
-							<div id="tagHiddenInputs"></div>
+                        <div th:errors="*{postTitle}"
+                             class="error-message"></div>
+                    </div>
 
-						</div>
-					</div>
-					<div class="actions">
-							<button class="btn btn-primary" type="submit">確認画面へ</button>
-						<a class="btn btn-secondary" th:href="@{/menu}">戻る</a>
-						</div>
-				</form>
-			</section>
-		</div>
-	</main>
+                    <div class="form-group">
+                        <label for="postText-customer">投稿内容</label>
+                        <textarea id="postText-customer"
+                                  th:field="*{postText}"
+                                  rows="8"
+                                  required></textarea>
+
+                        <div th:errors="*{postText}"
+                             class="error-message"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tagInput">カテゴリタグ</label>
+
+                        <input id="tagInput"
+                               type="text"
+                               placeholder="タグを入力してEnter">
+
+                        <div id="tagList">
+                            <span class="selected-tag"
+                                  th:each="tag : *{tags}"
+                                  th:text="|#${tag}|">
+                            </span>
+                        </div>
+
+                        <div id="tagHiddenInputs">
+                            <input th:each="tag : *{tags}"
+                                   type="hidden"
+                                   name="tags"
+                                   th:value="${tag}">
+                        </div>
+
+                        <div th:if="${#fields.hasErrors('tags')}"
+                             th:errors="*{tags}"
+                             class="error-message">
+                        </div>
+                    </div>
+
+                    <div class="actions">
+                        <button class="btn btn-primary"
+                                type="submit">
+                            確認画面へ
+                        </button>
+
+                        <a class="btn btn-secondary"
+                           th:href="@{/menu}">
+                            戻る
+                        </a>
+                    </div>
+
+                </form>
+            </section>
+        </div>
+    </main>
+
 </body>
-
 </html>
