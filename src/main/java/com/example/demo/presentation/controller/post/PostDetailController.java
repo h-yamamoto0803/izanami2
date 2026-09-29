@@ -43,7 +43,7 @@ public class PostDetailController {
      */
     @PermissionCheck
     @GetMapping(POST_DETAIL)
-    public String postDtailController(
+    public String postDetailController(
             Model model,
             @RequestParam Integer postId,
             HttpSession session) {
