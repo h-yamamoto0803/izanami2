@@ -110,7 +110,12 @@ public class TransitionTargetPageNameKeyword {
 				INSERT_POST_CONFIRM,
 				DO_INSERT_POST,
 				DELETE_POST,
-
+				
+				THREAD,
+				THREAD_UPDATE,
+				THREAD_DELETE,
+				POST_DETAIL_REDIRECT,
+				
 				CANDIDATE,
 				LOGOUT_CONTROLLER,
 				INSERT_PORTFOLIO,
@@ -151,6 +156,11 @@ public class TransitionTargetPageNameKeyword {
 				INSERT_POST_CONFIRM,
 				DO_INSERT_POST,
 				DELETE_POST,
+				
+				THREAD,
+				THREAD_UPDATE,
+				THREAD_DELETE,
+				POST_DETAIL_REDIRECT,
 
 				FAVORITE,
 				LOGOUT_CONTROLLER,
