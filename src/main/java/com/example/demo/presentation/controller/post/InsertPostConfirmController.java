@@ -3,8 +3,10 @@ package com.example.demo.presentation.controller.post;
 import static com.example.demo.presentation.controller.pageproperty.TransitionTargetPageNameKeyword.*;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -27,10 +29,19 @@ public class InsertPostConfirmController {
 	 */
 	@PermissionCheck
 	@PostMapping(INSERT_POST_CONFIRM)
-	public String confirmPost(@ModelAttribute InsertPostForm insertPostForm){
-		return POST_CONFIRM_HTML;
+	public String confirmPost(
+	        @Valid @ModelAttribute InsertPostForm insertPostForm,
+	        BindingResult bindingResult) {
+
+	    
+	    if (bindingResult.hasErrors()) {
+	        System.out.println(bindingResult.getAllErrors());
+	        return POST_CREATE_HTML;
+	    }
+
+	    return POST_CONFIRM_HTML;
 	}
-	
+	    
 	/*
 	 * 投稿処理
 	 * @return メニュー画面

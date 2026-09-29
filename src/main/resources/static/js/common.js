@@ -1,5 +1,3 @@
-// Traemon static mock: notification panel open/close only.
-
 document.addEventListener("DOMContentLoaded", () => {
 
   // =========================
@@ -9,7 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const panel = document.querySelector("#notificationPanel");
 
   if (button && panel) {
-
     button.addEventListener("click", (event) => {
       event.stopPropagation();
       panel.classList.toggle("open");
@@ -24,7 +21,90 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   // =========================
-  // タグ選択
+  // 投稿作成：自由入力タグ
+  // =========================
+  const tagInput = document.getElementById("tagInput");
+  const tagList = document.getElementById("tagList");
+  const tagHiddenInputs = document.getElementById("tagHiddenInputs");
+
+  if (tagInput && tagList && tagHiddenInputs) {
+
+    const tags = Array.from(
+      tagHiddenInputs.querySelectorAll('input[name="tags"]')
+    ).map(input => input.value);
+
+    function renderTags() {
+
+      tagList.innerHTML = "";
+      tagHiddenInputs.innerHTML = "";
+
+      tags.forEach((tagName, index) => {
+
+        // 表示用
+        const tag = document.createElement("span");
+        tag.classList.add("selected-tag");
+        tag.textContent = "#" + tagName;
+
+        const removeButton = document.createElement("button");
+        removeButton.type = "button";
+        removeButton.textContent = "×";
+
+        removeButton.addEventListener("click", () => {
+          tags.splice(index, 1);
+          renderTags();
+        });
+
+        tag.appendChild(removeButton);
+        tagList.appendChild(tag);
+
+        // POST用
+        const hidden = document.createElement("input");
+        hidden.type = "hidden";
+        hidden.name = "tags";
+        hidden.value = tagName;
+
+        tagHiddenInputs.appendChild(hidden);
+      });
+    }
+
+    function addTag() {
+
+      const tagName = tagInput.value.trim();
+
+      if (tagName === "") {
+        return;
+      }
+
+      if (!tags.includes(tagName)) {
+        tags.push(tagName);
+      }
+
+      tagInput.value = "";
+      renderTags();
+    }
+
+    // Enterで追加
+    tagInput.addEventListener("keydown", (event) => {
+
+      if (event.key === "Enter") {
+        event.preventDefault();
+        addTag();
+      }
+    });
+
+    // 確認ボタンを押した時も、入力途中のタグを追加
+    const form = tagInput.closest("form");
+
+    if (form) {
+      form.addEventListener("submit", () => {
+        addTag();
+      });
+    }
+
+    renderTags();
+  }
+  // =========================
+  // 既存タグ選択
   // =========================
   const dropdownButton =
       document.getElementById("tagDropdownButton");
@@ -39,20 +119,17 @@ document.addEventListener("DOMContentLoaded", () => {
       document.querySelectorAll(".tag-checkbox");
 
 
-  // タグ選択UIが存在しない画面では何もしない
   if (!dropdownButton || !dropdown || !selectedTags) {
     return;
   }
 
 
-  // プルダウン開閉
   dropdownButton.addEventListener("click", (event) => {
     event.stopPropagation();
     dropdown.classList.toggle("open");
   });
 
 
-  // 選択済みタグ表示
   function updateSelectedTags() {
 
     selectedTags.innerHTML = "";
@@ -95,11 +172,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
-  // 初期表示・戻る・バリデーションエラー時の復元
   updateSelectedTags();
 
 
-  // 外側をクリックしたら閉じる
   document.addEventListener("click", (event) => {
     if (!event.target.closest(".tag-select")) {
       dropdown.classList.remove("open");
