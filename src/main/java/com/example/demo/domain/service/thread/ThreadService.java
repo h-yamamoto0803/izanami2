@@ -6,10 +6,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.demo.domain.service.common.TagService;
 import com.example.demo.infra.entity.PostEntity;
 import com.example.demo.infra.entity.ThreadEntity;
 import com.example.demo.infra.entity.UserEntity;
+import com.example.demo.infra.repository.PostRepository;
 import com.example.demo.infra.repository.ThreadRepository;
+import com.example.demo.infra.repository.UserRepository;
 import com.example.demo.presentation.form.thread.ThreadForm;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +28,9 @@ public class ThreadService {
 	private static final byte DELETED = 1;
 
 	private final ThreadRepository threadRepository;
+	private final UserRepository userRepository;
+	private final PostRepository postRepository;
+	private final TagService tagService;
 
 	/**
 	 * 指定した投稿に紐づく未削除コメントを
@@ -39,22 +45,19 @@ public class ThreadService {
 			Integer loginUserId) {
 
 		// 未削除コメントのみ取得
-		List<ThreadEntity> threads =
-				threadRepository
-						.findByPostPostIdAndIsDeletedOrderByCreatedAtAsc(
-								postId,
-								NOT_DELETED);
+		List<ThreadEntity> threads = threadRepository
+				.findByPostPostIdAndIsDeletedOrderByCreatedAtAsc(
+						postId,
+						NOT_DELETED);
 
-		List<ThreadForm> result =
-				new ArrayList<>();
+		List<ThreadForm> result = new ArrayList<>();
 
 		for (ThreadEntity thread : threads) {
 
 			// EntityからThreadFormへ変換
-			ThreadForm form =
-					convertToThreadForm(
-							thread,
-							loginUserId);
+			ThreadForm form = convertToThreadForm(
+					thread,
+					loginUserId);
 			result.add(form);
 		}
 
@@ -77,8 +80,7 @@ public class ThreadService {
 		 * コメント投稿者がログインユーザー自身の場合は
 		 * ownCommentをtrueにする。
 		 */
-		boolean ownComment =
-				loginUserId != null
+		boolean ownComment = loginUserId != null
 				&& thread.getUser() != null
 				&& loginUserId.equals(
 						thread.getUser().getUserId());
@@ -120,33 +122,60 @@ public class ThreadService {
 			ThreadForm form,
 			Integer userId) {
 
-		// 投稿Entityを作成
-		PostEntity post = new PostEntity();
+		// ユーザー存在確認
+		UserEntity user = userRepository.findById(userId)
+				.orElseThrow(() -> new IllegalArgumentException(
+						"ユーザーが存在しません。"));
 
-		post.setPostId(
-				form.getPostId());
+		// 投稿存在確認
+		PostEntity post = postRepository.findById(form.getPostId())
+				.orElseThrow(() -> new IllegalArgumentException(
+						"投稿が存在しません。"));
 
-		// ユーザーEntityを作成
-		UserEntity user = new UserEntity();
+		// ユーザー種別ごとにコメント権限を確認 (今後Postなどでも応用できそうな部分に当たるためメソッドとして切り出してください) 
+		if (UserEntity.CUSTOMER.equals(user.getUserType())) {
+			
+		}
+		else if (UserEntity.ARTISAN.equals(user.getUserType())) {
 
-		user.setUserId(
-				userId);
+			List<String> artisanTags = tagService.getArtisanTagNames(userId);
+
+			List<String> postTags = tagService.getTagNamesByPostId(
+					form.getPostId());
+
+			boolean canComment = false;
+
+			for (String artisanTag : artisanTags) {
+
+				if (postTags.contains(artisanTag)) {
+					canComment = true;
+					break;
+				}
+			}
+
+			if (!canComment) {
+				throw new IllegalArgumentException(
+						"この投稿にはコメントできません。");
+			}
+		} else {
+		    throw new IllegalArgumentException(
+		            "コメント権限がありません。");
+		}
+		
 
 		// コメントEntityを作成
 		ThreadEntity thread = new ThreadEntity();
 
 		thread.setPost(post);
 		thread.setUser(user);
-		thread.setComment(form.getComment());
+		thread.setComment(
+				form.getComment());
 
-		// 未削除状態で登録
 		thread.setIsDeleted(
 				NOT_DELETED);
 
-		// 作成日時・更新日時
-		Timestamp now =
-				new Timestamp(
-						System.currentTimeMillis());
+		Timestamp now = new Timestamp(
+				System.currentTimeMillis());
 
 		thread.setCreatedAt(now);
 		thread.setUpdatedAt(now);
@@ -169,10 +198,9 @@ public class ThreadService {
 			Integer userId) {
 
 		// 自分の未削除コメントを取得
-		ThreadEntity thread =
-				findTargetThread(
-						form.getThreadId(),
-						userId);
+		ThreadEntity thread = findTargetThread(
+				form.getThreadId(),
+				userId);
 
 		// コメント本文を更新
 		thread.setComment(
@@ -198,10 +226,9 @@ public class ThreadService {
 			Integer userId) {
 
 		// 自分の未削除コメントを取得
-		ThreadEntity thread =
-				findTargetThread(
-						threadId,
-						userId);
+		ThreadEntity thread = findTargetThread(
+				threadId,
+				userId);
 
 		// 論理削除
 		thread.setIsDeleted(
