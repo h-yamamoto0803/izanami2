@@ -11,7 +11,9 @@ import com.example.demo.infra.repository.PortfolioRepository;
 import com.example.demo.infra.repository.PortfolioTagRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DeletePortfolioService {
@@ -24,7 +26,7 @@ public class DeletePortfolioService {
     @Transactional
     public String deletePortfolio(
             Integer portfolioId,
-            Integer userId) throws IOException {
+            Integer userId) {
 
         PortfolioEntity portfolio =
                 portfolioService.findByIdAndUserId(
@@ -32,18 +34,20 @@ public class DeletePortfolioService {
                         userId
                 );
 
-        String imagePath = portfolio.getImagePath();
+        String imagePath =
+                portfolio.getImagePath();
 
-        // ポートフォリオに紐づくタグを削除
-        portfolioTagRepository.deleteByIdPortfolioId(
-                portfolioId
-        );
+        portfolioTagRepository
+                .deleteByIdPortfolioId(portfolioId);
 
-        // ポートフォリオ本体を削除
         portfolioRepository.delete(portfolio);
 
-        // 画像を削除
-        imageService.deleteImage(imagePath);
+        try {
+            imageService.deleteImage(imagePath);
+
+        } catch (IOException e) {
+        	 log.error("ポートフォリオ画像の削除に失敗しました。imagePath={}", imagePath, e);
+        }
 
         return "ポートフォリオを削除しました。";
     }
