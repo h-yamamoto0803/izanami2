@@ -1,0 +1,257 @@
+package com.example.demo.domain.service.comment;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.example.demo.domain.service.authority.AuthorityService;
+import com.example.demo.infra.entity.PostEntity;
+import com.example.demo.infra.entity.ThreadEntity;
+import com.example.demo.infra.entity.UserEntity;
+import com.example.demo.infra.repository.PostRepository;
+import com.example.demo.infra.repository.ThreadRepository;
+import com.example.demo.infra.repository.UserRepository;
+import com.example.demo.presentation.form.thread.ThreadForm;
+
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
+@Service
+public class CommentService {
+
+	/** 未削除 */
+	private static final byte NOT_DELETED = 0;
+
+	/** 削除済み */
+	private static final byte DELETED = 1;
+
+	private final ThreadRepository threadRepository;
+	private final UserRepository userRepository;
+	private final PostRepository postRepository;
+	private final AuthorityService authorityService;
+
+	/**
+	 * 指定した投稿に紐づく未削除コメントを
+	 * 作成日時の昇順で取得する。
+	 *
+	 * @param postId 投稿ID
+	 * @param loginUserId ログインユーザーID
+	 * @return コメント一覧
+	 */
+	public List<ThreadForm> findThreadFormsByPostId(
+			Integer postId,
+			Integer loginUserId) {
+
+		// 未削除コメントのみ取得
+		List<ThreadEntity> threads = threadRepository
+				.findByPostPostIdAndIsDeletedOrderByCreatedAtAsc(
+						postId,
+						NOT_DELETED);
+
+		List<ThreadForm> result = new ArrayList<>();
+
+		for (ThreadEntity thread : threads) {
+
+			// EntityからThreadFormへ変換
+			ThreadForm form = convertToThreadForm(
+					thread,
+					loginUserId);
+			result.add(form);
+		}
+
+		return result;
+	}
+
+	/**
+	 * ThreadEntityをThreadFormへ変換する。
+	 *
+	 * @param thread コメントEntity
+	 * @param loginUserId ログインユーザーID
+	 * @return コメントForm
+	 */
+	private ThreadForm convertToThreadForm(
+			ThreadEntity thread,
+			Integer loginUserId) {
+
+		/*
+		 * ログインユーザーが存在し、
+		 * コメント投稿者がログインユーザー自身の場合は
+		 * ownCommentをtrueにする。
+		 */
+		boolean ownComment = loginUserId != null
+				&& thread.getUser() != null
+				&& loginUserId.equals(
+						thread.getUser().getUserId());
+
+		return new ThreadForm(
+				thread.getThreadId(),
+				thread.getPost().getPostId(),
+				thread.getUser().getUserId(),
+				thread.getUser().getUserName(),
+				thread.getUser().getUserType().toString(),
+				thread.getComment(),
+				thread.getCreatedAt(),
+				thread.getUpdatedAt(),
+				ownComment);
+	}
+
+	/**
+	 * 指定した投稿に紐づく未削除コメント件数を取得。
+	 *
+	 * @param postId 投稿ID
+	 * @return コメント件数
+	 */
+	public long countByPostId(
+			Integer postId) {
+
+		return threadRepository
+				.countByPostPostIdAndIsDeleted(
+						postId,
+						NOT_DELETED);
+	}
+
+	/**
+	 * コメントを登録。
+	 *
+	 * @param form コメント投稿フォーム
+	 * @param userId コメントを投稿するユーザーID
+	 */
+	public void insertComment(
+			ThreadForm form,
+			Integer userId) {
+
+		// ユーザー存在確認
+		UserEntity user = userRepository.findById(userId)
+				.orElseThrow(() -> new IllegalArgumentException(
+						"ユーザーが存在しません。"));
+
+		// 投稿存在確認
+		PostEntity post = postRepository.findById(form.getPostId())
+				.orElseThrow(() -> new IllegalArgumentException(
+						"投稿が存在しません。"));
+
+		// コメント権限を確認 
+		boolean hasCommentAuthority =
+		        authorityService.hasCommentAuthority(
+		                user,
+		                form.getPostId());
+
+		if (!hasCommentAuthority) {
+
+		    if (UserEntity.ARTISAN.equals(user.getUserType())) {
+
+		        throw new IllegalArgumentException(
+		                "この投稿にはコメントできません。");
+
+		    } else {
+
+		        throw new IllegalArgumentException(
+		                "コメント権限がありません。");
+		    }
+		}
+			
+
+		// コメントEntityを作成
+		ThreadEntity thread = new ThreadEntity();
+
+		thread.setPost(post);
+		thread.setUser(user);
+		thread.setComment(
+				form.getComment());
+
+		thread.setIsDeleted(
+				NOT_DELETED);
+
+		Timestamp now = new Timestamp(
+				System.currentTimeMillis());
+
+		thread.setCreatedAt(now);
+		thread.setUpdatedAt(now);
+
+		// DB登録
+		threadRepository.save(thread);
+	}
+
+
+	/**
+	 * コメントを編集。
+	 *
+	 * 編集対象は、
+	 * ログインユーザー本人の未削除コメントのみ。
+	 *
+	 * @param form コメント編集フォーム
+	 * @param userId ログインユーザーID
+	 */
+	public void updateComment(
+			ThreadForm form,
+			Integer userId) {
+
+		// 自分の未削除コメントを取得
+		ThreadEntity thread = findTargetComment(
+				form.getThreadId(),
+				userId);
+
+		// コメント本文を更新
+		thread.setComment(
+				form.getComment());
+
+		// 更新日時を更新
+		thread.setUpdatedAt(
+				new Timestamp(
+						System.currentTimeMillis()));
+
+		// DB更新
+		threadRepository.save(thread);
+	}
+
+	/**
+	 * コメントを論理削除。
+	 *
+	 * @param threadId コメントID
+	 * @param userId ログインユーザーID
+	 */
+	public void deleteComment(
+			Integer threadId,
+			Integer userId) {
+
+		// 自分の未削除コメントを取得
+		ThreadEntity thread = findTargetComment(
+				threadId,
+				userId);
+
+		// 論理削除
+		thread.setIsDeleted(
+				DELETED);
+
+		// 更新日時
+		thread.setUpdatedAt(
+				new Timestamp(
+						System.currentTimeMillis()));
+
+		// DB更新
+		threadRepository.save(thread);
+	}
+
+	/**
+	 * ログインユーザー本人の未削除コメントを取得。
+	 *
+	 * @param threadId コメントID
+	 * @param userId ログインユーザーID
+	 * @return コメントEntity
+	 */
+	private ThreadEntity findTargetComment(
+			Integer threadId,
+			Integer userId) {
+
+		return threadRepository
+				.findByThreadIdAndUserUserIdAndIsDeleted(
+						threadId,
+						userId,
+						NOT_DELETED)
+				.orElseThrow(
+						() -> new IllegalArgumentException(
+								"対象のコメントが存在しません。"));
+	}
+}

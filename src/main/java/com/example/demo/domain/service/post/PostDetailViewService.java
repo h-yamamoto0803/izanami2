@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.domain.service.thread.ThreadService;
+import com.example.demo.domain.service.comment.CommentService;
 import com.example.demo.infra.entity.PostEntity;
 import com.example.demo.infra.entity.UserEntity;
 import com.example.demo.presentation.form.common.LoginUserForm;
@@ -35,7 +35,7 @@ public class PostDetailViewService {
     private final SearchPostDetailService searchPostDetailService;
 
     /** コメント処理Service */
-    private final ThreadService threadService;
+    private final CommentService commentService;
 
     /**
      * 投稿詳細画面に必要な情報をまとめて取得する。
@@ -93,7 +93,7 @@ public class PostDetailViewService {
 
         // 対象投稿のコメント一覧を取得
         List<ThreadForm> threadList =
-                threadService.findThreadFormsByPostId(
+        		commentService.findThreadFormsByPostId(
                         postId,
                         loginUserId);
 

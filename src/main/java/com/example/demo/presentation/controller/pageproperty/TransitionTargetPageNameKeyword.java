@@ -55,9 +55,9 @@ public class TransitionTargetPageNameKeyword {
 	
 	//Thread
 	//Controller
-	public static final String THREAD = "/thread";
-	public static final String THREAD_UPDATE = "/thread/update";
-	public static final String THREAD_DELETE = "/thread/delete";
+	public static final String COMMENT = "/thread";
+	public static final String COMMENT_UPDATE = "/thread/update";
+	public static final String COMMENT_DELETE = "/thread/delete";
 	public static final String POST_DETAIL_REDIRECT= REDIRECT + POST_DETAIL + "?postId=";
 	
 	// HTML
@@ -111,9 +111,9 @@ public class TransitionTargetPageNameKeyword {
 				DO_INSERT_POST,
 				DELETE_POST,
 				
-				THREAD,
-				THREAD_UPDATE,
-				THREAD_DELETE,
+				COMMENT,
+				COMMENT_UPDATE,
+				COMMENT_DELETE,
 				POST_DETAIL_REDIRECT,
 				
 				CANDIDATE,
@@ -157,9 +157,9 @@ public class TransitionTargetPageNameKeyword {
 				DO_INSERT_POST,
 				DELETE_POST,
 				
-				THREAD,
-				THREAD_UPDATE,
-				THREAD_DELETE,
+				COMMENT,
+				COMMENT_UPDATE,
+				COMMENT_DELETE,
 				POST_DETAIL_REDIRECT,
 
 				FAVORITE,
